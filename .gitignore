@@ -46,6 +46,7 @@ charterkey.json
 
 # Ignore service account key file
 serviceAccountKey.json
+**/serviceAccount.json
 serviceAccount.json
 
 # Logs
