@@ -1,0 +1,102 @@
+.cont{
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  gap: 20px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+.prices{
+  background-color: transparent;
+  border: var(--border-style);
+  border-radius: 5px;
+  padding: 5px 5px;
+  width: fit-content;
+}
+.prices button{
+  background-color: white;
+  color: black;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+}
+.detailsCont{
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.couplesName,
+.startDate,
+.timer{
+  display: flex;
+  flex-direction: column;
+  font-size: .9rem;
+
+}
+.couplesName input,
+.startDate input,
+.timer input{
+  border: var(--border-style);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 10px;
+  outline: none;
+  max-height: 40px;
+}
+
+.couplesName input{
+  margin-right: 10px;
+}
+.startDate input{
+  /* margin-right: 5px; */
+  min-width: 175px;
+}
+.timer input{
+  justify-content: end;
+  align-items: end;
+}
+.message{
+  display: flex;
+  flex-direction: column;
+}
+.message textarea{
+  border: var(--border-style);
+  background-color: transparent;
+  border-radius: 5px;
+  height: 13rem;
+  outline: none;
+}
+.btn{
+  padding: 15px 30px;
+  background-color: transparent;
+  border: var(--border-style);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.filePicker{
+  display: none;
+}
+.qrcode{
+  width: 100%;
+  height: auto;
+  border: var(--border-style);
+}
+.qrcodePicture{
+  width: 100%;
+}
+
+@media (max-width: 1000px){
+  .cont{
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
