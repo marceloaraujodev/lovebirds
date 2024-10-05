@@ -5,7 +5,7 @@ export default function page() {
       <div className={c.error}>
         <h1>404</h1>
         <h2>Page Not Found</h2>
-        <p>Sorry, the page you're looking for doesn't exist.</p>
+        <p>Sorry, the page you&apos;re looking for doesn&apos;t exist.</p>
         <a href="/">Return to Homepage</a>
       </div>
     </div>

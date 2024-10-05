@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import timeElapsedSince from '@/app/utils/timeElapsedSince';
 import c from '../Preview.module.css';
-export default function ({ startCounting, date, time }) {
+export default function Counter ({ startCounting, date, time }) {
   const [elapsedTime, setElapsedTime] = useState({
     years: 0,
     months: 0,
