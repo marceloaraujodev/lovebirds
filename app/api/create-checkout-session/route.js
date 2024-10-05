@@ -102,7 +102,7 @@ export async function POST(req, res){
   //   return NextResponse.json({ message: 'error', error })
   // }
 
-  NextResponse.json({ success: true})
+  return NextResponse.json({ success: true})
 }
 
 
