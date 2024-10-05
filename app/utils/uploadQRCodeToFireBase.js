@@ -11,7 +11,7 @@ if (!admin.apps.length) {
       private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
       client_id: process.env.FIREBASE_CLIENT_ID,
-      private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),  // Replace escaped newlines
+      private_key: process.env.FIREBASE_PRIVATE_KEY,  // Replace escaped newlines
     }),
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,  // Your Firebase Storage bucket URL
     databaseURL: "https://your-project-id.firebaseio.com",  // Replace with your actual database URL
