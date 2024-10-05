@@ -171,7 +171,7 @@ export async function POST (req) {
             <p>Here is your QR code:</p>
             <img src="${qrCodeUrl}" alt="QR Code" />
             <p>Caso a image do QrCode não esteja aparecendo, você pode accessar com o link abaixo:</p>
-            <p>http://localhost:3000/${url}</p>
+            <p>${siteUrl}/${url}</p>
           `
         }
         // Send email with QR code and details 

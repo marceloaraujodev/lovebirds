@@ -3,6 +3,7 @@ import Preview from '../Preview/Preview';
 import { FaCameraRetro } from "react-icons/fa6";
 import c from './Form.module.css';
 import { v4 as uuidv4 } from 'uuid';
+// import 
 import axios from 'axios';
 
 
@@ -18,8 +19,11 @@ export default function Form() {
   const [url, setUrl] = useState('')
   const [message, setMessage] = useState('');
   const [qrcode, setQrcode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const fileRef = useRef(null);
 
+  // create a load component
+  // change the price id for live items and set urls for live items
 
   // starts counting Timer
   useEffect(() => {
@@ -53,13 +57,15 @@ export default function Form() {
 
   // need to change to send the submittion to stripe api then use webhook
   async function handleSubmit(e){
+    setIsLoading(true)
     if (photos.length > 3){
       alert('Maximum 3 photos allowed!')
       return;
     }
 
     const hash = uuidv4();
-    e.preventDefault(); 
+    e.preventDefault();
+    setIsLoading(true); 
     const formData = new FormData();
 
     //Append fields do formData
@@ -91,7 +97,7 @@ export default function Form() {
     } catch (error) {
       console.log(error)
     }
-
+    setIsLoading(false)
   }
 
   return (
@@ -142,7 +148,7 @@ export default function Form() {
           </div> <span>Escolha as fotos (Max 3)</span>
         </button>
         <input className={c.filePicker} type="file" name="files" multiple ref={fileRef} onChange={handleFileChange} />
-        <button className={`${c.btn} ${c.create}`} type="submit">Criar Pagina</button>
+        <button className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>Criar Pagina</button>
       </form>
       <div>
 

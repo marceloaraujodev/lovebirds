@@ -23,7 +23,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
   const [nextIndex, setNextIndex] = useState(1);
   const [isFading, setIsFading] = useState(false);
   const [imgsArray, setImgsArray] = useState([]);
-  const [videoId, setVideoId] = useState('eVTXPUF4Oz4');
+  // const [videoId, setVideoId] = useState('eVTXPUF4Oz4');
   const [link, setLink] = useState('eVTXPUF4Oz4');
   
 
