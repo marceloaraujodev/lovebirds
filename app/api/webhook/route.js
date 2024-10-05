@@ -55,7 +55,7 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET;
 
 // console.log('ENDPOINT SECRET: ', endpointSecret);
 
-export const POST = async (req) => {
+export async function POST (req) {
   console.log('-----------------WEBHOOK HANDLER ----------------')
   // CHECKS IF ENDPOINTSECRET ITS WORKING
   if (!endpointSecret) {
