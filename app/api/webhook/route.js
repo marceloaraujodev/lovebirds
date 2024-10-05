@@ -10,11 +10,9 @@ import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
 
 dotenv.config();
 
-// import {buffer} from 'micro';
-// import { buffer } from 'node:stream/consumers';
-
-// import {headers } from 'next/headers';
-// import { buffer } from 'node:stream/consumers';
+// const MODE = 'dev'  // if comment out url is production 
+const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+console.log(siteUrl)
 
 /* 
   instructions:
@@ -134,7 +132,7 @@ export async function POST (req) {
 
       try {
         // Generate QR code
-        const qrcode = await generateQRCode(`http://localhost:3000/${url}`);
+        const qrcode = await generateQRCode(`${siteUrl}/${url}`);
 
         // Upload photos to Firebase
         const uploadedPhotos = await uploadPhotosToFirebase(photosArray, hash);

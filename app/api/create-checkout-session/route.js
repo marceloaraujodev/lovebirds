@@ -6,8 +6,13 @@ import fs from 'fs';
 import path from 'path';
 dotenv.config();
 
+// const MODE = 'dev'  // if comment out url is production 
+const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+console.log(siteUrl)
+
 // create tempo folder for files
 const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp', 'uploads');
+
 
 // Ensure the temporary upload directory exists
 if (!fs.existsSync(TEMP_UPLOAD_DIR)) {
@@ -63,13 +68,14 @@ export async function POST(req, res){
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc',
+          // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // price test item
+          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:3000/${url}`,
-      cancel_url: `http://localhost:3000/error`,
+      success_url: `${siteUrl}/${url}`,
+      cancel_url: `${siteUrl}/error`,
       metadata: {
         name, 
         date, 
