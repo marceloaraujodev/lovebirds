@@ -2,6 +2,8 @@ import admin from 'firebase-admin';
 // import serviceAccount from './serviceAccount.json'
 import path from 'path';
 import fs from 'fs';
+import dotenv from 'dotenv'
+dotenv.config()
 
 if (!admin.apps.length) {
   admin.initializeApp({

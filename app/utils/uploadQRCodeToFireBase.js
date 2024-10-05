@@ -1,6 +1,8 @@
 import admin from 'firebase-admin';
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
+import dotenv from 'dotenv'
+dotenv.config()
 
 // Ensure Firebase is initialized
 if (!admin.apps.length) {
