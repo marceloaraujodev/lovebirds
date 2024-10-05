@@ -10,7 +10,8 @@ import { loadYouTubeAPI } from '@/app/utils/youtube';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 
-
+// const MODE = 'dev'  // if comment out url is production 
+const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export default function CouplesPage({ couplesName, id }) {
   const [data, setData] = useState({});
@@ -26,7 +27,7 @@ export default function CouplesPage({ couplesName, id }) {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/${couplesName}/${id}`
+          `${siteUrl}/api/${couplesName}/${id}`
         );
         setData(res.data.user);
       } catch (error) {
