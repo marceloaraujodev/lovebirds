@@ -14,7 +14,7 @@ export default function Faq() {
         <div className={c.faqCard}>
           <h2>Como posso criar uma página personalizada na Qrcodelove?</h2>
           <p>
-          Para criar uma página personalizada, preencha o formulário com os nomes do casal, a data de início do relacionamento, uma mensagem de declaração e até 5 fotos. Depois, clique no botão &quot;"Criar"&quot; e finalize o pagamento.
+          Para criar uma página personalizada, preencha o formulário com os nomes do casal, a data de início do relacionamento, uma mensagem de declaração e até 5 fotos. Depois, clique no botão Criar e finalize o pagamento.
           </p>
         </div>
         <div className={c.faqCard}>
