@@ -5,7 +5,7 @@ import fs from 'fs';
 
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(process.env.SERVICE_ACCOUNT),
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,  // Your Firebase Storage bucket URL
   });
 }

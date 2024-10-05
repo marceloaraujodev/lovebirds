@@ -5,7 +5,7 @@ import path from 'path';
 // Ensure Firebase is initialized
 if (!admin.apps.length) {
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount), // Replace with your service account
+    credential: admin.credential.cert(process.env.SERVICEACCOUNT), // Replace with your service account
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   });
 }
