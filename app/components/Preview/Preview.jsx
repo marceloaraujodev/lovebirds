@@ -32,9 +32,9 @@ export default function Preview({ date, time, startCounting, url, photos, couple
     setImgsArray(photos);
   }, [photos]);
 
-  // useEffect(() => {
-  //   setLink(musicLink)
-  // }, [musicLink]);
+  useEffect(() => {
+    setLink(musicLink)
+  }, [musicLink]);
 
   
   // LOOP
