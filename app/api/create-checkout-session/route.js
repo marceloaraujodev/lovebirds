@@ -75,7 +75,7 @@ export async function POST(req, res){
         },
       ],
       mode: 'payment',
-      success_url: `https://www.qrcodelove.com/api/create-checkout-sessiony/${url}`,
+      success_url: `https://www.qrcodelove.com/api/create-checkout-session/${url}`,
       cancel_url: `${siteUrl}/error`,
       metadata: {
         name, 
