@@ -1,0 +1,20 @@
+.cont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-top: 80px;
+  padding-bottom: 10px;
+}
+.icon{
+  cursor: pointer;
+}
+.contact{
+  font-weight: 600;
+  cursor: pointer;
+}
+@media screen and (max-width: 1000px){
+  .cont{
+    padding-top: 30px;
+  }
+}

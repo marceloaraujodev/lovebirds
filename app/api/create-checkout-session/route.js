@@ -27,6 +27,7 @@ export async function POST(req, res){
      const name = formData.get('name');
      const date = formData.get('date');
      const time = formData.get('time');
+     const musicLink = formData.get('musicLink');
      const url = formData.get('url');
      const hash = formData.get('hash');
      const message = formData.get('message');
@@ -43,7 +44,7 @@ export async function POST(req, res){
       }
 
     console.log(JSON.stringify(photos));
-     console.log('------------',{name, photos, date, time, url, hash, message})
+     console.log('------------',{name, photos, date, time, url, hash, message, musicLink})
   
 
     // // send qrcode to user email
@@ -76,6 +77,7 @@ export async function POST(req, res){
         url, 
         hash, 
         photos, 
+        musicLink,
         message, 
         photos: JSON.stringify(photos), // Store file names
          // Pass relevant data as metadata

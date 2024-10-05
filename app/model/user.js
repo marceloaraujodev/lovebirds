@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema({
     type: [String],
     required: true, // Set to true if this field must be present
   },
+  musicLink: {
+    type: String,
+  },
   qrCode: {
     type: String,
   }

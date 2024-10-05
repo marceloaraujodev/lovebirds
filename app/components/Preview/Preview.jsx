@@ -2,12 +2,14 @@
 import React, { useState, useEffect, } from 'react';
 import { SlPicture } from 'react-icons/sl';
 import Counter from './Counter/Counter';
-
+import HeartAnimation from './Hearts/Hearts';
+import Audio from '../Audio/Audio';
 import c from './Preview.module.css';
+
 
 // const test = ['/img1.jpg', '/img2.jpg', '/img3.jpg'] // , '/img3.jpg'
 
-export default function Preview({ date, time, startCounting, url, photos, couplesName }) {
+export default function Preview({ date, time, startCounting, url, photos, couplesName, musicLink, playBtn }) {
   // const [elapsedTime, setElapsedTime] = useState({
   //   years: 0,
   //   months: 0,
@@ -16,19 +18,30 @@ export default function Preview({ date, time, startCounting, url, photos, couple
   //   minutes: 0,
   //   seconds: 0,
   // });
-
+  // console.log('run')
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(1);
   const [isFading, setIsFading] = useState(false);
   const [imgsArray, setImgsArray] = useState([]);
+  const [videoId, setVideoId] = useState('eVTXPUF4Oz4');
+  const [link, setLink] = useState('eVTXPUF4Oz4');
+  
 
   // PHOTOS ARRAY
   useEffect(() => {
     setImgsArray(photos);
   }, [photos]);
+
+  // useEffect(() => {
+  //   setLink(musicLink)
+  // }, [musicLink]);
+
   
   // LOOP
   useEffect(() => {
+
+    // if(photos.length === 0) return;
+
     const intervalId = setInterval(() => {
       setIsFading(true); // Start fading out
       setTimeout(() => {
@@ -47,14 +60,18 @@ export default function Preview({ date, time, startCounting, url, photos, couple
     return () => clearInterval(intervalId); // Cleanup the interval
   }, [imgsArray]);
 
-
+ 
   return (
     <div className={c.cont}>
-      {couplesName ? <div className={c.couplesName}>{couplesName}</div> : <div className={c.url}>teamuu.com/{url}</div>}
+      {/* {playBtn ? <button onClick={() => setLink(musicLink)}>play música</button> : null} */}
+      {couplesName ? <div className={c.couplesName}>{couplesName}</div> : <div className={c.url}>qrcodelove.com/{url}</div>}
       
       <div className={c.imgs}>
       {imgsArray?.length > 0 ? (
         <>
+        <HeartAnimation  />
+        {/* {console.log('before sending to Audio in previewComponent:', musicLink)} */}
+        <Audio musicLink={link} />
         <img
           src={imgsArray[nextIndex]} // Next image this will be live urls strings
           alt="next photo"
@@ -69,6 +86,9 @@ export default function Preview({ date, time, startCounting, url, photos, couple
           height={450}
           className={`${c.photos} ${isFading? c.fadeOut : ''} `}
         />
+         {/* <div className={`${c.animatedText} ${isFading ? c.moveUp : ''}`}>
+              Slide Text
+            </div> */}
         </>
       ) : <SlPicture size={30} />}
         

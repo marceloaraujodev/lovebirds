@@ -1,0 +1,53 @@
+.cont{
+  overflow: hidden;
+  position: relative;
+}
+.heart-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+}
+
+.heart {
+  position: absolute;
+  bottom: -50px;
+  background-color: rgb(255, 39, 39);
+  transform: translate(-50%, 0%) rotate(-45deg);
+  animation: floatUp 5s ease-in-out infinite;
+  z-index: 50;
+}
+
+.heart:before, .heart:after {
+  content: "";
+  position: absolute;
+  background-color: inherit;
+  border-radius: 50%;
+}
+
+.heart:before {
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: 0;
+}
+
+.heart:after {
+  width: 100%;
+  height: 100%;
+  left: 50%;
+  top: 0;
+}
+
+@keyframes floatUp {
+  0% {
+    /* transform: translateY(0) ; */
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-450px) ; 
+    opacity: 0;
+  }
+}

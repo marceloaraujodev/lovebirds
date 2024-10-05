@@ -126,7 +126,7 @@ export const POST = async (req) => {
     const customerEmail = data.customer_details.email
 
     // Retrieve metadata from session
-    const { name, date, time, url, hash, message, photos } = data.metadata;
+    const { name, date, time, url, hash, message, photos, musicLink } = data.metadata;
     const photosArray = JSON.parse(photos);
 
     if (paid) {
@@ -149,6 +149,7 @@ export const POST = async (req) => {
           url,
           hash,
           photos: uploadedPhotos,  // Store URLs of uploaded photos
+          musicLink,
           paid: true,
           message,
           qrCode: qrcode,

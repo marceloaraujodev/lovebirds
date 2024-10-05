@@ -1,0 +1,28 @@
+
+.title{
+  text-align: center;
+  margin-bottom: 30px;
+}
+.faqCardCont{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 15px;
+  max-width: 800px;
+}
+.faqCard{
+  border: var(--border-style);
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: 10px;
+}
+.faqCard p{
+  padding:8px ;
+}
+
+@media screen and (max-width: 768px){
+  /* .faqCard h2{
+   
+  } */
+}

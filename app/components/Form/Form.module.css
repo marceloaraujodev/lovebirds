@@ -1,13 +1,11 @@
 .cont{
   display: flex;
-  padding: 20px;
   justify-content: center;
   gap: 20px;
 }
 .form{
   display: flex;
   flex-direction: column;
-  padding: 20px;
   gap: 10px;
 }
 .prices{
@@ -33,6 +31,7 @@
 }
 .couplesName,
 .startDate,
+.musicLink,
 .timer{
   display: flex;
   flex-direction: column;
@@ -41,6 +40,7 @@
 }
 .couplesName input,
 .startDate input,
+.musicLink input,
 .timer input{
   border: var(--border-style);
   border-radius: 5px;
@@ -72,12 +72,25 @@
   height: 13rem;
   outline: none;
 }
+.cameraCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 .btn{
   padding: 15px 30px;
   background-color: transparent;
   border: var(--border-style);
   border-radius: 5px;
   cursor: pointer;
+  background-color: rgb(44, 44, 44);
+  font-weight: 600;
+}
+.create{
+  height: 70px;
+  font-weight: 600;
+  font-size: 2rem;
 }
 .filePicker{
   display: none;
@@ -94,7 +107,6 @@
 @media (max-width: 1000px){
   .cont{
     display: flex;
-    padding: 20px;
     justify-content: center;
     flex-direction: column;
     gap: 20px;

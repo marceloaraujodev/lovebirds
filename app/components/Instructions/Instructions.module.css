@@ -1,0 +1,30 @@
+.cont{
+  /* border: var(--border-style); */
+  margin: 100px 0;
+}
+.cont h2{
+  text-align: center;
+  padding: 10px 0;
+  padding-bottom: 50px;
+  font-size: 2rem;
+}
+.cardCont{
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.card{
+  border: var(--border-style);
+  width: 20rem;
+  height: 20rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  background-color: rgb(44, 44, 44);
+  position: relative;
+}

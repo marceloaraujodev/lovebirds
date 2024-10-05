@@ -1,0 +1,99 @@
+.cont{
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: column;
+  padding: 50px;
+}
+.loader{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.messageCont{
+  padding: 10px 0;
+  width: 400px;
+  border: var(--border-style);
+  margin-top: 20px;
+  border-radius: 5px;
+}
+.messageCont h2{
+  text-align: center;
+  padding: 10px 0;
+}
+.message p{
+  padding: 0 8px;
+  white-space: pre-line;
+}
+.qrCode{
+  border: var(--border-style);
+  margin-top: 35px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  width: 184px;
+  height: 184px;
+  /* overflow: hidden; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.img{
+  object-fit: cover;
+  width: 180px;
+  height: 180px;
+}
+
+.player{
+  border: 1px solid white;
+  width: 400px;
+  height: 225px;
+  /* hide below */
+  
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -9999px;
+  left: -9999px; 
+  visibility: hidden;
+}
+.play{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  margin: 30px 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  /* padding: 10px 40px; */
+  width: 100%;
+  max-width: 400px;
+}
+.btnText{
+  padding-right: 10px;
+}
+@media screen and (max-width: 1000px){
+  .cont{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    padding: 0;
+  }
+  .messageCont{
+    width: 100%;
+    margin: 70px 0;
+  }
+  .qrCode{
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  .print{
+    margin-bottom: 70px;
+  }
+  .play{
+    width: 100%;
+    /* max-width: 350px; */
+  }
+}
