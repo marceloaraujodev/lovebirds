@@ -79,7 +79,7 @@ export default function Form() {
     photos.forEach((file) => formData.append('photos', file));
 
     try {
-      const res = await axios.post('http://www.qrcodelove.com/api/create-checkout-session', formData,
+      const res = await axios.post('https://www.qrcodelove.com/api/create-checkout-session', formData,
         {
           headers: {
         'Content-Type': 'multipart/form-data', // Important for file uploads
