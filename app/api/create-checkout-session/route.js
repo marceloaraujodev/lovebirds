@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
-import { FaDiagramSuccessor } from "react-icons/fa6";
+import { uploadPhotosToFirebase } from '@/app/utils/uploadToBucket'; 
 dotenv.config();
 
 // const MODE = 'dev'  // if comment out url is production 
@@ -41,16 +41,18 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
      
-      // Store uploaded files temporarily
-      for (const file of photoFiles) {
-        const filePath = path.join(TEMP_UPLOAD_DIR, file.name); // Create a unique file path
-        const fileBuffer = await file.arrayBuffer(); // Convert File to ArrayBuffer
-        fs.writeFileSync(filePath, Buffer.from(fileBuffer)); // Save the file to the temporary directory
-        photos.push(file.name); // Store the name for reference later
-      }
+    // Instead of saving locally, upload to Firebase directly
+    for (const file of photoFiles) {
+      const fileBuffer = await file.arrayBuffer();  // Convert File to ArrayBuffer
+      const uploadedPhotoUrl = await uploadPhotosToFirebase(Buffer.from(fileBuffer), hash);  // Upload to Firebase
+      photos.push(uploadedPhotoUrl);  // Store the Firebase URL
+    }
 
-    // console.log(JSON.stringify(photos));
      console.log('------------',{name, photos, date, time, url, hash, message, musicLink})
+
+    //  const photosArray = JSON.parse(photos);
+    //  // Upload photos to Firebase
+    //  const uploadedPhotos = await uploadPhotosToFirebase(photosArray, hash);
   
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -76,9 +78,6 @@ export async function POST(req, res){
         hash, 
         photos, 
         musicLink,
-        message, 
-        photos: JSON.stringify(photos), // Store file names
-         // Pass relevant data as metadata
       }
     });
 

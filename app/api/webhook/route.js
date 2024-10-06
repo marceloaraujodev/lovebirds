@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import { mongooseConnect } from '@/app/lib/mongooseConnect';
 import Stripe from "stripe";
 import User from '../../model/user';
-import dotenv from 'dotenv';
-import { uploadPhotosToFirebase } from '@/app/utils/uploadToBucket';  
+import dotenv from 'dotenv'; 
 import generateQRCode from '@/app/utils/generateQRCode'; 
 import sendMail from '@/app/utils/sendEmail';
 import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
@@ -37,16 +36,6 @@ console.log(siteUrl)
   },
 */
 
-// customer_details: {
-//   address: {
-//     city: null,
-//     country: 'US',
-//     line1: null,
-//     line2: null,
-//     postal_code: '33160',
-//     state: null
-//   },
-//   email: 'marcelo.dev.
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET;
@@ -125,7 +114,7 @@ export async function POST (req) {
 
     // Retrieve metadata from session
     const { name, date, time, url, hash, message, photos, musicLink } = data.metadata;
-    const photosArray = JSON.parse(photos);
+
 
     if (paid) {
       console.log('Payment successful, processing photos and saving user data.');
@@ -133,9 +122,7 @@ export async function POST (req) {
       try {
         // Generate QR code
         const qrcode = await generateQRCode(`${siteUrl}/${url}`);
-
-        // Upload photos to Firebase
-        const uploadedPhotos = await uploadPhotosToFirebase(photosArray, hash);
+        
         // hash is used to put the qrcode image into the same foder as the uploaded photos
         const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash)
 
