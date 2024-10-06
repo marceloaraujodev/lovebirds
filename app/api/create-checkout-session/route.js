@@ -49,18 +49,9 @@ export async function POST(req, res){
         photos.push(file.name); // Store the name for reference later
       }
 
-    console.log(JSON.stringify(photos));
+    // console.log(JSON.stringify(photos));
      console.log('------------',{name, photos, date, time, url, hash, message, musicLink})
   
-
-    // // send qrcode to user email
-    // const transporter = nodemailer.createTransport({
-    //   service: 'gmail',
-    //   auth: {
-    //     user: process.env.GMAIL_USER,
-    //     pass: process.env.GMAIL_PASSWORD
-    //   }
-    // });
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
