@@ -6,7 +6,7 @@ import axios from 'axios';
 import c from './CouplesPage.module.css';
 import Error from '../../error/page';
 import { BeatLoader } from 'react-spinners';
-import { loadYouTubeAPI } from '@/app/utils/youtube';
+// import { loadYouTubeAPI } from '@/app/utils/youtube';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 
