@@ -25,7 +25,7 @@ dotenv.config();
 //   }
 // ]
 
-const MODE = 'dev'  // if comment out url is production 
+// const MODE = 'dev'  // if comment out url is production 
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 // console.log(siteUrl)
 
