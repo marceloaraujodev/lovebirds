@@ -124,7 +124,8 @@ export async function POST (req) {
           `
         }
         // Send email with QR code and details 
-        await sendMail(config);
+        const email = await sendMail(config);
+        console.log('Email sent', email);
 
       } catch (error) {
         console.error('Error processing webhook:', error);
