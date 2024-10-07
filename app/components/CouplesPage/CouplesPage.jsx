@@ -52,7 +52,7 @@ useEffect(() => {
       playerVars: {
         autoplay: 0,
         controls: 1,
-        mute: 0,
+        mute: 1,
         loop: 1,
         playlist: videoId,
         origin: 'https://www.qrcodelove.com',
@@ -60,7 +60,6 @@ useEffect(() => {
       events: {
         onReady: (event) => {
           playerRef.current = event.target;
-          // Don't autoplay here, let the user control playback
         },
         onError: (event) => console.error("Error with YouTube player:", event),
       },
