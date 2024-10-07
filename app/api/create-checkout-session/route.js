@@ -64,8 +64,8 @@ export async function POST(req, res){
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // price test item
-          // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
+          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
           quantity: 1,
         },
       ],
