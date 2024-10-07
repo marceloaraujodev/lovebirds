@@ -60,7 +60,9 @@ useEffect(() => {
         events: {
           onReady: (event) => {
             console.log("YouTube Player Ready");
-            event.target.playVideo()
+            if (isPlaying) {
+              event.target.playVideo();
+            }
           },
           onError: (event) => console.error("Error with YouTube player:", event),
         },
