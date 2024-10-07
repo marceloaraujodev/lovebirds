@@ -1,5 +1,3 @@
-
-import { MdOutlinePayment } from "react-icons/md";
 import c from './Instructions.module.css'
 export default function Instructions() {
   return (
@@ -7,16 +5,16 @@ export default function Instructions() {
       <h2>Instruções</h2>
       <div className={c.cardCont}>
         <div className={c.card}>
-          1.Preencha os campos
+          1. Preencha os campos  ✍️
         </div>
         <div className={c.card}>
-          2. Faça o pagamento <MdOutlinePayment color="purple" />
+          2. Faça o pagamento 💵
         </div>
         <div className={c.card}>
-          3. Qr code é enviado para o seu email
+          3. Qr code é enviado para o seu email 💌
         </div>
         <div className={c.card}>
-          4. Faça a surpresa para quem você ama! ❤️. 
+          4. Faça a surpresa para quem você ama! ❤️ 
         </div>
       </div>
     </div>

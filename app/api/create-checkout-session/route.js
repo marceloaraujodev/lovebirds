@@ -1,33 +1,41 @@
 import { NextResponse } from "next/server";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
+import User from '../../model/user';
 import Stripe from "stripe";
+import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
-import { uploadPhotosToFirebase } from '@/app/utils/uploadToBucket'; 
+
+
 dotenv.config();
 
-// const MODE = 'dev'  // if comment out url is production 
-// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+
+//// this is the file from photos
+// [
+//   File {
+//     size: 440915,
+//     type: 'image/jpeg',
+//     name: 'img1.jpg',
+//     lastModified: 1728182106381
+//   },
+//   File {
+//     size: 160272,
+//     type: 'image/jpeg',
+//     name: 'img3.jpg',
+//     lastModified: 1728182106383
+//   }
+// ]
+
+const MODE = 'dev'  // if comment out url is production 
+const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 // console.log(siteUrl)
-
-// create tempo folder for files
-const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp', 'uploads');
-
-
-// Ensure the temporary upload directory exists
-if (!fs.existsSync(TEMP_UPLOAD_DIR)) {
-  fs.mkdirSync(TEMP_UPLOAD_DIR, { recursive: true });
-}
 
 export async function POST(req, res){
   try {
     await mongooseConnect();
-    // const {name, date, time, url, hash, photos, message} = await req.json();
-    // console.log('this is url:', url);
-
      // Read the raw body from the request
      const formData = await req.formData();
+
+     console.log('this is formdata', formData)
 
      // Extract data from formData
      const name = formData.get('name');
@@ -40,36 +48,28 @@ export async function POST(req, res){
 
      const photos = [];
      const photoFiles = formData.getAll('photos');
+    //  console.log('------photofiles', photoFiles)
      
-    // Instead of saving locally, upload to Firebase directly
-    for (const file of photoFiles) {
-      const fileBuffer = await file.arrayBuffer();  // Convert File to ArrayBuffer
-      const uploadedPhotoUrl = await uploadPhotosToFirebase(Buffer.from(fileBuffer), hash);  // Upload to Firebase
-      photos.push(uploadedPhotoUrl);  // Store the Firebase URL
-    }
-
-     console.log('------------',{name, photos, date, time, url, hash, message, musicLink})
-
-    //  const photosArray = JSON.parse(photos);
-    //  // Upload photos to Firebase
-    //  const uploadedPhotos = await uploadPhotosToFirebase(photosArray, hash);
-  
+     // Upload the photos to Firebase and get the URLs
+     console.log('BEFORE SENDING FILES TO Firebase')
+    const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash); // array of strings is the result
+    // console.log('uploadedPhotosURls ----', uploadedPhotoURLs) // this should be the photos in the 
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
     const session = await stripe.checkout.sessions.create({
-      // payment_method_types: ['pix', 'card'],
+      payment_method_types: ['card', 'boleto'],
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // price test item
-          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // price test item
+          // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `https://www.qrcodelove.com/api/create-checkout-session/${url}`,
-      cancel_url: `https://www.qrcodelove.com/api/create-checkout-session/error`,
+      success_url: `${siteUrl}/${url}`,
+      cancel_url: `${siteUrl}/error`,
       metadata: {
         name, 
         date, 
@@ -78,8 +78,26 @@ export async function POST(req, res){
         hash, 
         photos, 
         musicLink,
+        message, 
+        photos: JSON.stringify(uploadedPhotoURLs), // Store file names
+         // Pass relevant data as metadata
       }
     });
+
+    // Create a new user in the database
+    const newUser = new User({
+      name,
+      date,
+      time,
+      url,
+      hash,
+      photos: uploadedPhotoURLs,  // Store array of URLs for the photos
+      musicLink,
+      paid: false,
+      message,
+    });
+
+    await newUser.save();
 
     // console.log('before response')
     return NextResponse.json({

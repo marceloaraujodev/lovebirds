@@ -10,7 +10,7 @@ import { loadYouTubeAPI } from '@/app/utils/youtube';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 
-// const MODE = 'dev'  // if comment out url is production 
+const MODE = 'dev'  // if comment out url is production 
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export default function CouplesPage({ couplesName, id }) {
@@ -46,12 +46,12 @@ useEffect(() => {
   loadYouTubeAPI()
     .then(YT => {
       playerRef.current = new YT.Player('youtube-player', {
-        height: '390',
-        width: '640',
+        height: '0',
+        width: '0',
         videoId: videoId,
         playerVars: {
           autoplay: 0,
-          controls: 1,
+          controls: 0,
           mute: 1,
           loop: 1,
           playlist: videoId,

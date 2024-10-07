@@ -3,15 +3,14 @@ import Preview from '../Preview/Preview';
 import { FaCameraRetro } from "react-icons/fa6";
 import c from './Form.module.css';
 import { v4 as uuidv4 } from 'uuid';
-// import 
 import axios from 'axios';
 
 
 
 export default function Form() {
   const [name, setName] = useState('')
-  const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
+  const [date, setDate] = useState('2024-10-01')
+  const [time, setTime] = useState('23:30')
   const [photos, setPhotos] = useState([])
   const [musicLink, setMusicLink] = useState('');
   const [photoPreviews, setPhotoPreviews] = useState([]) // for the blobs
@@ -79,7 +78,7 @@ export default function Form() {
     photos.forEach((file) => formData.append('photos', file));
 
     try {
-      const res = await axios.post('https://www.qrcodelove.com/api/create-checkout-session', formData,
+      const res = await axios.post('/api/create-checkout-session', formData,
         {
           headers: {
         'Content-Type': 'multipart/form-data', // Important for file uploads
@@ -147,7 +146,7 @@ export default function Form() {
           <FaCameraRetro size={20} />
           </div> <span>Escolha as fotos (Max 3)</span>
         </button>
-        <input className={c.filePicker} type="file" name="files" multiple ref={fileRef} onChange={handleFileChange} />
+        <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
         <button className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>Criar Pagina</button>
       </form>
       <div>

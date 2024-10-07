@@ -1,44 +1,33 @@
-import admin from 'firebase-admin';
-import fs from 'fs';
-import path from 'path';
+import firebaseInit from "./firebaseInit";
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
+// Initialize Firebase
+firebaseInit();
 
-// Ensure Firebase is initialized
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount), // Replace with your service account
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  });
-}
-
-const bucket = admin.storage().bucket();
-
-// Function to upload QR code in webhook
 const uploadQRCodeToFireBase = async (base64QRCode, hash) => {
+  console.log('Enter qr code making')
   try {
-    // const folderPath = `purchases/${hash}`;
-    // const file = bucket.file(`${folderPath}/qrcode.png`);
-
     // Remove the 'data:image/png;base64,' prefix and convert base64 to a buffer
     const base64Data = base64QRCode.replace(/^data:image\/png;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
 
-    // Define file path within Firebase Storage (you can organize it by folder/hash)
-    // const file = bucket.file(`qrcodes/${qrCodeFileName}`);
-    const folderPath = `purchases/${hash}`;
-    const file = bucket.file(`${folderPath}/qrcode.png`);
+    // Create a Blob from the buffer
+    const blob = new Blob([buffer], { type: 'image/png' });
 
-    // Upload the buffer to Firebase
-    await file.save(buffer, {
-      metadata: {
-        contentType: 'image/png',
-      },
+    // Get a reference to the storage service
+    const storage = getStorage();
+    
+    // Create a storage reference
+    const storageRef = ref(storage, `purchases/${hash}/qrcode.png`);
+
+    // Upload the Blob to Firebase Storage
+    await uploadBytes(storageRef, blob, {
+      contentType: 'image/png',
     });
 
-    // Make the QR code file public and get the public URL
-    await file.makePublic();
-    const qrCodeUrl = file.publicUrl();
+    // Get the download URL after upload
+    const qrCodeUrl = await getDownloadURL(storageRef);
+    console.log(`File uploaded successfully: ${qrCodeUrl}`);
     
     return qrCodeUrl; // Return the public URL of the uploaded QR code
 

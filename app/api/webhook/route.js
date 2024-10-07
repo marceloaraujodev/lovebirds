@@ -4,17 +4,19 @@ import Stripe from "stripe";
 import User from '../../model/user';
 import dotenv from 'dotenv'; 
 import generateQRCode from '@/app/utils/generateQRCode'; 
+import uploadImages from '@/app/utils/uploadToBucket';
 import sendMail from '@/app/utils/sendEmail';
 import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
+import { removePhotosFromBucket } from '@/app/utils/removePhotosFromBucket';
 
 dotenv.config();
 
-// const MODE = 'dev'  // if comment out url is production 
+const MODE = 'dev'  // if comment out url is production Need it for qr code generation
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 console.log(siteUrl)
 
 /* 
-  instructions:
+ /// instructions:
     download stripe cli
     cd to cli stripe folder
     open cmd prompt type stripe login
@@ -67,6 +69,7 @@ export async function POST (req) {
   }
 
   console.log('AFTER EVENT TRY BLOCK')
+  
   // Handle the event
   // switch (event.type) {
   //   case 'checkout.session.completed':
@@ -106,6 +109,7 @@ export async function POST (req) {
   // }
 
   if (event.type === 'checkout.session.completed') {
+    console.log('ENTER CHECKOUT.SESSION.COMPLIETED')
     const data = event.data.object;
     const paid = data.payment_status === 'paid';
 
@@ -113,34 +117,26 @@ export async function POST (req) {
     const customerEmail = data.customer_details.email
 
     // Retrieve metadata from session
-    const { name, date, time, url, hash, message, photos, musicLink } = data.metadata;
-
-
+    const { name, date, time, url, hash, photos } = data.metadata;
+ 
     if (paid) {
       console.log('Payment successful, processing photos and saving user data.');
-
+      // const photosArray = JSON.parse(photos); // turns string array from metatada to a real array
       try {
         // Generate QR code
         const qrcode = await generateQRCode(`${siteUrl}/${url}`);
         
-        // hash is used to put the qrcode image into the same foder as the uploaded photos
+        // Goes to email and hash is used to put the qrcode image into the same foder as the uploaded photos
         const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash)
 
-        // Create a new user in the database
-        const newUser = new User({
-          name,
-          date,
-          time,
-          url,
-          hash,
-          photos: uploadedPhotos,  // Store URLs of uploaded photos
-          musicLink,
-          paid: true,
-          message,
-          qrCode: qrcode,
-        });
+        console.log('PHOTOS BEFORE SAVED TO DB--------->>>>', photos)
 
-        await newUser.save();
+        // looks for user and updates paid to true
+        const user = await User.findOne({ hash: hash})
+        user.paid = true;
+        user.qrCode = qrcode,
+        await user.save();
+        console.log(user)
 
         // Email Message configuration
         const config = {
@@ -164,13 +160,15 @@ export async function POST (req) {
         // Send email with QR code and details 
         await sendMail(config);
 
-        console.log('User saved successfully with uploaded photos:', newUser);
+
       } catch (error) {
         console.error('Error processing webhook:', error);
-        return NextResponse.json({ error: 'Failed to process the payment and upload photos.' }, { status: 500 });
+        return NextResponse.json({ error: 'Failed to process the payment and upload photos.'}, { status: 500 });
       }
     }
   }
+
+  console.log('THIS IS EVENT TYPE AT THE END', event.type)
 
   return NextResponse.json({ success: true }, { status: 200 });
 
