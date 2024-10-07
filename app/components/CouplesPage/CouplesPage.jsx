@@ -44,31 +44,37 @@ export default function CouplesPage({ couplesName, id }) {
 useEffect(() => {
   if (!videoId) return;
 
-  loadYouTubeAPI()
-    .then(YT => {
-      playerRef.current = new YT.Player('youtube-player', {
-        height: '300',
-        width: '200',
-        videoId: videoId,
-        playerVars: {
-          autoplay: 0,
-          controls: 1,
-          mute: 1,
-          loop: 1,
-          playlist: videoId,
+  const loadPlayer = () => {
+    new window.YT.Player('youtube-player', {
+      height: '300',
+      width: '200',
+      videoId: videoId,
+      playerVars: {
+        autoplay: 0,
+        controls: 1,
+        mute: 0,
+        loop: 1,
+        playlist: videoId,
+      },
+      events: {
+        onReady: (event) => {
+          playerRef.current = event.target;
+          // Don't autoplay here, let the user control playback
         },
-        events: {
-          onReady: (event) => {
-            console.log("YouTube Player Ready");
-            if (isPlaying) {
-              event.target.playVideo();
-            }
-          },
-          onError: (event) => console.error("Error with YouTube player:", event),
-        },
-      });
-    })
-    .catch(error => console.error("Error loading YouTube API:", error));
+        onError: (event) => console.error("Error with YouTube player:", event),
+      },
+    });
+  };
+
+  if (window.YT && window.YT.Player) {
+    loadPlayer();
+  } else {
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    window.onYouTubeIframeAPIReady = loadPlayer;
+  }
 }, [videoId]);
 
   // Extract videoId from the URL and set it
@@ -129,11 +135,11 @@ useEffect(() => {
   const togglePlay = () => {
     if (playerRef.current) {
       if (isPlaying) {
-        playerRef.current.pauseVideo(); // Pause the video
+        playerRef.current.pauseVideo();
       } else {
-        playerRef.current.playVideo(); // Play the video
+        playerRef.current.playVideo();
       }
-      setIsPlaying(!isPlaying); // Toggle the play/pause state
+      setIsPlaying(!isPlaying);
     }
   };
 
