@@ -55,6 +55,7 @@ useEffect(() => {
         mute: 0,
         loop: 1,
         playlist: videoId,
+        origin: 'https://www.qrcodelove.com',
       },
       events: {
         onReady: (event) => {
