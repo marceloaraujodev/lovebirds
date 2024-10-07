@@ -9,8 +9,8 @@ import axios from 'axios';
 
 export default function Form() {
   const [name, setName] = useState('')
-  const [date, setDate] = useState('2024-10-01')
-  const [time, setTime] = useState('23:30')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
   const [photos, setPhotos] = useState([])
   const [musicLink, setMusicLink] = useState('');
   const [photoPreviews, setPhotoPreviews] = useState([]) // for the blobs
