@@ -5,9 +5,7 @@ import Stripe from "stripe";
 import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import dotenv from 'dotenv';
 
-
 dotenv.config();
-
 
 //// this is the file from photos
 // [

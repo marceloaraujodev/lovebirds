@@ -7,6 +7,7 @@ firebaseInit();
 export default async function uploadImages(filesArray, hash) {
 
   const storage = getStorage(); // Initialize storage
+  // works with a file image object
   const uploadPromises = filesArray.map((file) => {
     // For each file, create a storage reference
     // console.log('files in the files array-------', file)
