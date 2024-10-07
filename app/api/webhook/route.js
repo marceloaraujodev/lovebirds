@@ -90,11 +90,18 @@ export async function POST (req) {
         // Sends qr code url to email, hash is used to add qrcode image into same folder as the uploaded photos
         const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash)
 
+        console.log('QRCODE URL---->>>>', qrCodeUrl)
+        console.log('THIS IS THE HASH ------------------------', hash)
+
         // looks for user and updates paid to true
-        const user = await User.findOne({ hash: hash})
-        user.paid = true;
-        user.qrCode = qrcode,
-        await user.save();
+        const user = await User.findOneAndUpdate(
+          { hash: hash }, // Query to find the user
+          { 
+            paid: true,   // Update the paid field
+            qrCode: qrcode // Update the qrCode field
+          },
+          { new: true } // Return the updated document
+        );
         console.log(user)
 
         // Email Message configuration
@@ -118,7 +125,6 @@ export async function POST (req) {
         }
         // Send email with QR code and details 
         await sendMail(config);
-
 
       } catch (error) {
         console.error('Error processing webhook:', error);
