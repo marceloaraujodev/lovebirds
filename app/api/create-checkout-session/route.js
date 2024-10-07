@@ -7,22 +7,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-//// this is the file from photos
-// [
-//   File {
-//     size: 440915,
-//     type: 'image/jpeg',
-//     name: 'img1.jpg',
-//     lastModified: 1728182106381
-//   },
-//   File {
-//     size: 160272,
-//     type: 'image/jpeg',
-//     name: 'img3.jpg',
-//     lastModified: 1728182106383
-//   }
-// ]
-
 // const MODE = 'dev'  // if comment out url is production 
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 // console.log(siteUrl)
@@ -33,7 +17,7 @@ export async function POST(req, res){
      // Read the raw body from the request
      const formData = await req.formData();
 
-     console.log('this is formdata', formData)
+    //  console.log('this is formdata', formData)
 
      // Extract data from formData
      const name = formData.get('name');
@@ -49,13 +33,13 @@ export async function POST(req, res){
     //  console.log('------photofiles', photoFiles)
 
     // Upload the photos to Firebase and get the URLs
-    console.log('BEFORE SENDING FILES TO Firebase')
+    // console.log('BEFORE SENDING FILES TO Firebase')
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash); // array of strings is the result
-    console.log('uploadedPhotosURls ----', uploadedPhotoURLs) // this should be the photos in the 
+    // console.log('uploadedPhotosURls ----', uploadedPhotoURLs) // this should be the photos in the 
      
 
     // start stripe checkout
-    console.log('START STRIPE CHECKOUT')
+    // console.log('START STRIPE CHECKOUT')
     const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
@@ -99,7 +83,7 @@ export async function POST(req, res){
 
     await newUser.save();
 
-    console.log(newUser)
+    // console.log(newUser)
 
     // console.log('before response')
     return NextResponse.json({
