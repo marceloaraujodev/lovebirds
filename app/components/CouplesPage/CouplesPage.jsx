@@ -41,41 +41,41 @@ export default function CouplesPage({ couplesName, id }) {
   }, [couplesName, id]);
 
 // Load YouTube API and initialize player
-useEffect(() => {
-  if (!videoId) return;
+// useEffect(() => {
+//   if (!videoId) return;
 
-  const loadPlayer = () => {
-    new window.YT.Player('youtube-player', {
-      height: '300',
-      width: '200',
-      videoId: videoId,
-      playerVars: {
-        autoplay: 0,
-        controls: 1,
-        mute: 1,
-        loop: 1,
-        playlist: videoId,
-        origin: 'https://www.qrcodelove.com',
-      },
-      events: {
-        onReady: (event) => {
-          playerRef.current = event.target;
-        },
-        onError: (event) => console.error("Error with YouTube player:", event),
-      },
-    });
-  };
+//   const loadPlayer = () => {
+//     new window.YT.Player('youtube-player', {
+//       height: '300',
+//       width: '200',
+//       videoId: videoId,
+//       playerVars: {
+//         autoplay: 0,
+//         controls: 1,
+//         mute: 1,
+//         loop: 1,
+//         playlist: videoId,
+//         origin: 'https://www.qrcodelove.com',
+//       },
+//       events: {
+//         onReady: (event) => {
+//           playerRef.current = event.target;
+//         },
+//         onError: (event) => console.error("Error with YouTube player:", event),
+//       },
+//     });
+//   };
 
-  if (window.YT && window.YT.Player) {
-    loadPlayer();
-  } else {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    window.onYouTubeIframeAPIReady = loadPlayer;
-  }
-}, [videoId]);
+//   if (window.YT && window.YT.Player) {
+//     loadPlayer();
+//   } else {
+//     const tag = document.createElement('script');
+//     tag.src = 'https://www.youtube.com/iframe_api';
+//     const firstScriptTag = document.getElementsByTagName('script')[0];
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+//     window.onYouTubeIframeAPIReady = loadPlayer;
+//   }
+// }, [videoId]);
 
   // Extract videoId from the URL and set it
   useEffect(() => {
