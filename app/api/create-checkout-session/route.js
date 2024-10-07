@@ -58,7 +58,7 @@ export async function POST(req, res){
 
     // start stripe checkout
     console.log('START STRIPE CHECKOUT')
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+    const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
       line_items: [

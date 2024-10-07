@@ -39,8 +39,8 @@ console.log(siteUrl)
 */
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET;
+const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY);
+const endpointSecret = process.env.STRIPE_LIVE_WEBHOOK_ENDPOINT_SECRET;
 
 // console.log('ENDPOINT SECRET: ', endpointSecret);
 
@@ -48,7 +48,6 @@ export async function POST (req) {
   console.log('-----------------WEBHOOK HANDLER ----------------')
   // CHECKS IF ENDPOINTSECRET ITS WORKING
   if (!endpointSecret) {
-    // console.error('STRIPE_WEBHOOK_ENDPOINT_SECRET is not set');
     return NextResponse.json({ error: 'Webhook ENDPOINTSECRET is not configured' }, { status: 500 });
   }
 
@@ -70,44 +69,7 @@ export async function POST (req) {
 
   console.log('AFTER EVENT TRY BLOCK')
   
-  // Handle the event
-  // switch (event.type) {
-  //   case 'checkout.session.completed':
-  //     const data = event.data.object;
-  //     const paid = data.payment_status === 'paid';
-
-  //     // create a qr code for the url - will be used to send the email
-  //     const qrcode = await generateQR(`http://localhost:3000/${url}`);
-
-  //     // gets details from metadata which is passed in the create checkout session
-  //     const { name, date, time, url, hash, message, photos } = data.metadata;
-  //     const photosArray = JSON.parse(photos);
-  //     // console.log('this should be Data', data)
-
-  //     // create user when payment is successful
-  //     if(paid){
-  //       console.log('IF PAID THIS WILL RUN')
-  //       const user = new User({
-  //         name,
-  //         date,
-  //         time,
-  //         url,
-  //         hash, 
-  //         photos,
-  //         paid: true, 
-  //         message
-  //       });
-          
-  //           await user.save();
-  //           console.log('User saved successfully', user)
-
-  //     }
-  //     break;
-  //   // ... handle other event types
-  //   default:
-  //     console.log(`Unhandled event type ${event.type}`);
-  // }
-
+  
   if (event.type === 'checkout.session.completed') {
     console.log('ENTER CHECKOUT.SESSION.COMPLIETED')
     const data = event.data.object;
