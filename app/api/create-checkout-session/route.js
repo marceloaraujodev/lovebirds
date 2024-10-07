@@ -70,6 +70,7 @@ export async function POST(req, res){
         },
       ],
       mode: 'payment',
+      allow_promotion_codes: true, 
       success_url: `${siteUrl}/${url}`,
       cancel_url: `${siteUrl}/error`,
       metadata: {
