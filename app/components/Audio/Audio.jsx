@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import c from './Audio.module.css'
-export default function Audio({ musicLink }) {
+export default function Audio({ musicLink, isPlaying }) {
   const [videoId, setVideoId] = useState('');
 
 
@@ -29,7 +29,7 @@ export default function Audio({ musicLink }) {
       {videoId && (
       <iframe
         className={c["hidden-video"]}
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`}
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=${isPlaying ? 1 : 0}&loop=1&playlist=${videoId}`}
         allow="autoplay"
         title="YouTube audio player"
         frameBorder="0"

@@ -20,7 +20,6 @@ export default function CouplesPage({ couplesName, id }) {
   const [videoId, setVideoId] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const playerRef = useRef(null);
   const btnRef = useRef(null);
 
   // fetch couples data
@@ -39,43 +38,6 @@ export default function CouplesPage({ couplesName, id }) {
     };
     fetchData();
   }, [couplesName, id]);
-
-// Load YouTube API and initialize player
-// useEffect(() => {
-//   if (!videoId) return;
-
-//   const loadPlayer = () => {
-//     new window.YT.Player('youtube-player', {
-//       height: '300',
-//       width: '200',
-//       videoId: videoId,
-//       playerVars: {
-//         autoplay: 0,
-//         controls: 1,
-//         mute: 1,
-//         loop: 1,
-//         playlist: videoId,
-//         origin: 'https://www.qrcodelove.com',
-//       },
-//       events: {
-//         onReady: (event) => {
-//           playerRef.current = event.target;
-//         },
-//         onError: (event) => console.error("Error with YouTube player:", event),
-//       },
-//     });
-//   };
-
-//   if (window.YT && window.YT.Player) {
-//     loadPlayer();
-//   } else {
-//     const tag = document.createElement('script');
-//     tag.src = 'https://www.youtube.com/iframe_api';
-//     const firstScriptTag = document.getElementsByTagName('script')[0];
-//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-//     window.onYouTubeIframeAPIReady = loadPlayer;
-//   }
-// }, [videoId]);
 
   // Extract videoId from the URL and set it
   useEffect(() => {
@@ -132,15 +94,8 @@ export default function CouplesPage({ couplesName, id }) {
   }
 
   // Toggle play and pause for the video
-  const togglePlay = () => {
-    if (playerRef.current) {
-      if (isPlaying) {
-        playerRef.current.pauseVideo();
-      } else {
-        playerRef.current.playVideo();
-      }
-      setIsPlaying(!isPlaying);
-    }
+  const toggleAudioPlay = () => {
+    setIsPlaying((prevState) => !prevState);
   };
 
   // Handle error when data is not present
@@ -185,6 +140,7 @@ export default function CouplesPage({ couplesName, id }) {
             photos={data.photos}
             musicLink={data.musicLink}
             playBtn={true}
+            isPlaying={isPlaying}
           />
           
           <div className={c.messageCont}>
@@ -197,14 +153,6 @@ export default function CouplesPage({ couplesName, id }) {
             <img className={c.img} src={data.qrCode} alt="qr code" />
           </div>
           <p className={c.print} onClick={() => printQrCode(data.qrCode)}>imprimir</p>
-
-
-          {data.musicLink && (
-            <>
-              <div id="youtube-player" className={c.player}></div>
-
-            </>
-          )}
         </>
       )}
     </div>

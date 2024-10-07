@@ -9,7 +9,7 @@ import c from './Preview.module.css';
 
 // const test = ['/img1.jpg', '/img2.jpg', '/img3.jpg'] // , '/img3.jpg'
 
-export default function Preview({ date, time, startCounting, url, photos, couplesName, musicLink, playBtn }) {
+export default function Preview({ date, time, startCounting, url, photos, couplesName, musicLink, isPlaying }) {
   // const [elapsedTime, setElapsedTime] = useState({
   //   years: 0,
   //   months: 0,
@@ -63,7 +63,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
  
   return (
     <div className={c.cont}>
-      {/* {playBtn ? <button onClick={() => setLink(musicLink)}>play música</button> : null} */}
+      
       {couplesName ? <div className={c.couplesName}>{couplesName}</div> : <div className={c.url}>qrcodelove.com/{url}</div>}
       
       <div className={c.imgs}>
@@ -71,7 +71,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
         <>
         <HeartAnimation  />
         {/* {console.log('before sending to Audio in previewComponent:', musicLink)} */}
-        <Audio musicLink={link} />
+        <Audio musicLink={link} isPlaying={isPlaying} />
         <img
           src={imgsArray[nextIndex]} // Next image this will be live urls strings
           alt="next photo"
