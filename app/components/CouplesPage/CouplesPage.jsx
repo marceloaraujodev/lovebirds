@@ -53,12 +53,15 @@ useEffect(() => {
         playerVars: {
           autoplay: 0,
           controls: 1,
-          mute: 0,
+          mute: 1,
           loop: 1,
           playlist: videoId,
         },
         events: {
-          onReady: (event) => event.target.playVideo(),
+          onReady: (event) => {
+            console.log("YouTube Player Ready");
+            event.target.playVideo()
+          },
           onError: (event) => console.error("Error with YouTube player:", event),
         },
       });
