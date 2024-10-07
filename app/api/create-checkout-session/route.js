@@ -49,14 +49,16 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
     //  console.log('------photofiles', photoFiles)
-     
-     // Upload the photos to Firebase and get the URLs
-     console.log('BEFORE SENDING FILES TO Firebase')
+
+    // Upload the photos to Firebase and get the URLs
+    console.log('BEFORE SENDING FILES TO Firebase')
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash); // array of strings is the result
-    // console.log('uploadedPhotosURls ----', uploadedPhotoURLs) // this should be the photos in the 
+    console.log('uploadedPhotosURls ----', uploadedPhotoURLs) // this should be the photos in the 
+     
 
+    // start stripe checkout
+    console.log('START STRIPE CHECKOUT')
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
       line_items: [
@@ -79,7 +81,6 @@ export async function POST(req, res){
         photos, 
         musicLink,
         message, 
-        photos: JSON.stringify(uploadedPhotoURLs), // Store file names
          // Pass relevant data as metadata
       }
     });
@@ -98,6 +99,8 @@ export async function POST(req, res){
     });
 
     await newUser.save();
+
+    console.log(newUser)
 
     // console.log('before response')
     return NextResponse.json({

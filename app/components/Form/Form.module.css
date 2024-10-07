@@ -71,6 +71,7 @@
   border-radius: 5px;
   height: 13rem;
   outline: none;
+  padding: 10px;
 }
 .cameraCont{
   display: flex;

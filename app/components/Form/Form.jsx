@@ -34,12 +34,35 @@ export default function Form() {
 
 
   function handleFileChange(e){
-    // const files = Array.from(e.target.files);
     const files = Array.from(e.target.files); // Convert FileList to array
-    const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
+    const previews = [];
+    const validPhotos = [];
 
-    setPhotos(files);
+    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
+    
+    // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
+
+    if(files.length > 3){
+      alert('Maximum 3 photos allowed!')
+      return;
+    }
+
+    // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
+    for(let file of files){
+      if(file.size > maxSize){
+        alert('File size too large! Maximum allowed size is 1.5MB.')
+        setPhotos([]);
+        setPhotoPreviews([]);
+        return;
+      }else{
+        const objecUrl = URL.createObjectURL(file);
+        validPhotos.push(file);
+        previews.push(objecUrl);
+      }
+    }
+
     setPhotoPreviews(previews);
+    setPhotos(files);
   }
 
   // click for the file picker

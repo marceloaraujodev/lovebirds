@@ -117,19 +117,16 @@ export async function POST (req) {
     const customerEmail = data.customer_details.email
 
     // Retrieve metadata from session
-    const { name, date, time, url, hash, photos } = data.metadata;
+    const { name, date, time, url, hash } = data.metadata;
  
     if (paid) {
-      console.log('Payment successful, processing photos and saving user data.');
-      // const photosArray = JSON.parse(photos); // turns string array from metatada to a real array
+
       try {
         // Generate QR code
         const qrcode = await generateQRCode(`${siteUrl}/${url}`);
         
-        // Goes to email and hash is used to put the qrcode image into the same foder as the uploaded photos
+        // Sends qr code url to email, hash is used to add qrcode image into same folder as the uploaded photos
         const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash)
-
-        console.log('PHOTOS BEFORE SAVED TO DB--------->>>>', photos)
 
         // looks for user and updates paid to true
         const user = await User.findOne({ hash: hash})

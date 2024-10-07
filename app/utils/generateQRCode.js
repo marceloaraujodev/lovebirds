@@ -10,5 +10,3 @@ const generateQRCode = async (text) => {
 };
 
 export default generateQRCode;
-// const qrcode = await generateQR(`http://localhost:3000/${url}`);
-// console.log(qrcode)

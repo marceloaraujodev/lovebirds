@@ -12,6 +12,7 @@ import { FaPause } from "react-icons/fa6";
 
 const MODE = 'dev'  // if comment out url is production 
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+console.log(siteUrl);
 
 export default function CouplesPage({ couplesName, id }) {
   const [data, setData] = useState({});
@@ -51,13 +52,13 @@ useEffect(() => {
         videoId: videoId,
         playerVars: {
           autoplay: 0,
-          controls: 0,
-          mute: 1,
+          controls: 1,
+          mute: 0,
           loop: 1,
           playlist: videoId,
         },
         events: {
-          // onReady: (event) => event.target.playVideo(),
+          onReady: (event) => event.target.playVideo(),
           onError: (event) => console.error("Error with YouTube player:", event),
         },
       });
@@ -119,16 +120,15 @@ useEffect(() => {
     };
   }
 
-   // Function to toggle mute
-   const togglePlay = () => {
+  // Toggle play and pause for the video
+  const togglePlay = () => {
     if (playerRef.current) {
       if (isPlaying) {
-        playerRef.current.pauseVideo(); 
+        playerRef.current.pauseVideo(); // Pause the video
       } else {
-        playerRef.current.playVideo(); 
-        playerRef.current.unMute()
+        playerRef.current.playVideo(); // Play the video
       }
-      setIsPlaying(!isPlaying);
+      setIsPlaying(!isPlaying); // Toggle the play/pause state
     }
   };
 
@@ -139,7 +139,7 @@ useEffect(() => {
 
   return (
     <div className={c.cont}>
-      <button ref={btnRef} onClick={togglePlay} className={c.play}>
+      <button ref={btnRef} onClick={() => togglePlay()} className={c.play}>
         {isPlaying ?  (
           <>
           <span className={c.btnText}>Pausar música</span>
