@@ -1,7 +1,4 @@
 import nodemailer from 'nodemailer';
-import generateQRCode from './generateQRCode';
-
-// create transporter object using the default SMTP transport
 
 // send mail function
 export default async function sendMail(config) {
@@ -29,11 +26,10 @@ export default async function sendMail(config) {
     text,
     html,
   };
-  console.log('mails options from sendEmail code',mailOptions)
 
   try {
     let info = await transporter.sendMail(mailOptions);
-    console.log('Email sent: ' + info.response);
+    // console.log('Email sent: ' + info.response);
     return info
   } catch (error) {
     console.error('Error sending email: ', error);

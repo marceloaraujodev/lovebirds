@@ -4,10 +4,6 @@ import c from './Audio.module.css'
 export default function Audio({ musicLink, isPreviewing}) {
   const [videoId, setVideoId] = useState('');
 
-  // console.log(isPlaying)
-
-  // const playerRef = useRef(null);
-
   useEffect(() => {
     if (musicLink) {
       const id = extractVideoId(musicLink);

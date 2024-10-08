@@ -29,7 +29,6 @@ export default function Form() {
   useEffect(() => {
     if (date && time) {
       setStartCounting(true); // Start counting when the user submits date and time
-      console.log(date, time)
     }
   },[date, time]);
 
@@ -109,9 +108,8 @@ export default function Form() {
         'Content-Type': 'multipart/form-data', // Important for file uploads
       }
     })
-      console.log(res)
       if(res.status === 200) {
-        setQrcode(res.data.qrcode)
+        setQrcode(res.data.qrcode) // might not need this
       }
       if (res.status === 200) {
         // Redirect to Stripe Checkout
@@ -127,7 +125,6 @@ export default function Form() {
 
   return (
     <div className={c.cont}>
-      {/* <button type='button' onClick={callTime}>test</button> */}
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id='form'>
         <h1>O presente perfeito para o seu amor!</h1>
         <p>Crie uma linda animação com suas melhores memórias. Selecione suas fotos e receba seu site personalizado + QR Code para compartilhar com quem você ama ❤️!</p>

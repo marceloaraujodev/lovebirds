@@ -6,28 +6,16 @@ import HeartAnimation from './Hearts/Hearts';
 import Audio from '../Audio/Audio';
 import c from './Preview.module.css';
 
-
 // const test = ['/img1.jpg', '/img2.jpg', '/img3.jpg'] // , '/img3.jpg'
 
 export default function Preview({ date, time, startCounting, url, photos, couplesName, musicLink, isPreviewing }) {
-  // const [elapsedTime, setElapsedTime] = useState({
-  //   years: 0,
-  //   months: 0,
-  //   days: 0,
-  //   hours: 0,
-  //   minutes: 0,
-  //   seconds: 0,
-  // });
-  // console.log('run')
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(1);
   const [isFading, setIsFading] = useState(false);
   const [imgsArray, setImgsArray] = useState([]);
   const [link, setLink] = useState('');
   
-// console.log(isPlaying)
-
-
   // PHOTOS ARRAY
   useEffect(() => {
     setImgsArray(photos);
@@ -70,7 +58,6 @@ export default function Preview({ date, time, startCounting, url, photos, couple
       {imgsArray?.length > 0 ? (
         <>
         <HeartAnimation  />
-        {/* {console.log('before sending to Audio in previewComponent:', musicLink)} */}
         <Audio musicLink={link} isPreviewing={isPreviewing} />
         <img
           src={imgsArray[nextIndex]} // Next image this will be live urls strings

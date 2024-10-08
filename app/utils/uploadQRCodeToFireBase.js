@@ -5,7 +5,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 firebaseInit();
 
 const uploadQRCodeToFireBase = async (base64QRCode, hash) => {
-  console.log('Enter qr code making')
   try {
     // Remove the 'data:image/png;base64,' prefix and convert base64 to a buffer
     const base64Data = base64QRCode.replace(/^data:image\/png;base64,/, '');
