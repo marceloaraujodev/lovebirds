@@ -31,8 +31,8 @@ export default function Counter ({ startCounting, date, time }) {
           ? `${elapsedTime.years > 0 ? `${elapsedTime.years} ${elapsedTime.years === 1 ? 'ano' : 'anos'},` : ''} ${
               elapsedTime.months > 0 ? `${elapsedTime.months} ${elapsedTime.months === 1 ? 'mês' : 'meses'},` : ''
             } ${elapsedTime.days > 0 ? `${elapsedTime.days} ${elapsedTime.days === 1 ? 'dia' : 'dias'},` : ''} 
-             ${elapsedTime.hours > 0 ? `${elapsedTime.hours} ${elapsedTime.hours === 1 ? 'dia' : 'dias'},` : ''}, 
-             ${elapsedTime.minutes> 0 ? `${elapsedTime.hours} ${elapsedTime.hours === 1 ? 'minuto' : 'minutos'},` : ''}, 
+             ${elapsedTime.hours > 0 ? `${elapsedTime.hours} ${elapsedTime.hours === 1 ? 'hora' : 'horas'},` : ''}
+             ${elapsedTime.minutes> 0 ? `${elapsedTime.hours} ${elapsedTime.hours === 1 ? 'minuto' : 'minutos'},` : ''}
              ${elapsedTime.seconds < 10
                 ? '0' + elapsedTime.seconds
                 : elapsedTime.seconds
