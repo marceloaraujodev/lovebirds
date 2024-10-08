@@ -50,8 +50,8 @@ useEffect(() => {
   loadYouTubeAPI()
     .then(YT => {
       playerRef.current = new YT.Player('youtube-player', {
-        height: '390',
-        width: '640',
+        height: '0',
+        width: '0',
         videoId: videoId,
         playerVars: {
           autoplay: 0,
