@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Preview from '../Preview/Preview';
-import Audio from '../Audio/Audio';
+// import Audio from '../Audio/Audio';
 import axios from 'axios';
 import c from './CouplesPage.module.css';
 import Error from '../../error/page';
@@ -20,11 +20,7 @@ export default function CouplesPage({ couplesName, id }) {
   const [videoId, setVideoId] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
 
-
-  const handlePlayPause = () => {
-    setIsPlaying((prev) => !prev);  // Toggle play/pause state
-    console.log('click')
-  };
+  const btnRef = useRef(null);
 
   // fetch couples data
   useEffect(() => {
@@ -97,7 +93,17 @@ export default function CouplesPage({ couplesName, id }) {
     };
   }
 
-
+  // Toggle play and pause for the video
+  const togglePlay = () => {
+    // if (playerRef.current) {
+    //   if (isPlaying) {
+    //     playerRef.current.pauseVideo();
+    //   } else {
+    //     playerRef.current.playVideo();
+    //   }
+      setIsPlaying(!isPlaying);
+    // }
+  };
 
   // Handle error when data is not present
   if (!data) {
@@ -106,8 +112,7 @@ export default function CouplesPage({ couplesName, id }) {
 
   return (
     <div className={c.cont}>
-      <Audio musicLink={`https://www.youtube.com/watch?v=${videoId}`} isPlaying={isPlaying} />
-      <button onClick={handlePlayPause} className={c.play}>
+      <button ref={btnRef} onClick={() => togglePlay()} className={c.play}>
         {isPlaying ?  (
           <>
           <span className={c.btnText}>Pausar música</span>
@@ -141,7 +146,7 @@ export default function CouplesPage({ couplesName, id }) {
             couplesName={data.name}
             photos={data.photos}
             musicLink={data.musicLink}
-            playBtn={true}
+            isPlaying={isPlaying}
           />
           
           <div className={c.messageCont}>
