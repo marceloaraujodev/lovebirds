@@ -1,15 +1,15 @@
 .header{
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding-top: 30px;
   padding-bottom: 50px;
-  gap: 10px;
   font-weight: 600;
 }
 .link{
   text-decoration: none;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 .logoQr{
   width: 50px;

@@ -10,7 +10,7 @@ import { BeatLoader } from 'react-spinners';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 
-// const MODE = 'dev'  // if comment out url is production 
+const MODE = 'dev'  // if comment out url is production 
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 console.log(siteUrl);
 
@@ -20,7 +20,11 @@ export default function CouplesPage({ couplesName, id }) {
   const [videoId, setVideoId] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const btnRef = useRef(null);
+
+  const handlePlayPause = () => {
+    setIsPlaying((prev) => !prev);  // Toggle play/pause state
+    console.log('click')
+  };
 
   // fetch couples data
   useEffect(() => {
@@ -93,10 +97,7 @@ export default function CouplesPage({ couplesName, id }) {
     };
   }
 
-  // Toggle play and pause for the video
-  const toggleAudioPlay = () => {
-    setIsPlaying((prevState) => !prevState);
-  };
+
 
   // Handle error when data is not present
   if (!data) {
@@ -105,7 +106,8 @@ export default function CouplesPage({ couplesName, id }) {
 
   return (
     <div className={c.cont}>
-      <button ref={btnRef} onClick={() => togglePlay()} className={c.play}>
+      <Audio musicLink={`https://www.youtube.com/watch?v=${videoId}`} isPlaying={isPlaying} />
+      <button onClick={handlePlayPause} className={c.play}>
         {isPlaying ?  (
           <>
           <span className={c.btnText}>Pausar música</span>
@@ -140,7 +142,6 @@ export default function CouplesPage({ couplesName, id }) {
             photos={data.photos}
             musicLink={data.musicLink}
             playBtn={true}
-            isPlaying={isPlaying}
           />
           
           <div className={c.messageCont}>
@@ -153,6 +154,14 @@ export default function CouplesPage({ couplesName, id }) {
             <img className={c.img} src={data.qrCode} alt="qr code" />
           </div>
           <p className={c.print} onClick={() => printQrCode(data.qrCode)}>imprimir</p>
+
+
+          {/* {data.musicLink && (
+            <>
+              <div id="youtube-player" className={c.player}></div>
+
+            </>
+          )} */}
         </>
       )}
     </div>
