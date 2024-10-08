@@ -14,6 +14,7 @@
   border-radius: 5px;
   padding: 5px 5px;
   width: fit-content;
+  margin-top: 10px;
 }
 .prices button{
   background-color: white;
@@ -21,6 +22,19 @@
   padding: 5px 15px;
   border: none;
   border-radius: 5px;
+}
+.textTitle{
+  margin-bottom: 15px;
+}
+.title{
+  background: linear-gradient(to bottom, rgb(255, 0, 255), white);
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  background-clip: text;
+  color: transparent;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 60px;
 }
 .detailsCont{
   display: flex;
@@ -81,7 +95,7 @@
 }
 .btn{
   padding: 15px 30px;
-  background-color: transparent;
+  /* background-color: transparent; */
   border: var(--border-style);
   border-radius: 5px;
   cursor: pointer;

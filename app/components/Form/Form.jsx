@@ -126,7 +126,9 @@ export default function Form() {
   return (
     <div className={c.cont}>
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id='form'>
-        <h1>O presente perfeito para o seu amor!</h1>
+        <div className={c.textTitle}>
+          <p className={c.title}>O presente perfeito <br /> para o seu amor!</p>
+        </div>
         <p>Crie uma linda animação com suas melhores memórias. Selecione suas fotos e receba seu site personalizado + QR Code para compartilhar com quem você ama ❤️!</p>
         
         <div className={c.prices}> 
@@ -161,7 +163,7 @@ export default function Form() {
         <div className={c.messageCont}>
           <label className={c.message}>
             Mensagem:
-            <textarea onChange={(e) => setMessage(e.target.value)} name="message" placeholder="Show your love here!" />
+            <textarea onChange={(e) => setMessage(e.target.value)} name="message" placeholder="Demostre seu amor!" />
           </label>
         </div>
         <button type='button' onClick={handleClick} className={`${c.btn} ${c.cameraCont}`}>
