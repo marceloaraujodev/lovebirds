@@ -31,7 +31,7 @@ export default function CouplesPage({ couplesName, id }) {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/${couplesName}/${id}`
+          `${siteUrl}/api/${couplesName}/${id}`
         );
         setData(res.data.user);
       } catch (error) {
