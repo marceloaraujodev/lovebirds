@@ -19,6 +19,7 @@ export default function Form() {
   const [message, setMessage] = useState('');
   const [qrcode, setQrcode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
   const fileRef = useRef(null);
 
   // create a load component
@@ -63,6 +64,7 @@ export default function Form() {
 
     setPhotoPreviews(previews);
     setPhotos(files);
+    setIsPreviewing(true);
   }
 
   // click for the file picker
@@ -120,6 +122,7 @@ export default function Form() {
       console.log(error)
     }
     setIsLoading(false)
+    setIsPreviewing(false);
   }
 
   return (
@@ -174,7 +177,15 @@ export default function Form() {
       </form>
       <div>
 
-      <Preview date={date} time={time} startCounting={startCounting} url={url} photos={photoPreviews} musicLink={musicLink}/>
+      <Preview 
+        date={date} 
+        time={time} 
+        startCounting={startCounting} 
+        url={url} 
+        photos={photoPreviews} 
+        musicLink={musicLink}
+        isPreviewing={isPreviewing}
+      />
       </div>
       
     </div>
