@@ -39,6 +39,7 @@ export async function POST(req, res){
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
+          // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
           price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
           quantity: 1,
         },
