@@ -85,7 +85,7 @@ export async function POST (req) {
             </ul>
             <p>Here is your QR code:</p>
             <img src="${qrCodeUrl}" alt="QR Code" />
-            <p>Caso a image do QrCode não esteja aparecendo, você pode accessar com o link abaixo:</p>
+            <p>Caso a image do QrCode não esteja aparecendo você pode accessar a pagina com o link abaixo. Caso deseje imprimir a imagem basta clicar sobre a imagem do qrcode na página.</p>
             <p>${siteUrl}/${url}</p>
           `
         }

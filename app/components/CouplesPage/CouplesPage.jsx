@@ -17,7 +17,6 @@ export default function CouplesPage({ couplesName, id }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [videoId, setVideoId] = useState('');
-  const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playerRef = useRef(null);
