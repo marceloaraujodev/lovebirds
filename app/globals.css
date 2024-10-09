@@ -13,6 +13,7 @@
 }
 html{
   color: white;
+  background-color: black;
 }
 
 body {
@@ -25,8 +26,8 @@ body {
   overflow-x: hidden;
   padding: 0 20px;
   margin: 0 auto;
-  background-color: black;
-  background-image: url('/heartsbackground-white.png');
+  /* background-color: black; */
+  background-image: url('/heartsbackground-3.png');
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
   background-attachment: fixed; /* Fix the image in place */
