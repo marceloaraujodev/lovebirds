@@ -105,9 +105,9 @@ useEffect(() => {
             text-align: center;
           }
           .qr-text {
-            font-weight: bold; /* Make the text bold */
-            font-size: 35px; /* Set a consistent font size */
-            margin: 10px 0; /* Spacing for the text */
+            font-weight: bold; 
+            font-size: 35px; 
+            margin: 5px 0; 
           }
           img {
             width: 600px;
