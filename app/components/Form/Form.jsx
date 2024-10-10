@@ -4,6 +4,7 @@ import { FaCameraRetro } from "react-icons/fa6";
 import c from './Form.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
 
 
 
@@ -33,12 +34,12 @@ export default function Form() {
   },[date, time]);
 
 
-  function handleFileChange(e){
+  async function handleFileChange(e){
     const files = Array.from(e.target.files); // Convert FileList to array
     const previews = [];
     const validPhotos = [];
 
-    // const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
+    const maxSize = 2 * 1024 * 1024; // 1.5 MB in bytes
     
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
@@ -50,10 +51,15 @@ export default function Form() {
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for(let file of files){
       if(file.size > maxSize){
-        alert('File size too large! Maximum allowed size is 1.5MB.')
-        setPhotos([]);
-        setPhotoPreviews([]);
-        return;
+        const compressedFile = await imageCompression(file, {
+          maxSize, // Set the max size limit in MB
+          maxWidthOrHeight: 1920, // Optionally resize image
+          useWebWorker: true, // Enable multi-threading for faster compression
+        });
+
+        const objectUrl = URL.createObjectURL(compressedFile);
+        validPhotos.push(compressedFile);
+        previews.push(objectUrl);
       }else{
         const objecUrl = URL.createObjectURL(file);
         validPhotos.push(file);
