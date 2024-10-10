@@ -47,7 +47,7 @@ export default function Form() {
       alert('Maximum 3 photos allowed!')
       return;
     }
-
+    console.log('here')
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for(let file of files){
       if(file.size > maxSize){
@@ -56,6 +56,10 @@ export default function Form() {
           maxWidthOrHeight: 1920, // Optionally resize image
           useWebWorker: true, // Enable multi-threading for faster compression
         });
+
+      // Check the size of the compressed image
+      const compressedSizeMB = compressedFile.size / (1024 * 1024);
+      console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
 
         const objectUrl = URL.createObjectURL(compressedFile);
         validPhotos.push(compressedFile);
