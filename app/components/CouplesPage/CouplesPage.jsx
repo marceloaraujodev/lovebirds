@@ -90,23 +90,37 @@ useEffect(() => {
       <html>
         <head>
           <title>Print QR Code</title>
-          <style>
-            body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-              background-color: white;
-            }
-            img {
-              width: 600px;
-              height: 600px;
-            }
-          </style>
+         <style>
+          body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            font-family: Arial, sans-serif; /* Add a default font */
+          }
+          .qr-container {
+            text-align: center;
+          }
+          .qr-text {
+            font-weight: bold; /* Make the text bold */
+            font-size: 35px; /* Set a consistent font size */
+            margin: 10px 0; /* Spacing for the text */
+          }
+          img {
+            width: 600px;
+            height: 600px;
+          }
+        </style>
         </head>
         <body>
+        <div class="qr-container">
+          <div class="qr-text">qrcodelove.com</div> 
           <img src="${qrCodeUrl}" alt="QR Code" />
+          <div class="qr-text">qrcodelove.com</div> 
+        </div>
         </body>
       </html>
     `);
