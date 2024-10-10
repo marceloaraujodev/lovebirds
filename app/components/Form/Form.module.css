@@ -64,7 +64,15 @@
   max-height: 40px;
   color: white;
 }
+/* .musicLinkInput {
+  background: transparent !important; 
+  color: white; 
+}
+.musicLink input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important; 
+  -webkit-text-fill-color: transparent; 
 
+} */
 .couplesName input{
   margin-right: 10px;
 }
@@ -79,7 +87,6 @@
 .startDate input::-webkit-calendar-picker-indicator {
   filter: invert(1); 
 }
-
 /* For time input clock icon */
 .timer input::-webkit-calendar-picker-indicator {
   filter: invert(1); 

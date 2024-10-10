@@ -11,7 +11,7 @@ import { removePhotosFromBucket } from '@/app/utils/removePhotosFromBucket';
 
 dotenv.config();
 
-// const MODE = 'dev'  // if comment out url is production Need it for qr code generation
+const MODE = 'dev'  // if comment out url is production Need it for qr code generation
 const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY);

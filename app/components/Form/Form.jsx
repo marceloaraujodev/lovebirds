@@ -148,7 +148,7 @@ export default function Form() {
         </div>
         <label className={c.musicLink}>
             Música do youtube:
-            <input onChange={(e) => {setMusicLink(e.target.value)}} value={musicLink} type="text" name="musicLink" placeholder="Link da música" />
+            <input className={c.musicLinkInput} onChange={(e) => {setMusicLink(e.target.value)}} value={musicLink} type="text" name="musicLink" placeholder="Link da música" />
           </label>
         
         <div className={c.detailsCont}>
