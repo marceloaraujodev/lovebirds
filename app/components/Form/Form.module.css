@@ -62,6 +62,7 @@
   padding: 10px;
   outline: none;
   max-height: 40px;
+  color: white;
 }
 
 .couplesName input{
@@ -75,6 +76,14 @@
   justify-content: end;
   align-items: end;
 }
+.startDate input::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* This inverts the color, making black icons appear white */
+}
+
+/* For time input clock icon */
+.timer input::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* This also inverts the color, making black icons appear white */
+}
 .message{
   display: flex;
   flex-direction: column;
@@ -86,6 +95,7 @@
   height: 13rem;
   outline: none;
   padding: 10px;
+  color: white;
 }
 .cameraCont{
   display: flex;
