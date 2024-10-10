@@ -5,6 +5,7 @@ import c from './Form.module.css';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import { BeatLoader } from 'react-spinners';
 
 
 
@@ -138,6 +139,11 @@ export default function Form() {
     setIsPreviewing(false);
   }
 
+  function createPageSubmit(e){
+    setIsLoading(true);
+    handleSubmit(e);
+  }
+
   return (
     <div className={c.cont}>
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id='form'>
@@ -187,7 +193,7 @@ export default function Form() {
           </div> <span>Escolha as fotos (Max 3)</span>
         </button>
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
-        <button className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>Criar Pagina</button>
+        <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
       </form>
       <div>
 
