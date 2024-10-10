@@ -8,21 +8,16 @@ export default function Faq() {
         <div className={c.faqCard}>
           <h2>O que é a Qrcodelove?</h2>
           <p>
-          Qrcodelove permite que casais criem páginas personalizadas de relacionamento, onde é possível adicionar fotos, uma mensagem significativa e um contador que revela há quanto tempo estão juntos.
+          Qrcodelove permite que você crie uma página personalizada com um slide, música e uma mensagem para algém que você ama! Perfeito para presentes e mensagens especiais.
           </p>
         </div>
         <div className={c.faqCard}>
-          <h2>Como posso criar uma página personalizada na Qrcodelove?</h2>
+          <h2>Como recebo a minha página?</h2>
           <p>
-          Preencha o formulário com o nome do casal, a data de início do relacionamento, uma mensagem de declaração e até 5 fotos. Depois, clique no botão Criar e finalize o pagamento.
+          Depois de preencher o formulário e fazer o pagamento você recebera um email com um qr code. Caso não consiga ver o qr code no seu email um link também será enviado para a sua página. Lá você pode imprimir o qr code caso deseje.
           </p>
         </div>
-        <div className={c.faqCard}>
-          <h2>O que está incluído na minha página personalizada?</h2>
-          <p>
-          Página personalizada com um contador em tempo real do seu relacionamento, uma apresentação de slides com suas fotos e uma declaração especial, acompanhada de uma animação de emojis de coração caindo a cada troca de imagem.
-          </p>
-        </div>
+
         <div className={c.faqCard}>
           <h2>Como recebo minha página personalizada após o pagamento?</h2>
           <p>
