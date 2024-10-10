@@ -38,7 +38,7 @@ export default function Form() {
     const previews = [];
     const validPhotos = [];
 
-    const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
+    // const maxSize = 1.5 * 1024 * 1024; // 1.5 MB in bytes
     
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
