@@ -107,7 +107,7 @@ useEffect(() => {
           .qr-text {
             font-weight: bold; 
             font-size: 35px; 
-            margin: 5px 0; 
+            
           }
           img {
             width: 600px;
