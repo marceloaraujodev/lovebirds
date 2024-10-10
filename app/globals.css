@@ -17,8 +17,6 @@ html{
 }
 
 body {
-  /* color: var(--foreground); */
-  /* background: black; */
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,7 +24,7 @@ body {
   overflow-x: hidden;
   padding: 0 20px;
   margin: 0 auto;
-  /* background-color: black; */
+  background-color: black;
   background-image: url('/heartsbackground-3.png');
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
