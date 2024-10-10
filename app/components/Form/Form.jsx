@@ -39,7 +39,7 @@ export default function Form() {
     const previews = [];
     const validPhotos = [];
 
-    const maxSize = 2 * 1024 * 1024; // 1.5 MB in bytes
+    const maxSize = 900 * 1024  
     
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
@@ -52,7 +52,7 @@ export default function Form() {
     for(let file of files){
       if(file.size > maxSize){
         const compressedFile = await imageCompression(file, {
-          maxSize, // Set the max size limit in MB
+          maxSizeMB: 1, // Set the max size limit in MB
           maxWidthOrHeight: 1920, // Optionally resize image
           useWebWorker: true, // Enable multi-threading for faster compression
         });
