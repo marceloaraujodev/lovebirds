@@ -32,54 +32,54 @@ export async function POST(req, res){
 
     // Upload the photos to Firebase and get the URLs
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash); // array of strings is the result   
-    console.log('Uploaded photo URLs:', uploadedPhotoURLs);
-    // // start stripe checkout
-    // const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY)
-    // const session = await stripe.checkout.sessions.create({
-    //   payment_method_types: ['card', 'boleto'],
-    //   line_items: [
-    //     {
-    //       // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-    //       // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
-    //       // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
-    //       price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
-    //       quantity: 1,
-    //     },
-    //   ],
-    //   mode: 'payment',
-    //   allow_promotion_codes: true, 
-    //   success_url: `${siteUrl}/${url}`,
-    //   cancel_url: `${siteUrl}/error`,
-    //   metadata: {
-    //     name, 
-    //     date, 
-    //     time, 
-    //     url, 
-    //     hash, 
-    //     photos, 
-    //     musicLink,
-    //     message, 
-    //   }
-    // });
+    // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
+    // start stripe checkout
+    const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY)
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card', 'boleto'],
+      line_items: [
+        {
+          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+          // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
+          // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
+          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      allow_promotion_codes: true, 
+      success_url: `${siteUrl}/${url}`,
+      cancel_url: `${siteUrl}/error`,
+      metadata: {
+        name, 
+        date, 
+        time, 
+        url, 
+        hash, 
+        photos, 
+        musicLink,
+        message, 
+      }
+    });
 
-    // // Create a new user in the database
-    // const newUser = new User({
-    //   name,
-    //   date,
-    //   time,
-    //   url,
-    //   hash,
-    //   photos: uploadedPhotoURLs,  // Store array of URLs for the photos
-    //   musicLink,
-    //   paid: false,
-    //   message,
-    // });
+    // Create a new user in the database
+    const newUser = new User({
+      name,
+      date,
+      time,
+      url,
+      hash,
+      photos: uploadedPhotoURLs,  // Store array of URLs for the photos
+      musicLink,
+      paid: false,
+      message,
+    });
 
-    // await newUser.save();
+    await newUser.save();
 
     return NextResponse.json({
       message: 'success',
-      // url: session.url,
+      url: session.url,
     })
     
   } catch (error) {
