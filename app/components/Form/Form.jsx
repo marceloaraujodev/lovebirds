@@ -69,7 +69,9 @@ export default function Form() {
   // click for the file picker
   function handleClick(e){
     e.preventDefault();
-    fileRef.current.click();
+    if (fileRef.current) {
+      fileRef.current.click();
+    }
   };
 
   function formatUrl(nameInput){
