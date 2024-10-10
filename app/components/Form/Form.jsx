@@ -72,10 +72,7 @@ export default function Form() {
       }
     }
 
-    // setPhotoPreviews(previews);
-    // setPhotos(files);
-    // setIsPreviewing(true);
-    setPhotoPreviews(previews); 
+    setPhotoPreviews(previews);
     setPhotos(validPhotos); 
     setIsPreviewing(true);
   }
@@ -120,24 +117,24 @@ export default function Form() {
     try {
       const res = await axios.post('/api/create-checkout-session', formData,
         {
-          headers: {
-        'Content-Type': 'multipart/form-data', // Important for file uploads
-      }
-    })
-      if(res.status === 200) {
-        setQrcode(res.data.qrcode) // might not need this
-      }
-      if (res.status === 200) {
-        // Redirect to Stripe Checkout
-        window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-      }
+              headers: {
+            'Content-Type': 'multipart/form-data', // Important for file uploads
+          }
+        })
+          if(res.status === 200) {
+            setQrcode(res.data.qrcode) // might not need this
+          }
+          if (res.status === 200) {
+            // Redirect to Stripe Checkout
+            window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+          }
        
-    } catch (error) {
-      console.log(error)
-    }
-    setIsLoading(false)
-    setIsPreviewing(false);
-  }
+      } catch (error) {
+        console.log(error)
+      }
+      setIsLoading(false)
+      setIsPreviewing(false);
+   }
 
   function createPageSubmit(e){
     setIsLoading(true);
