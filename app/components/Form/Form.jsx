@@ -71,8 +71,11 @@ export default function Form() {
       }
     }
 
-    setPhotoPreviews(previews);
-    setPhotos(files);
+    // setPhotoPreviews(previews);
+    // setPhotos(files);
+    // setIsPreviewing(true);
+    setPhotoPreviews(previews); 
+    setPhotos(validPhotos); 
     setIsPreviewing(true);
   }
 
