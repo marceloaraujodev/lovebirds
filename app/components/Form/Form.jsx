@@ -52,7 +52,6 @@ export default function Form() {
       setIsLoadingPhotos(false);
       return;
     }
-    console.log('here')
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for(let file of files){
       if(file.size > maxSize){
