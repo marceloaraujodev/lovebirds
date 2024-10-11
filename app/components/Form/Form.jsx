@@ -22,6 +22,7 @@ export default function Form() {
   const [qrcode, setQrcode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
+  const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
 
   // create a load component
@@ -36,6 +37,7 @@ export default function Form() {
 
 
   async function handleFileChange(e){
+    setIsLoadingPhotos(true);
     const files = Array.from(e.target.files); // Convert FileList to array
     const previews = [];
     const validPhotos = [];
@@ -45,7 +47,8 @@ export default function Form() {
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
     if(files.length > 3){
-      alert('Maximum 3 photos allowed!')
+      alert('Maximum 3 photos allowed!');
+      setIsLoadingPhotos(false);
       return;
     }
     console.log('here')
@@ -75,10 +78,11 @@ export default function Form() {
     setPhotoPreviews(previews);
     setPhotos(validPhotos); 
     setIsPreviewing(true);
+    setIsLoadingPhotos(false);
   }
 
   // click for the file picker
-  function handleClick(e){
+  function handlePhotosPick(e){
     e.preventDefault();
     if (fileRef.current) {
       fileRef.current.click();
@@ -134,7 +138,7 @@ export default function Form() {
       }
       setIsLoading(false)
       setIsPreviewing(false);
-   }
+  }
 
   function createPageSubmit(e){
     setIsLoading(true);
@@ -184,11 +188,13 @@ export default function Form() {
             <textarea onChange={(e) => setMessage(e.target.value)} name="message" placeholder="Demostre seu amor!" />
           </label>
         </div>
-        <button type='button' onClick={handleClick} className={`${c.btn} ${c.cameraCont}`}>
+
+        <button type='button' onClick={handlePhotosPick} className={`${c.btn} ${c.cameraCont}`}>
           <div>
           <FaCameraRetro size={20} />
-          </div> <span>Escolha as fotos (Max 3)</span>
+          </div> {isLoadingPhotos ? <><BeatLoader  color="#ffffff"/> <p>comprimindo suas fotos...</p></> : <span>Escolha as fotos (Max 3)</span>} 
         </button>
+
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
         <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
       </form>
