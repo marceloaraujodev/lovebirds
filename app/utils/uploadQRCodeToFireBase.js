@@ -6,6 +6,7 @@ firebaseInit();
 
 const uploadQRCodeToFireBase = async (base64QRCode, hash, name) => {
   try {
+    console.log('name received from metadata', name)
     // Remove the 'data:image/png;base64,' prefix and convert base64 to a buffer
     const base64Data = base64QRCode.replace(/^data:image\/png;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');

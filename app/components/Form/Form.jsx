@@ -10,7 +10,7 @@ import { BeatLoader } from 'react-spinners';
 
 
 export default function Form() {
-  const [name, setName] = useState('')
+  const [couplesName, setName] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [photos, setPhotos] = useState([])
@@ -109,16 +109,16 @@ export default function Form() {
     const formData = new FormData();
 
     //Append fields do formData
-    formData.append('name', name);
+    formData.append('name', couplesName);
     formData.append('date', date);
     formData.append('time', time);
     formData.append('musicLink', musicLink);
     formData.append('message', message);
     formData.append('hash', hash);
     photos.forEach((file) => formData.append('photos', file));
-    
-    const encodedUrl = encodeURIComponent(`${url}/${hash}`);
-    formData.append('url', encodedUrl);
+    const couplesNameEnconded = encodeURIComponent(couplesName)
+
+    formData.append('url', `${couplesNameEnconded}/${hash}`);
 
 
     try {
@@ -171,7 +171,7 @@ export default function Form() {
               const updatedName = e.target.value;
               setName(updatedName)
               formatUrl(updatedName);
-            }} value={name} type="text" name="name" placeholder="Name" />
+            }} value={couplesName} type="text" name="name" placeholder="Name" />
           </label>
         
           <label className={c.startDate}>
