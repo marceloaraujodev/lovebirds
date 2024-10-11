@@ -25,8 +25,9 @@ export default function Form() {
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
 
-  // create a load component
-  // change the price id for live items and set urls for live items
+  useEffect(() => {
+    console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
+  }, []);
 
   // starts counting Timer
   useEffect(() => {
