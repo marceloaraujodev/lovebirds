@@ -4,7 +4,7 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/
 // Initialize Firebase
 firebaseInit();
 
-export default async function uploadImages(filesArray, hash) {
+export default async function uploadImages(filesArray, hash, name) {
   // console.log('files in the uploadImages function-------', filesArray)
 
   const storage = getStorage(); // Initialize storage
@@ -12,8 +12,8 @@ export default async function uploadImages(filesArray, hash) {
   const uploadPromises = filesArray.map((file, index) => {
     // For each file, create a storage reference
 
-    const uniqueFileName = `${index}-${Date.now()}-${file.name}`;
-    const storageRef = ref(storage, `purchases/${hash}/${uniqueFileName}`);
+    const uniqueFileName = `${index}-${Date.now()}-${name}`;
+    const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
 
     return new Promise((resolve, reject) => {
       const uploadTask = uploadBytesResumable(storageRef, file);
