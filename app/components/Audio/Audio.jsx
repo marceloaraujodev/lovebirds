@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect} from 'react'
 import c from './Audio.module.css'
 export default function Audio({ musicLink, isPreviewing}) {
   const [videoId, setVideoId] = useState('');
@@ -13,16 +13,12 @@ export default function Audio({ musicLink, isPreviewing}) {
     }
   }, [musicLink]);
 
+    // extracts video id from normal videos and shorts videos.
     const extractVideoId = (url) => {
-    // // the coment out is one the works with shorts but not in the couples page.
-    // const regExp = /^.*((youtu.be\/|v\/|embed\/|watch\?v=|\&v=))([^#\&\?]*).*/;
-    // const match = url.match(regExp);
-    // return (match && match[3].length === 11) ? match[3] : null;
     const regExp = /(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regExp);
     return (match && match[1]) ? match[1] : null;
   };
-
 
   return (
     <div>
@@ -39,7 +35,6 @@ export default function Audio({ musicLink, isPreviewing}) {
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`}
               allow="autoplay"
               title="YouTube audio player"
-              frameBorder="0"
               allowFullScreen
             ></iframe>
           )

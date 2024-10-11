@@ -47,8 +47,8 @@ useEffect(() => {
   loadYouTubeAPI()
     .then(YT => {
       playerRef.current = new YT.Player('youtube-player', {
-        height: '0',
-        width: '0',
+        height: '1',
+        width: '1',
         videoId: videoId,
         playerVars: {
           autoplay: 0,
@@ -76,11 +76,15 @@ useEffect(() => {
     }
   }, [data]);
 
-  // extract videoId function
+  // extract videoId function from the URL if is normal video or youtube shorts
   const extractVideoId = (url) => {
-    const regExp = /(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=))([^&\n]{11})/;
-    const match = url.match(regExp);
-    const videoId = (match && match[1]) ? match[1] : null; // Capture group 1
+    const regExp = /(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/; // Standard YouTube
+    const matchStandard = url.match(regExp);
+
+    // Check for YouTube Shorts URL format
+    const isShorts = url.includes('youtube.com/shorts/');
+    const matchShorts = isShorts ? url.split('/').pop() : null; // Extract video id from shorts URL
+    const videoId = matchStandard ? matchStandard[1] : matchShorts;
 
     return videoId;
   };

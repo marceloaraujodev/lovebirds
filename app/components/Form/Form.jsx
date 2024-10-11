@@ -10,7 +10,7 @@ import { BeatLoader } from 'react-spinners';
 
 
 export default function Form() {
-  const [name, setName] = useState('')
+  const [couplesName, setName] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [photos, setPhotos] = useState([])
@@ -109,7 +109,7 @@ export default function Form() {
     const formData = new FormData();
 
     //Append fields do formData
-    formData.append('name', name);
+    formData.append('name', couplesName);
     formData.append('date', date);
     formData.append('time', time);
     formData.append('musicLink', musicLink);
@@ -117,6 +117,10 @@ export default function Form() {
     formData.append('hash', hash);
     formData.append('url', `${url}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
+    
+    const encodedUrl = encodeURIComponent(`${url}/${hash}`);
+    formData.append('url', encodedUrl);
+
 
     try {
       const res = await axios.post('/api/create-checkout-session', formData,
@@ -168,7 +172,7 @@ export default function Form() {
               const updatedName = e.target.value;
               setName(updatedName)
               formatUrl(updatedName);
-            }} value={name} type="text" name="name" placeholder="Name" />
+            }} value={couplesName} type="text" name="name" placeholder="Name" />
           </label>
         
           <label className={c.startDate}>
@@ -177,7 +181,8 @@ export default function Form() {
           </label>
 
           <label className={c.timer}>
-          <input type="time" name="timer" required onChange={(e) => setTime(e.target.value)} value={time} />
+            Insira um horário
+            <input type="time" name="timer" required onChange={(e) => setTime(e.target.value)} value={time} />
           </label>
           </div>
         
