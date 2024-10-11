@@ -52,12 +52,12 @@
   height: 225px;
   /* hide below */
   
-  width: 0;
-  height: 0;
+  /* width: 0;
+  height: 0; */
   position: absolute;
   top: -9999px;
   left: -9999px; 
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 .play{
   display: flex;

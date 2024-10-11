@@ -47,12 +47,12 @@ useEffect(() => {
   loadYouTubeAPI()
     .then(YT => {
       playerRef.current = new YT.Player('youtube-player', {
-        height: '1',
-        width: '1',
+        height: '200',
+        width: '400',
         videoId: videoId,
         playerVars: {
           autoplay: 0,
-          controls: 1,
+          controls: 0,
           mute: 1,
           loop: 1,
           playlist: videoId,
@@ -148,6 +148,13 @@ useEffect(() => {
       } else {
         playerRef.current.playVideo(); 
         playerRef.current.unMute()
+
+        // trying to avois safari bug by delaying the play
+        setTimeout(() => {
+          if (playerRef.current.getPlayerState() !== YT.PlayerState.PLAYING) {
+            playerRef.current.playVideo();
+          }
+        }, 500);
       }
       setIsPlaying(!isPlaying);
     }
