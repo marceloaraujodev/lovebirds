@@ -117,9 +117,10 @@ export default function Form() {
     formData.append('hash', hash);
     formData.append('url', `${url}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
-    
-    const encodedUrl = encodeURIComponent(`${url}/${hash}`);
-    formData.append('url', encodedUrl);
+
+    const couplesNameEnconded = encodeURIComponent(couplesName)
+
+    formData.append('url', `${couplesNameEnconded}/${hash}`);
 
 
     try {
