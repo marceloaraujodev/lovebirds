@@ -143,11 +143,6 @@ export default function Form() {
       setIsPreviewing(false);
   }
 
-  function createPageSubmit(e){
-    setIsLoading(true);
-    handleSubmit(e);
-  }
-
   return (
     <div className={c.cont}>
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id='form'>
@@ -199,7 +194,7 @@ export default function Form() {
         </button>
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
-        <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
+        <button className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
       </form>
       <div>
 

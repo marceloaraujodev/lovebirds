@@ -29,7 +29,7 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
 
-     console.log(photoFiles)
+     console.log(url)
 
     // Upload the photos to Firebase and get the URLs
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // array of strings is the result   
