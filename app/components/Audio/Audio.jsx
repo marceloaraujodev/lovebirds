@@ -14,7 +14,8 @@ export default function Audio({ musicLink, isPreviewing}) {
   }, [musicLink]);
 
     const extractVideoId = (url) => {
-    const regExp = /^.*((youtu.be\/|v\/|embed\/|watch\?v=|\&v=))([^#\&\?]*).*/;
+    // const regExp = /^.*((youtu.be\/|v\/|embed\/|watch\?v=|\&v=))([^#\&\?]*).*/;
+    const regExp = /^.*((youtu.be\/|shorts\/))([^#\&\?]*).*/;
     const match = url.match(regExp);
     return (match && match[3].length === 11) ? match[3] : null;
   };
