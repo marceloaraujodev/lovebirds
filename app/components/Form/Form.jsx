@@ -115,11 +115,8 @@ export default function Form() {
     formData.append('musicLink', musicLink);
     formData.append('message', message);
     formData.append('hash', hash);
+    formData.append('url', `${url}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
-    
-    const encodedUrl = encodeURIComponent(`${url}/${hash}`);
-    formData.append('url', encodedUrl);
-
 
     try {
       const res = await axios.post('/api/create-checkout-session', formData,
@@ -141,6 +138,11 @@ export default function Form() {
       }
       setIsLoading(false)
       setIsPreviewing(false);
+  }
+
+  function createPageSubmit(e){
+    setIsLoading(true);
+    handleSubmit(e);
   }
 
   return (
@@ -194,7 +196,7 @@ export default function Form() {
         </button>
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
-        <button className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
+        <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
       </form>
       <div>
 
