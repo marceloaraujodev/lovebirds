@@ -180,7 +180,8 @@ export default function Form() {
           </label>
 
           <label className={c.timer}>
-          <input type="time" name="timer" required onChange={(e) => setTime(e.target.value)} value={time} />
+            Insira um horário
+            <input type="time" name="timer" required onChange={(e) => setTime(e.target.value)} value={time} />
           </label>
           </div>
         
