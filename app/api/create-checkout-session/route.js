@@ -4,11 +4,12 @@ import User from '../../model/user';
 import Stripe from "stripe";
 import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import dotenv from 'dotenv';
+import { siteUrl, stripeSecretKey } from '@/config'; 
 
 dotenv.config();
 
-// const MODE = 'dev'  // if comment out url is production 
-const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+// // const MODE = 'dev'  // if comment out url is production 
+// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export async function POST(req, res){
   try {
@@ -34,7 +35,7 @@ export async function POST(req, res){
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash); // array of strings is the result   
     // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
     // start stripe checkout
-    const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY)
+    const stripe = new Stripe(stripeSecretKey)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
       line_items: [

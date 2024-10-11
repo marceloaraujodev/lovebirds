@@ -11,11 +11,11 @@ const siteUrl = MODE === 'dev' ? 'http://localhost:3000' : 'https://www.qrcodelo
 
 // Stripe configuration based on environment
 const stripeSecretKey = MODE === 'dev' 
-  ? process.env.STRIPE_TEST_SECRET_KEY 
+  ? process.env.STRIPE_SECRET_KEY
   : process.env.STRIPE_LIVE_SECRET_KEY;
 
 const stripeWebhookSecret = MODE === 'dev' 
-  ? process.env.STRIPE_TEST_WEBHOOK_ENDPOINT_SECRET 
+  ? process.env.STRIPE_WEBHOOK_ENDPOINT_SECRET 
   : process.env.STRIPE_LIVE_WEBHOOK_ENDPOINT_SECRET;
 
 export { MODE, siteUrl, stripeSecretKey, stripeWebhookSecret };

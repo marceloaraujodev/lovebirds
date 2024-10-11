@@ -7,15 +7,36 @@ import generateQRCode from '@/app/utils/generateQRCode';
 import uploadImages from '@/app/utils/uploadToBucket';
 import sendMail from '@/app/utils/sendEmail';
 import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
-import { removePhotosFromBucket } from '@/app/utils/removePhotosFromBucket';
+import { siteUrl, stripeSecretKey, stripeWebhookSecret } from '@/config'; 
 
 dotenv.config();
 
-// const MODE = 'dev'  // if comment out url is production Need it for qr code generation
-const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+// // const MODE = 'dev'  // if comment out url is production Need it for qr code generation
+// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
-const stripe = new Stripe(process.env.STRIPE_LIVE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_LIVE_WEBHOOK_ENDPOINT_SECRET;
+// instructions:
+//     download stripe cli
+//     cd to cli stripe folder
+//     open cmd prompt type stripe login
+//     confirm on the page by clicking on link in the cli window
+//     change localhost if need it frontend is localhost:3000/api/webhook
+//     run:
+//     stripe listen --forward-to localhost:3000/api/webhook
+//     request object from the webhook 
+//     .metadata has all the info I sent
+//     "payment_status": "paid",
+//           "metadata": {
+//           "date": "2024-10-01",
+//           "hash": "301e142e-c400-4617-8e24-2c2f5922ddfb",
+//           "time": "12:36",
+//           "message": "ddddd",
+//           "url": "test-E/301e142e-c400-4617-8e24-2c2f5922ddfb",
+//           "name": "test E"
+// },
+
+
+  const stripe = new Stripe(stripeSecretKey);
+const endpointSecret = stripeWebhookSecret;
 
 
 export async function POST (req) {
@@ -90,7 +111,8 @@ export async function POST (req) {
           `
         }
         // Send email with QR code and details 
-        await sendMail(config);
+        const email = await sendMail(config);
+        console.log('Email sent successfully:', email);
 
 
       } catch (error) {

@@ -9,9 +9,10 @@ import { BeatLoader } from 'react-spinners';
 import { loadYouTubeAPI } from '@/app/utils/youtube';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
+import { siteUrl } from '@/config'; 
 
-// const MODE = 'dev'  // if comment out url is production 
-const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
+// // const MODE = 'dev'  // if comment out url is production 
+// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export default function CouplesPage({ couplesName, id }) {
   const [data, setData] = useState({});
