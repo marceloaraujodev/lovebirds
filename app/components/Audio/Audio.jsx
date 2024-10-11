@@ -14,10 +14,13 @@ export default function Audio({ musicLink, isPreviewing}) {
   }, [musicLink]);
 
     const extractVideoId = (url) => {
+    // // the coment out is one the works with shorts but not in the couples page.
     // const regExp = /^.*((youtu.be\/|v\/|embed\/|watch\?v=|\&v=))([^#\&\?]*).*/;
-    const regExp = /^.*((youtu.be\/|shorts\/))([^#\&\?]*).*/;
+    // const match = url.match(regExp);
+    // return (match && match[3].length === 11) ? match[3] : null;
+    const regExp = /(?:youtube\.com\/(?:shorts\/|watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regExp);
-    return (match && match[3].length === 11) ? match[3] : null;
+    return (match && match[1]) ? match[1] : null;
   };
 
 
