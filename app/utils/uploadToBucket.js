@@ -10,8 +10,8 @@ export default async function uploadImages(filesArray, hash, name) {
   const storage = getStorage(); // Initialize storage
   // works with a file image object
   const uploadPromises = filesArray.map((file, index) => {
-    // For each file, create a storage reference
-
+    
+    // Create a storage reference / folder name on firebase
     const uniqueFileName = `${index}-${Date.now()}-${name}`;
     const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
 

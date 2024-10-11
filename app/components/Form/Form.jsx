@@ -115,8 +115,11 @@ export default function Form() {
     formData.append('musicLink', musicLink);
     formData.append('message', message);
     formData.append('hash', hash);
-    formData.append('url', `${url}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
+    
+    const encodedUrl = encodeURIComponent(`${url}/${hash}`);
+    formData.append('url', encodedUrl);
+
 
     try {
       const res = await axios.post('/api/create-checkout-session', formData,

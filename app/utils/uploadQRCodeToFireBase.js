@@ -4,7 +4,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 // Initialize Firebase
 firebaseInit();
 
-const uploadQRCodeToFireBase = async (base64QRCode, hash) => {
+const uploadQRCodeToFireBase = async (base64QRCode, hash, name) => {
   try {
     // Remove the 'data:image/png;base64,' prefix and convert base64 to a buffer
     const base64Data = base64QRCode.replace(/^data:image\/png;base64,/, '');
@@ -16,8 +16,8 @@ const uploadQRCodeToFireBase = async (base64QRCode, hash) => {
     // Get a reference to the storage service
     const storage = getStorage();
     
-    // Create a storage reference
-    const storageRef = ref(storage, `purchases/${hash}/qrcode.png`);
+    // Create a storage reference / folder name on firebase
+    const storageRef = ref(storage, `purchases/${name}-${hash}/qrcode.png`);
 
     // Upload the Blob to Firebase Storage
     await uploadBytes(storageRef, blob, {
