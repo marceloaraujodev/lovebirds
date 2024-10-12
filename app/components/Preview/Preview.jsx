@@ -28,7 +28,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
   // LOOP
   useEffect(() => {
 
-    // if only one image not fade in and out need it
+    // if only one image not fade in and out need
     if (!imgsArray || imgsArray.length <= 1) return;
 
     const intervalId = setInterval(() => {
