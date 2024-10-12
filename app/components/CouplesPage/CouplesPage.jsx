@@ -10,6 +10,7 @@ import { loadYouTubeAPI } from '@/app/utils/youtube';
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import { siteUrl } from '@/config'; 
+import Modal from './Modal/Modal';
 
 // // const MODE = 'dev'  // if comment out url is production 
 // const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
@@ -19,6 +20,7 @@ export default function CouplesPage({ couplesName, id }) {
   const [isLoading, setIsLoading] = useState(true);
   const [videoId, setVideoId] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const playerRef = useRef(null);
   const btnRef = useRef(null);
@@ -210,7 +212,7 @@ useEffect(() => {
               <p>{data.message}</p>
             </div>
           </div>
-          <div onClick={() => printQrCode(data.qrCode)} className={c.qrCode}>
+          <div onClick={() => setIsModalOpen(true)} className={c.qrCode}>
             <img className={c.img} src={data.qrCode} alt="qr code" />
           </div>
           <p className={c.print} onClick={() => printQrCode(data.qrCode)}>imprimir</p>
@@ -222,6 +224,8 @@ useEffect(() => {
 
             </>
           )}
+
+          {isModalOpen && <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} qrCodeUrl={data.qrCode} />}
         </>
       )}
     </div>
