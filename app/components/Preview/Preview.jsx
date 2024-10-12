@@ -35,14 +35,11 @@ export default function Preview({ date, time, startCounting, url, photos, couple
       setIsFading(true); // Start fading out
       setTimeout(() => {
         if (!imgsArray || imgsArray.length === 0) return;
-
-        if(imgsArray.length > 0){
+        
           setCurrentIndex(prev => (prev + 1) % imgsArray.length)
           setNextIndex((prev) => (prev + 1) % imgsArray.length)
           setIsFading(false); // Stop fading out
-        }else{
-          return
-        }
+
       },2000)
     }, 6000); // Interval for image change
 
@@ -56,7 +53,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
       {couplesName ? <div className={c.couplesName}>{couplesName}</div> : <div className={c.url}>qrcodelove.com/{url}</div>}
       
       <div className={c.imgs}>
-      {imgsArray?.length > 0 ? (
+      {imgsArray.length > 0 ? (
         <>
         <HeartAnimation  />
         <Audio musicLink={link} isPreviewing={isPreviewing} />
