@@ -168,7 +168,7 @@ export default function Form() {
         
         <div className={c.detailsCont}>
           <label className={c.couplesName}>
-            Nome do Casal:
+            Nome:
             <input onChange={(e) => {
               const updatedName = e.target.value;
               setName(updatedName)
@@ -177,7 +177,7 @@ export default function Form() {
           </label>
         
           <label className={c.startDate}>
-            Início do relacionamento:
+            Data:
             <input type="date" name="date" required onChange={(e) => setDate(e.target.value)} value={date} />
           </label>
 
