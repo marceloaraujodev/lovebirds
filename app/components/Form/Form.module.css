@@ -73,6 +73,18 @@
   -webkit-text-fill-color: transparent; 
 
 } */
+.emojiItem{
+  border: var(--border-style);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 10px;
+  outline: none;
+  max-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 .couplesName input{
   margin-right: 10px;
 }
@@ -91,6 +103,7 @@
 .timer input::-webkit-calendar-picker-indicator {
   filter: invert(1); 
 }
+
 .message{
   display: flex;
   flex-direction: column;

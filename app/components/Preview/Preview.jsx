@@ -4,6 +4,7 @@ import { SlPicture } from 'react-icons/sl';
 import Counter from './Counter/Counter';
 import HeartAnimation from './Hearts/Hearts';
 import Audio from '../Audio/Audio';
+import Shaka from './Shaka/Shaka'
 import c from './Preview.module.css';
 
 // const test = ['/img1.jpg', '/img2.jpg', '/img3.jpg'] // , '/img3.jpg'
@@ -55,8 +56,10 @@ export default function Preview({ date, time, startCounting, url, photos, couple
       <div className={c.imgs}>
       {imgsArray.length > 0 ? (
         <>
-        <HeartAnimation  />
-        <Audio musicLink={link} isPreviewing={isPreviewing} />
+        {/* <HeartAnimation  /> */}
+        <Shaka />
+        {musicLink ? <Audio musicLink={link} isPreviewing={isPreviewing} /> : null}
+        
         <img
           src={imgsArray[nextIndex]} // Next image this will be live urls strings
           alt="next photo"

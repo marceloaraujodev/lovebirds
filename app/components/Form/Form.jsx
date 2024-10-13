@@ -185,6 +185,15 @@ export default function Form() {
             Insira um horário
             <input type="time" name="timer" required onChange={(e) => setTime(e.target.value)} value={time} />
           </label>
+
+          {/* <label className={c.emoji}>
+            Emoji
+            <div className={c.emojiItem}>
+              <input type="radio" name="emoji"  />❤️
+              <input type="radio" name="emoji"  />🤙
+            </div >
+          </label> */}
+          
           </div>
         
 
