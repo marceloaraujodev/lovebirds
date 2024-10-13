@@ -154,9 +154,9 @@ export default function Form() {
     <div className={c.cont}>
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id='form'>
         <div className={c.textTitle}>
-          <p className={c.title}>O presente perfeito <br /> para o seu amor!</p>
+          <p className={c.title}>O presente perfeito <br /> para uma pessoa especial!</p>
         </div>
-        <p>Crie uma linda animação com suas melhores memórias. Selecione suas fotos e receba seu site personalizado + QR Code para compartilhar com quem você ama ❤️!</p>
+        <p>Crie uma linda animação com suas melhores memórias. Selecione suas fotos e receba seu site personalizado, um contador de quanto tempo vocês se conhecem + QR Code para compartilhar com aquela pessoa especial ❤️!</p>
         
         <div className={c.prices}> 
           <button>1 ano, 3 fotos com música - R$15,99</button>
@@ -173,7 +173,7 @@ export default function Form() {
               const updatedName = e.target.value;
               setName(updatedName)
               formatUrl(updatedName);
-            }} value={couplesName} type="text" name="name" placeholder="Name" />
+            }} value={couplesName} type="text" required name="name" placeholder="Name" />
           </label>
         
           <label className={c.startDate}>
