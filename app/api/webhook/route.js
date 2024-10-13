@@ -35,7 +35,7 @@ dotenv.config();
 // },
 
 
-  const stripe = new Stripe(stripeSecretKey);
+const stripe = new Stripe(stripeSecretKey);
 const endpointSecret = stripeWebhookSecret;
 
 
@@ -77,7 +77,7 @@ export async function POST (req) {
         const qrcode = await generateQRCode(`${siteUrl}/${url}`);
         
         // Sends qr code url to email, hash is used to add qrcode image into same folder as the uploaded photos
-        const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash)
+        const qrCodeUrl = await uploadQRCodeToFireBase(qrcode, hash, name)
 
         // looks for user and updates paid to true
         const user = await User.findOneAndUpdate(
