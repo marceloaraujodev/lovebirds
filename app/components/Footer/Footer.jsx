@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <div className={c.cont}>
       {/* <FaXTwitter className={c.icon} size={25}/> */}
-      <a href="https://www.instagram.com/qrcodelove"><FaInstagram className={c.icon} size={25}/></a>
-      <a href="https://www.tiktok.com/@qrcodelove"><AiFillTikTok className={c.icon} size={25}/></a>
-      <a href="mailto:qrcodelovebr@gmail.com"><span className={c.contact}><IoMdMail size={25} /></span></a>
+      <a target="_blank" href="https://www.instagram.com/qrcodelove"><FaInstagram className={c.icon} size={25}/></a>
+      <a target="_blank" href="https://www.tiktok.com/@qrcodelove"><AiFillTikTok className={c.icon} size={25}/></a>
+      <a target="_blank" href="mailto:qrcodelovebr@gmail.com"><span className={c.contact}><IoMdMail size={25} /></span></a>
     </div>
   )
 }
