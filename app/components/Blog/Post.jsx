@@ -1,6 +1,6 @@
 import React from "react";
 import c from "./Post.module.css";
-export default function () {
+export default function Post() {
   return (
     <div className={c.cont}>
       <h1>Ideias Criativas de Presentes até R$50,00</h1>
