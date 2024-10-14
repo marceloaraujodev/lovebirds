@@ -1,26 +1,63 @@
 import React from "react";
-// import c from "./Post.module.css";
+import c from "./Post.module.css";
 export default function () {
   return (
-    <div >
-      <h2>Ideias Criativas de Presentes Usando o QRCodeLove.com</h2>
+    <div className={c.cont}>
+      <h1>Ideias Criativas de Presentes até R$50,00</h1>
 
       <p>
-        Presentear alguém é sobre criar momentos especiais, pessoais e inesquecíveis. Com o{" "}
-        <strong>QRCodeLove.com</strong>, você pode transformar suas mensagens carinhosas, memórias e surpresas em
+        Presentear alguém é sobre criar momentos especiais, pessoais e inesquecíveis. Com o <strong>QRCodeLove.com</strong>, você pode transformar suas mensagens carinhosas, memórias e surpresas em
         experiências digitais únicas. Aqui estão algumas ideias de presentes onde você pode usar o QRCodeLove para
         surpreender alguém que ama:
       </p>
 
-      <h3>1. Um Slide Show Romântico para Seu Parceiro</h3>
-      <p>
-        Crie uma página personalizada repleta de fotos dos seus melhores momentos juntos, acompanhada de uma música
-        especial para o casal. Adicione uma mensagem carinhosa e, quando estiver pronto, entregue o QR code como uma
-        surpresa romântica. Seja para um aniversário de namoro ou apenas um gesto de amor, seu parceiro vai adorar essa
-        ideia criativa.
-      </p>
+      <section className={c.section}>
+        <img className={`${c.img} ${c.left}`} src="/wood-gift-box.jpg" alt="gift idea, wooden box with paper qr code" />
+          <span className={c.title}>1. Crie a página e imprima o qr code a coloque em uma caixinha de madeira.</span>
+          <p>Custo de até: R$40,00</p>
+          <p>
+            Imagine presentear alguém especial com algo que vai além do físico e cria uma experiência única. Com o
+            QRCodeLove, você pode personalizar uma página cheia de memórias, fotos, uma música especial e uma mensagem
+            carinhosa. Depois de criar sua página personalizada, imprima o QR code gerado.
+            <br />
+            <br />
+            Agora, para tornar essa surpresa ainda mais especial, compre uma caixinha de madeira elegante ou até mesmo
+            faça uma personalizada. Dentro da caixinha, você pode incluir o QR code impresso de uma forma criativa -
+            como em um pedaço de papel de alta qualidade, um cartão decorado, ou até mesmo em um pequeno pergaminho.
+            <br />
+            <br />
+            Quando a pessoa abrir a caixa, além do QR code, você pode adicionar outros pequenos mimos, como uma carta
+            escrita à mão, pétalas de flores, ou um pequeno presente. O QR code será o ponto principal da surpresa: ao
+            escaneá-lo, a pessoa será direcionada para a página especial que você criou, onde todas as suas memórias,
+            fotos e mensagem estão esperando para serem descobertas.
+          </p>
+        
+      </section>
 
-      <h3>2. Surpreenda Seu Melhor Amigo</h3>
+      <section className={c.section}>
+        <img className={`${c.img} ${c.right}`} src="/qrcode-espelho.jpeg" alt="gift idea, qr code tapped to the mirror" />
+          <span className={c.title}>2. Surpresa no Espelho do Banheiro com QR Code</span>
+          <p>Custo de até: R$20,00</p>
+          <p>
+            Imagine presentear alguém especial com algo que vai além do físico e cria uma experiência única. Com o
+            QRCodeLove, você pode personalizar uma página cheia de memórias, fotos, uma música especial e uma mensagem
+            carinhosa. Depois de criar sua página personalizada, imprima o QR code gerado.
+            <br />
+            <br />
+            Agora, para tornar essa surpresa ainda mais especial, compre uma caixinha de madeira elegante ou até mesmo
+            faça uma personalizada. Dentro da caixinha, você pode incluir o QR code impresso de uma forma criativa -
+            como em um pedaço de papel de alta qualidade, um cartão decorado, ou até mesmo em um pequeno pergaminho.
+            <br />
+            <br />
+            Quando a pessoa abrir a caixa, além do QR code, você pode adicionar outros pequenos mimos, como uma carta
+            escrita à mão, pétalas de flores, ou um pequeno presente. O QR code será o ponto principal da surpresa: ao
+            escaneá-lo, a pessoa será direcionada para a página especial que você criou, onde todas as suas memórias,
+            fotos e mensagem estão esperando para serem descobertas.
+          </p>
+        
+      </section>
+
+      {/* <h3>2. Surpreenda Seu Melhor Amigo</h3>
       <p>
         Nada fortalece uma amizade como relembrar bons momentos. Use o QRCodeLove para criar uma apresentação de fotos
         das aventuras que viveram juntos, acompanhada de uma mensagem sobre o quanto essa amizade significa para você. O
@@ -48,7 +85,7 @@ export default function () {
         seu parceiro um slide show digital com uma mensagem carinhosa e uma música especial, tudo através de um simples
         QR code. É uma forma moderna de diminuir a distância e mostrar que você está pensando nele, onde quer que
         esteja.
-      </p>
+      </p> */}
 
       <h3>Como Funciona</h3>
       <p>
@@ -58,10 +95,6 @@ export default function () {
         QRCodeLove oferece as ferramentas para criar algo verdadeiramente inesquecível.
       </p>
 
-      <p>
-        Essas ideias ajudarão a mostrar como o QRCodeLove.com pode ser criativo e personalizado para várias experiências
-        de presente!
-      </p>
     </div>
   );
 }
