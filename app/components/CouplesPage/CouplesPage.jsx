@@ -169,7 +169,8 @@ useEffect(() => {
 
   return (
     <div className={c.cont}>
-      <button ref={btnRef} onClick={togglePlay} className={c.play}>
+      {data.musicLink ? (
+        <button ref={btnRef} onClick={togglePlay} className={c.play}>
         {isPlaying ?  (
           <>
           <span className={c.btnText}>Pausar música</span>
@@ -182,6 +183,8 @@ useEffect(() => {
         )
         }
       </button>
+      ) : null}
+      
 
       {isLoading ? (
         <div className={c.loader}>
