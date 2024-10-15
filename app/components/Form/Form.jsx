@@ -15,8 +15,8 @@ function sanitizeName(name) {
 
 export default function Form() {
   const [couplesName, setName] = useState('')
-  const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
+  const [date, setDate] = useState('2024-10-09')
+  const [time, setTime] = useState('16:28')
   const [photos, setPhotos] = useState([])
   const [musicLink, setMusicLink] = useState('');
   const [photoPreviews, setPhotoPreviews] = useState([]) // for the blobs
@@ -123,6 +123,9 @@ export default function Form() {
     photos.forEach((file) => formData.append('photos', file));
 
     const couplesNameEnconded = encodeURIComponent(couplesName)
+
+    console.log('Couples encoded url:', couplesNameEnconded)
+    console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
     formData.append('url', `${couplesNameEnconded}/${hash}`);
 

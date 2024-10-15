@@ -34,7 +34,10 @@ export async function POST(req, res){
     // Upload the photos to Firebase and get the URLs
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // array of strings is the result   
     // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
-    // start stripe checkout
+
+
+    console.log('url entering stripe', `${siteUrl}/${url}`)
+    console.log({name, hash, url})
     
     const stripe = new Stripe(stripeSecretKey)
     const session = await stripe.checkout.sessions.create({
