@@ -11,9 +11,6 @@ import { siteUrl, stripeSecretKey, stripeWebhookSecret } from '@/config';
 
 dotenv.config();
 
-// // const MODE = 'dev'  // if comment out url is production Need it for qr code generation
-// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
-
 // instructions:
 //     download stripe cli
 //     cd to cli stripe folder
@@ -40,7 +37,6 @@ const endpointSecret = stripeWebhookSecret;
 
 
 export async function POST (req) {
-  // console.log('-----------------WEBHOOK HANDLER ----------------')
   // CHECKS IF ENDPOINTSECRET ITS WORKING
   if (!endpointSecret) {
     return NextResponse.json({ error: 'Webhook ENDPOINTSECRET is not configured' }, { status: 500 });

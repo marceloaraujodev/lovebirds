@@ -4,12 +4,10 @@ import User from '../../model/user';
 import Stripe from "stripe";
 import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import dotenv from 'dotenv';
-import { siteUrl, stripeSecretKey } from '@/config'; 
+import { siteUrl, stripeSecretKey, MODE } from '@/config'; 
 
 dotenv.config();
 
-// // const MODE = 'dev'  // if comment out url is production 
-// const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export async function POST(req, res){
   try {
@@ -44,10 +42,10 @@ export async function POST(req, res){
       payment_method_types: ['card', 'boleto'],
       line_items: [
         {
-          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
           // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
-          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          price: MODE === 'dev' ? 'price_1Q4lIzBfcEidHzvrx2TlCEUc' : 'price_1Q6fytBfcEidHzvrGWA63Iux',
           quantity: 1,
         },
       ],
