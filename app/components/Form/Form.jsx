@@ -166,7 +166,7 @@ export default function Form() {
         <p>Crie uma linda animação com suas melhores memórias. Selecione suas fotos e receba seu site personalizado, um contador de quanto tempo vocês se conhecem + QR Code para compartilhar com aquela pessoa especial ❤️!</p>
         
         <div className={c.prices}> 
-          <button>1 ano, 3 fotos com música - R$15,99</button>
+          <button className={c.priceBtn}>1 ano, 3 fotos com música - R$15,99</button>
         </div>
         <label className={c.musicLink}>
             Música do youtube:
