@@ -15,8 +15,8 @@ function sanitizeName(name) {
 
 export default function Form() {
   const [couplesName, setName] = useState('')
-  const [date, setDate] = useState('2024-10-09')
-  const [time, setTime] = useState('16:28')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
   const [photos, setPhotos] = useState([])
   const [musicLink, setMusicLink] = useState('');
   const [photoPreviews, setPhotoPreviews] = useState([]) // for the blobs
