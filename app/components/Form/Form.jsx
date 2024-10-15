@@ -119,8 +119,6 @@ export default function Form() {
     photos.forEach((file) => formData.append('photos', file));
 
     const couplesNameEnconded = encodeURIComponent(couplesName)
-    console.log('coupesnmaeenconde---------------', couplesNameEnconded)
-    console.log('url to be submitted', `/api/create-checkout-session/${couplesNameEnconded}/${hash}`)
 
     formData.append('url', `${couplesNameEnconded}/${hash}`);
 

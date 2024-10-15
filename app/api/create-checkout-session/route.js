@@ -29,38 +29,34 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
 
-     console.log('this is name create chekcout route-----', name)
-     console.log('this is URL create chekcout route---------', url)
-
-     const encodedURI = encodeURIComponent(url)
-     console.log('encodedURI', encodedURI)
+     console.log('this is name create chekcout route', name)
 
     // Upload the photos to Firebase and get the URLs
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // array of strings is the result   
     // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
-
     // start stripe checkout
+    
     const stripe = new Stripe(stripeSecretKey)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
+          price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
           // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
-          price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
+          // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
           quantity: 1,
         },
       ],
       mode: 'payment',
       allow_promotion_codes: true, 
-      success_url: `${siteUrl}/${encodedURI}`,
+      success_url: `${siteUrl}/${url}`,
       cancel_url: `${siteUrl}/error`,
       metadata: {
         name, 
         date, 
         time, 
-        url: encodedURI, 
+        url, 
         hash, 
         photos, 
         musicLink,
@@ -72,7 +68,7 @@ export async function POST(req, res){
       name,
       date,
       time,
-      url: encodedURI,
+      url,
       hash,
       photos: uploadedPhotoURLs,  // Store array of URLs for the photos
       musicLink,
