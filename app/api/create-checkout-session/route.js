@@ -60,7 +60,7 @@ export async function POST(req, res){
         name, 
         date, 
         time, 
-        url, 
+        url: encodedURI, 
         hash, 
         photos, 
         musicLink,
@@ -72,7 +72,7 @@ export async function POST(req, res){
       name,
       date,
       time,
-      url,
+      url: encodedURI,
       hash,
       photos: uploadedPhotoURLs,  // Store array of URLs for the photos
       musicLink,
