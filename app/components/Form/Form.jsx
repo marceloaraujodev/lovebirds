@@ -7,7 +7,11 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
 
-
+// sanitize name
+function sanitizeName(name) {
+  // Normalize the string and remove accents/diacritics (e.g., 'é' becomes 'e')
+  return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
 export default function Form() {
   const [couplesName, setName] = useState('')
@@ -92,7 +96,7 @@ export default function Form() {
   function formatUrl(nameInput){
     const nameArr = nameInput.split(' ');
     const formattedName = nameArr.map(word => word.split(',')).join('-');
-    setUrl(formattedName)
+    setUrl(sanitizeName(formattedName))
   }
 
   // need to change to send the submittion to stripe api then use webhook
@@ -171,7 +175,7 @@ export default function Form() {
             Nome:
             <input onChange={(e) => {
               const updatedName = e.target.value;
-              setName(updatedName)
+              setName(sanitizeName(updatedName))
               formatUrl(updatedName);
             }} value={couplesName} type="text" required name="name" placeholder="Name" />
           </label>
