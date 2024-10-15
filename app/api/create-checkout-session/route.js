@@ -29,13 +29,17 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
 
-     console.log('this is name create chekcout route', name)
+     console.log('this is name create chekcout route-----', name)
+     console.log('this is URL create chekcout route---------', url)
+
+     const encodedURI = encodeURIComponent(url)
+     console.log('encodedURI', encodedURI)
 
     // Upload the photos to Firebase and get the URLs
     const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // array of strings is the result   
     // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
+
     // start stripe checkout
-    
     const stripe = new Stripe(stripeSecretKey)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'boleto'],
@@ -50,7 +54,7 @@ export async function POST(req, res){
       ],
       mode: 'payment',
       allow_promotion_codes: true, 
-      success_url: `${siteUrl}/${url}`,
+      success_url: `${siteUrl}/${encodedURI}`,
       cancel_url: `${siteUrl}/error`,
       metadata: {
         name, 

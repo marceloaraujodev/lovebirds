@@ -126,11 +126,11 @@
 .btn{
   padding: 15px 30px;
   /* background-color: transparent; */
-  border: var(--border-style);
   border-radius: 5px;
   cursor: pointer;
-  background-color: rgb(44, 44, 44);
   font-weight: 600;
+  background-color: rgb(44, 44, 44);
+  border: var(--border-style);
 }
 .create{
   height: 70px;

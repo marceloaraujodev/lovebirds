@@ -1,0 +1,14 @@
+
+.cont{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 35px;
+  max-width: 1440px;
+}
+.prints{
+  width: 300px;
+
+}
