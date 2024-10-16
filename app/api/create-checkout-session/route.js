@@ -59,8 +59,8 @@ export async function POST(req, res){
         time, 
         url, 
         hash, 
-        photos, 
-        musicLink,
+        // musicLink,
+        // photos, 
       }
     });
 

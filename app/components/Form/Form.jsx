@@ -101,6 +101,28 @@ export default function Form() {
 
   // need to change to send the submittion to stripe api then use webhook
   async function handleSubmit(e){
+    e.preventDefault();
+
+      // Validate the name field
+      if (!couplesName.trim()) {
+        alert('Por favor, insira um nome válido!');
+        setIsLoading(false);
+        return;
+      }
+      // validates date
+      if(!date.trim()){
+        alert('Por favor, insira uma data válida!')
+        setIsLoading(false);
+        return;
+      }
+
+      // validates time
+      if(!time.trim()){
+        alert('Por favor, insira um horário válido!')
+        setIsLoading(false);
+        return;
+      }
+
     setIsLoading(true)
     if (photos.length > 3){
       alert('Maximum 3 photos allowed!')
