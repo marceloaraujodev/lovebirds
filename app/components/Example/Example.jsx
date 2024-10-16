@@ -18,7 +18,7 @@ export default function Example() {
         </div>
 
         <div>
-        <img className={c.cell} src='/cell-print-sample2.png' alt='Example' />
+        <img className={c.cell} src='/cellphone.png' alt='Example' />
         </div>
       </div>
     </div>

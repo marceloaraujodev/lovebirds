@@ -54,6 +54,8 @@
 }
 .cell{
   height: 400px;
+    /* box-shadow: 0 0 8px 5px rgb(152, 0, 152); */
+    filter: drop-shadow(5px 5px 50px rgba(255, 0, 255, 0.8));
 }
 .btnCont{
   display: flex;
