@@ -14,20 +14,20 @@ function sanitizeName(name) {
 }
 
 export default function Form() {
-  const [couplesName, setName] = useState('')
-  const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
-  const [photos, setPhotos] = useState([])
-  const [musicLink, setMusicLink] = useState('');
-  const [photoPreviews, setPhotoPreviews] = useState([]) // for the blobs
+  const [couplesName, setName] = useState('') // "e test"
+  const [date, setDate] = useState('') // "2024-10-17"
+  const [time, setTime] = useState('') // "10:41"
+  const [photos, setPhotos] = useState([]) // [File, File]
+  const [musicLink, setMusicLink] = useState(''); // youtube url
+  const [photoPreviews, setPhotoPreviews] = useState([]) // ["blob:http://localhost:3000/f...
   const [startCounting, setStartCounting] = useState(false);
-  const [url, setUrl] = useState('')
+  const [url, setUrl] = useState('') // "e-test" how part of the url will be. url/hash 
   const [message, setMessage] = useState('');
-  const [qrcode, setQrcode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
+  // const [qrcode, setQrcode] = useState('');
 
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
@@ -159,9 +159,9 @@ export default function Form() {
             'Content-Type': 'multipart/form-data', // Important for file uploads
           }
         })
-          if(res.status === 200) {
-            setQrcode(res.data.qrcode) // might not need this
-          }
+          // if(res.status === 200) {
+          //   setQrcode(res.data.qrcode) // might not need this
+          // }
           if (res.status === 200) {
             // Redirect to Stripe Checkout
             window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
