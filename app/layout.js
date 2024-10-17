@@ -51,6 +51,30 @@ export default function RootLayout({ children }) {
             `
           }
         </Script>
+
+        <Script
+          id="google-conversion-tracking"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              function gtag_report_conversion(url) {
+                var callback = function () {
+                  if (typeof(url) != 'undefined') {
+                    window.location = url;
+                  }
+                };
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-10848814917/q2YtCP-0wd4ZEMWOj7Uo',
+                    'value': 1.0,
+                    'currency': 'BRL',
+                    'transaction_id': '',
+                    'event_callback': callback
+                });
+                return false;
+              }
+          `,
+        }}
+      />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
