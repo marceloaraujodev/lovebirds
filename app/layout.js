@@ -24,12 +24,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics Script loaded asynchronously */}
-        <Script
+
+        {/* <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-XJDFYZMLWL"
         ></Script>
-        {/* Inline script to configure Google Analytics */}
+
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -37,6 +37,19 @@ export default function RootLayout({ children }) {
             gtag('js', new Date());
             gtag('config', 'G-XJDFYZMLWL');
           `}
+        </Script> */}
+
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-10848814917"></Script>
+        <Script>
+          {
+            `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-10848814917');
+            `
+          }
         </Script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
