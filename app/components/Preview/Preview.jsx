@@ -60,20 +60,29 @@ export default function Preview({ date, time, startCounting, url, photos, couple
         {/* <Shaka /> */}
         {musicLink ? <Audio musicLink={link} isPreviewing={isPreviewing} /> : null}
         
-        <img
-          src={imgsArray[nextIndex]} // Next image this will be live urls strings
-          alt="next photo"
-          width={300}
-          height={450}
-          className={`${c.photos} `} // Show next image while current fades out
-        />
-      <img
-          src={imgsArray[currentIndex]}
-          alt="current photo"
-          width={300}
-          height={450}
-          className={`${c.photos} ${isFading? c.fadeOut : ''} `}
-        />
+
+        {imgsArray.length === 1 ? <img
+            src={imgsArray[0]} // Next image this will be live urls strings
+            alt="next photo"
+            width={300}
+            height={450}
+            className={`${c.photos} `} // Show next image while current fades out
+          /> : <> 
+            <img
+              src={imgsArray[nextIndex]} // Next image this will be live urls strings
+              alt="next photo"
+              width={300}
+              height={450}
+              className={`${c.photos} `} // Show next image while current fades out
+            />
+          <img
+              src={imgsArray[currentIndex]}
+              alt="current photo"
+              width={300}
+              height={450}
+              className={`${c.photos} ${isFading? c.fadeOut : ''} `}
+          />
+        </>}
          {/* <div className={`${c.animatedText} ${isFading ? c.moveUp : ''}`}>
               Slide Text
             </div> */}
