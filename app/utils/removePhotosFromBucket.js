@@ -5,9 +5,9 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable } from 'firebase/
 // Initialize Firebase
 firebaseInit();
 
-export async function removePhotosFromBucket(hash){
+export async function removePhotosFromBucket(hash, name){
   const storage = getStorage();
-  const folderRef = ref(storage, `purchase/${hash}`);
+  const folderRef = ref(storage, `purchases/${name}-${hash}`);
 
   try {
     // list all items in the hash folder
