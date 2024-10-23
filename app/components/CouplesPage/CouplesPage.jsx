@@ -91,7 +91,7 @@ useEffect(() => {
     return videoId;
   };
 
-  function printQrCode(qrCodeUrl) {
+  function printQrCode(qrCodeUrl, size) { // size = 'Large' or 'Small'
 
     const qrWindow = window.open('', '_blank', 'width=600,height=600');
     qrWindow.document.write(`
@@ -114,12 +114,11 @@ useEffect(() => {
           }
           .qr-text {
             font-weight: bold; 
-            font-size: 35px; 
-            
+            font-size: ${size === 'Large' ? '35px' : '18px'}; 
           }
           img {
-            width: 600px;
-            height: 600px;
+            width: ${size === 'Large' ? '600px' : '200px'};
+            height: ${size === 'Large' ? '600px' : '200px'};
           }
         </style>
         </head>
@@ -218,7 +217,9 @@ useEffect(() => {
           <div onClick={() => setIsModalOpen(true)} className={c.qrCode}>
             <img className={c.img} src={data.qrCode} alt="qr code" />
           </div>
-          <p className={c.print} onClick={() => printQrCode(data.qrCode)}>imprimir</p>
+          <div className={c.print}>Imprimir: <div>
+          <span onClick={() => printQrCode(data.qrCode, 'Large')}>Grande</span> | <span onClick={() => printQrCode(data.qrCode, 'Small')}>Pequeno</span></div>
+            </div>
 
 
           {data.musicLink && (
