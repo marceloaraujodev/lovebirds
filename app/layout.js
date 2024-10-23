@@ -25,56 +25,36 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
 
-        {/* <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-XJDFYZMLWL"
-        ></Script>
+{/* google add sense */}
+          <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16751184617"></Script>
+          <Script>
+            {
+              `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments)}
+              gtag('js', new Date());
+            
+              gtag('config', 'AW-16751184617');
+              `
+            }
+          </Script>
 
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-XJDFYZMLWL');
-          `}
-        </Script> */}
+          {/* <!-- Event snippet for Purchase conversion page --> */}
+          <Script>
+            {
+              `
+              gtag('event', 'conversion', {
+                  'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-',
+                  'value': 1.0,
+                  'currency': 'BRL',
+                  'transaction_id': ''
+              });
+              `
+            }
+          </Script>
 
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-10848814917"></Script>
-        <Script id="google-adds" strategy="afterInteractive">
-          {
-            `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments)}
-            gtag('js', new Date());
+{/* end google add sense */}
 
-            gtag('config', 'AW-10848814917');
-            `
-          }
-        </Script>
-
-        <Script
-          id="google-conversion-tracking"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function gtag_report_conversion(url) {
-                var callback = function () {
-                  if (typeof(url) != 'undefined') {
-                    window.location = url;
-                  }
-                };
-                gtag('event', 'conversion', {
-                    'send_to': 'AW-10848814917/q2YtCP-0wd4ZEMWOj7Uo',
-                    'value': 1.0,
-                    'currency': 'BRL',
-                    'transaction_id': '',
-                    'event_callback': callback
-                });
-                return false;
-              }
-          `,
-        }}
-      />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
