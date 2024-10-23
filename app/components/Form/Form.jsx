@@ -174,6 +174,13 @@ export default function Form() {
   }
 
   function createPageSubmit(e){
+      // Call gtag to report conversion
+    window.gtag('event', 'conversion', {
+      'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+      'value': 1.0,
+      'currency': 'BRL',
+      'transaction_id': '' // Optionally set a transaction ID if available
+    });
     setIsLoading(true);
     // gtag_report_conversion();
     handleSubmit(e);
