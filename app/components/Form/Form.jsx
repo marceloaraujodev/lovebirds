@@ -175,7 +175,7 @@ export default function Form() {
 
   function createPageSubmit(e){
     setIsLoading(true);
-    gtag_report_conversion();
+    // gtag_report_conversion();
     handleSubmit(e);
   }
 
