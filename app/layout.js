@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
           </Script>
 
           {/* <!-- Event snippet for Purchase conversion page --> */}
-          <Script>
+          <Script id="google-conversion-tracking" strategy="afterInteractive">
             {
               `
               gtag('event', 'conversion', {
