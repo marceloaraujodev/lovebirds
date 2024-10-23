@@ -78,6 +78,12 @@
   padding-right: 10px;
 }
 .print{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+}
+.print span{
   cursor: pointer;
 }
 @media screen and (max-width: 1000px){
