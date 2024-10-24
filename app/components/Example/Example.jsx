@@ -4,7 +4,7 @@ export default function Example() {
 
   return (
     <>
-    <div className={c.cont}>
+    <div className={c.cont} id='example'>
       <div className={c.qrAndArrows}>
         <div className={c.x}>
           <div className={c.leftBlock}>
