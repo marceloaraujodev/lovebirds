@@ -1,7 +1,7 @@
 import c from './Instructions.module.css'
 export default function Instructions() {
   return (
-    <div className={c.cont}>
+    <div className={c.cont} id='instructions'>
       <h2>Instruções</h2>
       <div className={c.cardCont}>
         <div className={c.card}>

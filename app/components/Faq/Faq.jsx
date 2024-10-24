@@ -2,7 +2,7 @@ import Button from '../Button/Button'
 import c from './Faq.module.css'
 export default function Faq() {
   return (
-    <div className={c.faqCont}>
+    <div className={c.faqCont} id='faq'>
       <h2 className={c.title}>FAQ</h2>
       <div className={c.faqCardCont}>
         <div className={c.faqCard}>
