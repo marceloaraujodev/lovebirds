@@ -11,7 +11,6 @@ export default function Post() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`/api/posts/${params.postId}`);
-      console.log(response)
       setPost(response.data.post);
     };
     fetchData();
