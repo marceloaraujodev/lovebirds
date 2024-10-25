@@ -23,7 +23,7 @@ export default function Page() {
     <div className={c.cont}>
       <h1>Blog</h1>
       {posts.length > 0 && posts.map((post, index)=> {
-        return <a href={`/blog/${post.id}`} key={index}>
+        return <a href={`/blog/${post.postId}`} key={index}>
         <div className={c.postCont}>
           <img
             className={`${c.img} `}

@@ -6,7 +6,7 @@ export async function GET(req ){
   await mongooseConnect();
   try {
     const posts = await Post.find({});
-    console.log(posts);
+    // console.log(posts);
     
     return NextResponse.json({ posts });
   } catch (error) {
