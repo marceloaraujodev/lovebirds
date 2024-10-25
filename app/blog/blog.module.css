@@ -1,0 +1,46 @@
+.cont{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.cont h1{
+  margin-bottom: 30px;
+}
+.postCont{
+  border: 1px solid rgb(78, 78, 78);
+  width: 900px;
+  height: 302px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  /* overflow: hidden; */
+}
+.img{
+  height: 300px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.description{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  font-size: 18px;
+  
+}
+.description p{
+  padding-top: 20px;
+  padding-left: 5px;
+  line-height: 1.55;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;  /* Limits the text to 6 lines */
+  line-clamp: 6;
+  overflow: hidden;  /* Hides any overflowed content */
+  text-overflow: ellipsis;  /* Adds ellipsis (...) at the end if truncated */
+
+}

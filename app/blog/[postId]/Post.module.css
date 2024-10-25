@@ -2,15 +2,10 @@
   /* border: 1px solid white; */
   max-width: 800px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
   padding: 0 20px;
   color: #cfcfcf;
 }
-
 .cont h1{
   text-align: center;
   padding-bottom: 15px;
@@ -40,6 +35,7 @@
   line-height: 1.3; /* Increased line height for better spacing */
   color: #c4c4c4; /* Slightly lighter than black for comfort */
   letter-spacing: 0.5px; /* Adjusted letter spacing for readability */
+  margin-bottom: 15px; /* Space between paragraphs */
 }
 .img {
   width: 300px;
@@ -56,4 +52,11 @@
 .text {
   text-align: left;
   overflow: hidden; /* Clears float to ensure proper layout flow */
+}
+.explanation{
+  margin-top: 100px;
+}
+.explanation h3{
+  margin-bottom: 15px;
+  text-align: center;
 }
