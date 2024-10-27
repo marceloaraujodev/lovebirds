@@ -6,13 +6,12 @@ import c from './Post.module.css';
 export default function Post() {
   const [post, setPost] = useState([]);
   const params = useParams();
-  // console.log(params);
-  // console.log(params.postId);
+
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(`/api/posts/${params.postId}`);
-      setPost(response.data.posts);
+      setPost(response.data.post);
     };
     fetchData();
   }, []);
@@ -20,6 +19,7 @@ export default function Post() {
 
   return (
     <div className={c.cont}>
+      
       {post && (
         <>
           <h1>{post.title}</h1>

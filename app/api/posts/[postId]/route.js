@@ -4,20 +4,16 @@ import { mongooseConnect } from "@/app/lib/mongooseConnect";
 
 export async function GET(req, {params}){
   await mongooseConnect();
-  // const {searchParams} = new URLSearchParams(req.url);
-  // const postId = searchParams.get('postId')
-  const {postId} = params
-  console.log('this is postId:', postId)
-  console.log('this is params:', params)
-  console.log('print me')
-  const postIdAsNumber = Number(postId)
+
+  const {postId} = params;
+
   try {
-    const post = await Post.find({id: postIdAsNumber})
+    const post = await Post.findOne({ postId })
+
     if (!post) {
       return NextResponse.json({ message: 'Post not found' });
     }
 
-    console.log(post)
     return NextResponse.json({post})
   } catch (error) {
     

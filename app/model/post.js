@@ -12,8 +12,8 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a description']
   },
-  id: {
-    type: Number,
+  postId: {
+    type: String,
     required: [true, 'Please provide a id']
   },
   image: {
