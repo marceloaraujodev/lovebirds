@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import User from '../../model/user';
+import Click from "@/app/model/click";
 import Stripe from "stripe";
 import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import dotenv from 'dotenv';
@@ -81,6 +82,13 @@ export async function POST(req, res){
 
     await newUser.save();
 
+    // Find the Click document and increment clicks by 1 or create it if not exists
+    await Click.findOneAndUpdate(
+      {},  // Your criteria; leave empty if there's only one click counter document
+      { $inc: { clicks: 1 } },
+      { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
+    );
+
     return NextResponse.json({
       message: 'success',
       url: session.url,
@@ -88,7 +96,7 @@ export async function POST(req, res){
     
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ message: 'error', error })
+    return NextResponse.json({ message: 'error', error }, {status: 500} )
   }
 
 }
