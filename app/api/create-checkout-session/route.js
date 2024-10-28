@@ -48,7 +48,7 @@ export async function POST(req, res){
           // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
           // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
           // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
-          price: MODE === 'dev' ? 'price_1Q4lIzBfcEidHzvrx2TlCEUc' : 'price_1Q6fytBfcEidHzvrGWA63Iux',
+          price: MODE === 'dev' ? 'price_1Q4lIzBfcEidHzvrx2TlCEUc' : 'price_1Q7lUkBfcEidHzvr414JsEG4',
           quantity: 1,
         },
       ],
