@@ -31,16 +31,16 @@
   font-size: 18px;
   
 }
+.description h2{
+  margin-bottom: 10px;
+}
 .description p{
-  padding-top: 20px;
   padding-left: 5px;
   line-height: 1.55;
-
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;  /* Limits the text to 6 lines */
   line-clamp: 6;
   overflow: hidden;  /* Hides any overflowed content */
   text-overflow: ellipsis;  /* Adds ellipsis (...) at the end if truncated */
-
 }
