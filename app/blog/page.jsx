@@ -12,7 +12,7 @@ export default function Page() {
       const getPosts = async () => {
         const res = await axios.get('http://localhost:3000/api/posts');
         setPosts(res.data.posts);
-        console.log('res.data', res.data.posts);
+        // console.log('res.data', res.data.posts);
       }
       getPosts();
   }, []);

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import Post from '../../model/post';
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function GET(req ){
   await mongooseConnect();
