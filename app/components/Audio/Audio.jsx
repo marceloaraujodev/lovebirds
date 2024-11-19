@@ -24,19 +24,20 @@ export default function Audio({ musicLink, isPreviewing}) {
     <div>
           {musicLink && (
             <>
-              <div id="youtube-player" className={c.player}></div>
+              <div id="youtube-player" className={c.hidden}></div>
             </>
           )}
 
     {isPreviewing ? 
           videoId && (
-            <iframe
-              className={c["hidden-video"]}
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`}
-              allow="autoplay"
-              title="YouTube audio player"
-              allowFullScreen
-            ></iframe>
+            <div className={c.hidden}>
+              <iframe
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}`}
+                allow="autoplay"
+                title="YouTube audio player"
+                allowFullScreen
+              ></iframe>
+            </div>
           )
     :  null}
 

@@ -1,8 +1,9 @@
-.hidden-video {
-  width: 0;
+.hidden {
+  /* width: 0;
   height: 0;
   position: absolute;
-  top: -9999px; /* Move it out of view */
-  left: -9999px; /* Hide it completely */
+  top: -9999px; 
+  left: -9999px;
+  visibility: hidden; */
   visibility: hidden;
 }

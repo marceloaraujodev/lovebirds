@@ -58,7 +58,7 @@ export default function Preview({ date, time, startCounting, url, photos, couple
         <>
         <HeartAnimation  />
         {/* <Shaka /> */}
-        {musicLink ? <Audio musicLink={link} isPreviewing={isPreviewing} /> : null}
+        {musicLink ? <Audio className={c.video} musicLink={link} isPreviewing={isPreviewing} /> : null}
         
 
         {imgsArray.length === 1 ? <img

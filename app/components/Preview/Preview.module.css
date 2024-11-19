@@ -43,7 +43,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
-  position: absolute; /* Allow images to overlap */
+  position: absolute; 
   left: 0;
   top: 0;
   transition: opacity 1s ease;
