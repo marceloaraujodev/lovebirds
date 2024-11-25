@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+// Blog post schema
 const PostSchema = new mongoose.Schema({
   title: {
     type: String,

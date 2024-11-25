@@ -1,0 +1,28 @@
+
+.label{
+  /* border: 1px solid white; */
+  /* padding: 10px; */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.label input{
+  padding: 8px 5px;
+  max-width: 400px;
+}
+.label textarea{
+  width: 100%; 
+  max-width: 800px; 
+  min-height: 300px; 
+  resize: vertical; 
+  padding: 10px;
+  font-size: 16px; 
+  line-height: 1.5; 
+}
+.btn{
+  margin-left: 10px;
+  border: 1px solid white;
+  padding: 10px 30px;
+  background-color: black;
+
+}

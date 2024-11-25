@@ -1,7 +1,9 @@
 'use client'
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+
 import Post from '../components/Blog/Post';
+import { siteUrl } from '@/config';
 import c from './blog.module.css';
 
 
@@ -10,7 +12,7 @@ export default function Page() {
 
   useEffect(() => {
       const getPosts = async () => {
-        const res = await axios.get('/api/posts');
+        const res = await axios.get(`${siteUrl}/api/posts`);
         setPosts(res.data.posts);
         // console.log('res.data', res.data.posts);
       }
@@ -21,7 +23,8 @@ export default function Page() {
   
   return (
     <div className={c.cont}>
-      <h1>Blog</h1>
+      <h1>Blog</h1> 
+      <button className={c.btn}>criar post</button>
       {posts.length > 0 && posts.map((post, index)=> {
         return <a href={`/blog/${post.postId}`} key={index}>
         <div className={c.postCont}>

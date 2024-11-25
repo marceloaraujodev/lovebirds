@@ -44,3 +44,11 @@
   overflow: hidden;  /* Hides any overflowed content */
   text-overflow: ellipsis;  /* Adds ellipsis (...) at the end if truncated */
 }
+
+.btn{
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+}

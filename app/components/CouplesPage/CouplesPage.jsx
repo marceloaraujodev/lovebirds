@@ -11,6 +11,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import { siteUrl } from '@/config'; 
 import Modal from './Modal/Modal';
+import formatText from '@/app/utils/formatText';
 
 // // const MODE = 'dev'  // if comment out url is production 
 // const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
@@ -211,7 +212,7 @@ useEffect(() => {
           <div className={c.messageCont}>
             <h2>Mensagem</h2>
             <div className={c.message}>
-              <p>{data.message}</p>
+              <p>{formatText(data.message)}</p>
             </div>
           </div>
           <div onClick={() => setIsModalOpen(true)} className={c.qrCode}>
