@@ -27,10 +27,10 @@
   padding: 0 8px;
   white-space: pre-line;
   font-weight: 500;
-  letter-spacing: .4px;
-  word-spacing: 1.5px;
-  line-height: 1.35;
   font-size: 1.1rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+  word-spacing: 1px;
   font-style: italic;
 }
 .qrCode{

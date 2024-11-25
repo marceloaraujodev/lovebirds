@@ -61,6 +61,10 @@
   text-align: center;
 }
 .description{
-  white-space: pre-wrap; /* Preserve whitespace and line breaks */
-  word-wrap: break-word; /* Allow long words to break */
+  white-space: pre-wrap; 
+  word-wrap: break-word; 
+  font-size: 1.1rem;
+  line-height: 1.5;
+  letter-spacing: normal;
+  word-spacing: 1px;
 }
