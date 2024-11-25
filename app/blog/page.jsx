@@ -24,7 +24,7 @@ export default function Page() {
   return (
     <div className={c.cont}>
       <h1>Blog</h1> 
-      <button className={c.btn}>criar post</button>
+      {/* <button className={c.btn}>criar post</button> */}
       {posts.length > 0 && posts.map((post, index)=> {
         return <a href={`/blog/${post.postId}`} key={index}>
         <div className={c.postCont}>
