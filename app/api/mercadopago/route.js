@@ -38,7 +38,7 @@ export async function POST(req) {
       console.log(res);
 
 
-    return NextResponse.json({ message: 'success' });
+    return NextResponse.json({ message: 'success', preferenceId: res.id });
   } catch (error) {
     console.error('Error creating preference:', error);
     return NextResponse.json(

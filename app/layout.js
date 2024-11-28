@@ -53,11 +53,10 @@ export default function RootLayout({ children }) {
         {/* end google add sense */}
 
         {/* Mercado pago Script */}
-          <Script src="https://sdk.mercadopago.com/js/v2"></Script>
+          <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive"></Script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
-        <div id="wallet_container"></div>
         {children}
         <Footer />
       </body>
