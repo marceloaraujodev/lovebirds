@@ -15,13 +15,24 @@
   display: flex;
   flex-direction: column;
   padding: 15px;
-  border-radius: 10px;
   /* box-shadow: 0px 0px 8px 1px rgba(225, 0, 225, 0.3);  */
-  border: 1px solid rgb(54, 54, 54);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(90, 90, 90, 0.5));
+  border-bottom: 1px solid rgb(54, 54, 54);
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(90, 90, 90, 0.5)); */
+}
+.faqCard summary {
+  font-size: 1.6rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.icon{
+  cursor: pointer;
+  margin-left: 10px;
 }
 .faqCard p{
-  padding:8px ;
+  padding: 8px ;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 768px){
