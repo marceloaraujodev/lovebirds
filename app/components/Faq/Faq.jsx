@@ -47,7 +47,6 @@ export default function Faq() {
       <div className={c.faqCardCont}>
         {faqItems.map((item, index) => {
           return (
-            <>
               <details 
                   key={index}
                   className={c.faqCard}
@@ -63,7 +62,6 @@ export default function Faq() {
                   {item.answer}
                 </p>
               </details>
-            </>
           );
         })}
       </div>
