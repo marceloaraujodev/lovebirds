@@ -1,49 +1,24 @@
-import { NextResponse } from 'next/server';
-import { MercadoPagoConfig, Preference } from 'mercadopago';
-import dotenv from 'dotenv';
-dotenv.config();
+import { NextResponse } from "next/server";
+import processFormDataAndCreateUser from "@/app/utils/paymentUtils";
+import Click from "@/app/model/click";
 
-export async function POST(req) {
+export async function POST(req){
   try {
-    const client = new MercadoPagoConfig({
-      accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN,
-    });
-
-    const preference = new Preference(client);
-
-    const res = await preference
-      .create({
-        body: {
-          payment_methods: {
-            excluded_payment_methods: [
-              {
-                id: 'pec',
-              },
-            ],
-            excluded_payment_types: [],
-            installments: 1,
-          },
-          items: [
-            {
-              title: 'My product',
-              quantity: 1,
-              unit_price: 2000,
-            },
-          ],
-        },
-      })
-      // .then(console.log)
-      // .catch(console.log);
-
-      console.log(res);
-
-
-    return NextResponse.json({ message: 'success', preferenceId: res.id });
-  } catch (error) {
-    console.error('Error creating preference:', error);
-    return NextResponse.json(
-      { error: 'Failed to create preference' },
-      { status: 500 }
+    const formData = await req.formData();
+    
+    // processes all form data and creates a new user
+    await processFormDataAndCreateUser(formData)
+  
+    // Find the Click document and increment clicks by 1 or create it if not exists
+    await Click.findOneAndUpdate(
+      {},  // Your criteria; leave empty if there's only one click counter document
+      { $inc: { clicks: 1 } },
+      { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
     );
+  
+    return NextResponse.json({message: 'success', status: 200})
+    
+  } catch (error) {
+    return NextResponse.json({message: error.message, status: 500})
   }
 }

@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
+import MercadoPagoWidget from '@/app/Checkout/MercadoPagoWidget';
 
 // sanitize name
 function sanitizeName(name) {
@@ -152,13 +153,26 @@ export default function Form() {
 
 
     try {
-      const res = await axios.post('/api/create-checkout-session', formData,
-        {
-              headers: {
-            'Content-Type': 'multipart/form-data', // Important for file uploads
-          }
-        });
+      // // comment out since is for stripe 
+      // const res = await axios.post('/api/create-checkout-session', formData,
+      //   {
+      //         headers: {
+      //       'Content-Type': 'multipart/form-data', // Important for file uploads
+      //     }
+      //   });
         
+      //     if (res.status === 200) {
+      //       // Redirect to Stripe Checkout
+      //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+      //     }
+
+      // // Mercado pago
+      const res = await axios.post('/api/mercadopago', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // If you're sending files
+        },
+      });
+
           // Call gtag to report conversion
           window.gtag('event', 'conversion', {
             'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
@@ -166,14 +180,6 @@ export default function Form() {
             'currency': 'BRL',
             'transaction_id': '' // Optionally set a transaction ID if available
           });
-
-          // if(res.status === 200) {
-          //   setQrcode(res.data.qrcode) // might not need this
-          // }
-          if (res.status === 200) {
-            // Redirect to Stripe Checkout
-            window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-          }
        
       } catch (error) {
         console.log(error)
@@ -248,7 +254,11 @@ export default function Form() {
         </button>
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
-        <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
+
+        {/* <div> */}
+        <MercadoPagoWidget onClick={createPageSubmit}/>
+        {/* </div> */}
+        {/* <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button> */}
       </form>
       <div>
 
