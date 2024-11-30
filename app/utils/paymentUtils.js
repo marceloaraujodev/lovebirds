@@ -1,5 +1,5 @@
-import uploadPhotosToFirebase from "@/app/utils/uploadToBucket"; // If you need this
-import User from "@/app/model/user"; // If you need this
+import uploadPhotosToFirebase from "@/app/utils/uploadToBucket"; 
+import User from "@/app/model/user"; 
 import { mongooseConnect } from "../lib/mongooseConnect";
 import { siteUrl, MODE } from '@/config'; 
 
@@ -18,25 +18,25 @@ export default async function processFormDataAndCreateUser(formData) {
   const photoFiles = formData.getAll("photos");
 
   // Upload the photos to Firebase and get the URLs
-  const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
+  // const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
 
   console.log('url , now on paymentUtils.js', `${siteUrl}/${url}`)
   console.log({name, hash, url})
 
-  // Create a new user in the database UNCOMMENT
-  const newUser = new User({
-    name,
-    date,
-    time,
-    url,
-    hash,
-    photos: uploadedPhotoURLs, // Store array of URLs for the photos
-    musicLink,
-    paid: false,
-    message,
-  });
+  // // Create a new user in the database UNCOMMENT
+  // const newUser = new User({
+  //   name,
+  //   date,
+  //   time,
+  //   url,
+  //   hash,
+  //   photos: uploadedPhotoURLs, // Store array of URLs for the photos
+  //   musicLink,
+  //   paid: false,
+  //   message,
+  // });
 
-  await newUser.save();
+  // await newUser.save();
 
   return {
     name,
@@ -44,7 +44,7 @@ export default async function processFormDataAndCreateUser(formData) {
     time,
     url,
     hash,
-    uploadedPhotoURLs,
+    // uploadedPhotoURLs,
     message,
   };
 }

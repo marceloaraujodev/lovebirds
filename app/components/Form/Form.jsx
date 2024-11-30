@@ -29,6 +29,7 @@ export default function Form() {
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
   // const [qrcode, setQrcode] = useState('');
+  const [isMercadoPagoOpen, setIsMercadoPagoOpen] = useState(false);
 
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
@@ -40,7 +41,6 @@ export default function Form() {
       setStartCounting(true); // Start counting when the user submits date and time
     }
   },[date, time]);
-
 
   async function handleFileChange(e){
     setIsLoadingPhotos(true);
@@ -173,6 +173,7 @@ export default function Form() {
         },
       });
 
+
           // Call gtag to report conversion
           window.gtag('event', 'conversion', {
             'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
@@ -189,6 +190,7 @@ export default function Form() {
   }
 
   function createPageSubmit(e){
+    setIsMercadoPagoOpen(true);
     setIsLoading(true);
     handleSubmit(e);
   }
@@ -255,10 +257,13 @@ export default function Form() {
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
 
-        {/* <div> */}
-        <MercadoPagoWidget onClick={createPageSubmit}/>
-        {/* </div> */}
-        {/* <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button> */}
+        
+          {isMercadoPagoOpen ? <MercadoPagoWidget onClick={createPageSubmit}/> :
+           <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
+        }
+
+       
+       
       </form>
       <div>
 

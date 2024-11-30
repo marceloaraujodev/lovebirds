@@ -6,11 +6,13 @@ dotenv.config();
 const MercadoPagoWidget = () => {
   const [preferenceId, setPreferenceId] = useState(null);
   const isWidgetInitialized = useRef(false);
+  console.log( process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
 
   useEffect(() => {
     const fetchPreferenceId = async () => {
       try {
         // Call backend API to create preference
+        // const response = await fetch('/api/mercadopago/createbtn', { method: 'POST' });
         const response = await fetch('/api/mercadopago/createbtn', { method: 'POST' });
 
         if (!response.ok) {

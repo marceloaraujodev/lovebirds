@@ -48,7 +48,7 @@ export async function POST(req) {
             url: "user/unique-url",
           },
         },
-      });
+    });
 
     return NextResponse.json({ message: 'success', preferenceId: res.id });
   } catch (error) {
