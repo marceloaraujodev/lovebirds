@@ -38,6 +38,8 @@ export default async function processFormDataAndCreateUser(formData) {
 
   // await newUser.save();
 
+  console.log('No users being created during testing- looking for the flow only')
+
   return {
     name,
     date,

@@ -1,77 +1,101 @@
 import { NextResponse } from "next/server";
 import crypto from 'crypto';
 import dotenv from 'dotenv';
+import { mongooseConnect } from "@/app/lib/mongooseConnect";
 
 dotenv.config();
 
 // use ngrok to test it ngrok http 3000 (runs on powershell)
 
 export async function POST(req){
-  console.log('enter webhook');
-  
-  // Obtain the x-signature value from the header
-  const headers = req.headers;
-  const xSignature = headers.get('x-signature');  
-  const xRequestId = headers.get('x-request-id');  // The request ID sent by MercadoPago
-  
-  // console.log('Received headers:', xSignature, xRequestId);
+    await mongooseConnect();
 
-  // Obtain Query params related to the request URL
-  const { searchParams } = new URL(req.nextUrl)
-  const dataID = searchParams.get('data.id')
-  const type = searchParams.get('type')
-  
-//   console.log('this is url params:', dataID, type);
-
-  // Separating the x-signature into parts
-  const parts = xSignature.split(',');
-
-  // Initializing variables to store ts and hash
-  let ts;
-  let hash;
-
-  // Iterate over the values to obtain ts and v1
-  parts.forEach(part => {
-      // Split each part into key and value
-      const [key, value] = part.split('=');
-      if (key && value) {
-          const trimmedKey = key.trim();
-          const trimmedValue = value.trim();
-          if (trimmedKey === 'ts') {
-              ts = trimmedValue;
-          } else if (trimmedKey === 'v1') {
-              hash = trimmedValue;
-          }
-      }
-  });
-
-  // Obtain the secret key for the user/application from Mercadopago developers site
-  const secret = process.env.MERCADO_PAGO_WEBHOOK_SECRET;
-
-  // Generate the manifest string
-  const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
-
-  // Create an HMAC signature
-  const hmac = crypto.createHmac('sha256', secret);
-  hmac.update(manifest);
-
-  // Obtain the hash result as a hexadecimal string
-  const sha = hmac.digest('hex');
-
-  if (sha === hash) {
-      // HMAC verification passed
-      console.log("HMAC verification passed");
+    try {
+        console.log('enter webhook ----->>>>>>>>');
+        const data = await req.json()
+        console.log('this is data:', data);
+        
+        // Obtain the x-signature value from the header
+        const headers = req.headers;
+        const xSignature = headers.get('x-signature');  
+        const xRequestId = headers.get('x-request-id');  // The request ID sent by MercadoPago
       
-      // send email and update user payment status
+      //   console.log(headers);
+        
+      //   console.log('Received headers, compare those with :', xSignature, xRequestId);
       
-  } else {
-      // HMAC verification failed
-      console.log("HMAC verification failed");
-  }
+        // Obtain Query params related to the request URL
+        const { searchParams } = new URL(req.nextUrl)
+        const dataID = searchParams.get('data.id')
+        const type = searchParams.get('type')
+        console.log('this is search params', searchParams)
+        
+        console.log('this is url params:', dataID, type);
 
-  console.log('passed all the code');
-
-  return NextResponse.json({status: 200})
+      
+        // Separating the x-signature into parts
+        const parts = xSignature.split(',');
+      
+        // Initializing variables to store ts and hash
+        let ts;
+        let hash;
+      
+        // Iterate over the values to obtain ts and v1
+        parts.forEach(part => {
+            // Split each part into key and value
+            const [key, value] = part.split('=');
+            if (key && value) {
+                const trimmedKey = key.trim();
+                const trimmedValue = value.trim();
+                if (trimmedKey === 'ts') {
+                    ts = trimmedValue;
+                } else if (trimmedKey === 'v1') {
+                    hash = trimmedValue;
+                }
+            }
+        });
+      
+        // Obtain the secret key for the user/application from Mercadopago developers site
+        const secret = process.env.MERCADO_PAGO_WEBHOOK_SECRET;
+      
+        // Generate the manifest string
+        const manifest = `id:${dataID};request-id:${xRequestId};ts:${ts};`;
+      
+        // Create an HMAC signature
+        const hmac = crypto.createHmac('sha256', secret);
+          hmac.update(manifest);
+      //   console.log(secret);
+      //   console.log('hmac:', hmac);
+        // Obtain the hash result as a hexadecimal string
+        const sha = hmac.digest('hex');
+      
+      //   console.log('sha === hmac', sha === hmac);
+      
+      //     console.log('Manifest:', manifest);
+      //     console.log('Computed hash (sha):', sha);
+      //     console.log('Received hash (v1):', hash);
+      //     console.log('Webhook secret:', secret);
+      //     console.log('TS from header:', ts);
+      
+        if (sha === hash) {
+            // HMAC verification passed
+            console.log("HMAC verification passed");
+            if(type === 'payment'){
+              console.log('enter payment updated')
+              // grap metadata from item and use the hash to find user and change paid to true
+              // send email and update user payment status
+            }
+            
+        } else {
+            // HMAC verification failed
+            console.log("HMAC verification failed");
+        }
+      
+      
+        return NextResponse.json({status: 200})
+    } catch (error) {
+        return NextResponse.json({status: 500})
+    }
 }
 
 /* 
@@ -95,3 +119,5 @@ export async function POST(req){
  template id:[data.id_url];request-id:[x-request-id_header];ts:[ts_header];
 */
 
+// // url after payment that links back to the site
+// success?collection_id=94966577742&collection_status=approved&payment_id=94966577742&status=approved&external_reference=null&payment_type                                                                                                      e=credit_card&merchant_order_id=25616455030&preference_id=1622982866-ca1247c6-e723-498d-9154-0e1cece30731&site_id=MLB&processing_mode=aggregator&merchant_account_id=null 

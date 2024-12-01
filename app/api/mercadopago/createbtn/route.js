@@ -5,9 +5,11 @@ import { siteUrl } from '@/config';
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Notifications change url after testing is done at localhost and moved to qrcodelove
+
 export async function POST(req) {
   await mongooseConnect();
-  console.log('created btn running');
+  console.log('created btn running ---------------------');
 
   try {
 
@@ -35,18 +37,12 @@ export async function POST(req) {
               quantity: 1,
               unit_price: 19.99,
             },
-          ],back_urls: {
-            success: `${process.env.siteUrl}/success`, // Adjust URLs as needed
-            failure: `${process.env.siteUrl}/failure`,
+          ],
+          back_urls: {
+            success: `${siteUrl}/success`, // Adjust URLs as needed
+            failure: `${siteUrl}/failure`,
           },
-          metadata: {
-            name: "User Name",
-            date: "2024-10-01",
-            time: "12:36",
-            hash: "unique-hash-id",
-            email: "user@example.com",
-            url: "user/unique-url",
-          },
+          notification_url: `https://db2f-2804-1b2-6042-c3ea-3c90-efd4-974b-b863.ngrok-free.app/api/mercadopago/webhook`, 
         },
     });
 

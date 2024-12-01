@@ -3,10 +3,10 @@ import { useEffect, useState, useRef } from 'react';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const MercadoPagoWidget = () => {
+const MercadoPagoWidget = ({createPageSubmit}) => {
   const [preferenceId, setPreferenceId] = useState(null);
   const isWidgetInitialized = useRef(false);
-  console.log( process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
+  // console.log( process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
 
   useEffect(() => {
     const fetchPreferenceId = async () => {
@@ -48,26 +48,11 @@ const MercadoPagoWidget = () => {
         .catch((err) =>
           console.error('Error initializing MercadoPago widget:', err)
         );
-
+        console.log('preferenceId from mercadopago widget', preferenceId);
       isWidgetInitialized.current = true; // Mark the widget as initialized
     }
   }, [preferenceId]);
 
-  useEffect(() => {
-    // Set a delay to apply the styles after the MercadoPago button is rendered
-    setTimeout(() => {
-      const mpButton = document.querySelector(
-        '.svelte-h6o0kp.mercadopago-color-2OUiJu'
-      );
-      if (mpButton) {
-        mpButton.style.backgroundColor = '#1cd426 !important'; // Change background color
-        mpButton.style.color = '#fff'; // Change text color
-        mpButton.style.borderRadius = '8px'; // Rounded corners
-        mpButton.style.fontSize = '16px'; // Font size
-        mpButton.style.padding = '10px 20px'; // Padding
-      }
-    }, 1000); // Delay to ensure the MercadoPago button is rendered
-  }, []);
 
   const handleCustomButtonClick = () => {
     // Trigger MercadoPago's button click functionality
@@ -76,6 +61,7 @@ const MercadoPagoWidget = () => {
     );
     if (mpButton) {
       mpButton.click(); // Simulate click on the hidden MercadoPago button
+      createPageSubmit();
     }
   };
 
@@ -89,8 +75,6 @@ const MercadoPagoWidget = () => {
             top: 0,
             left: 0,
             width: '100%',
-            // right: 0,
-            // bottom: 0,
             zIndex: 10, // Ensure this is above the MercadoPago button
             backgroundColor: 'rgb(44, 44, 44)', // Custom color
             color: '#fff',
@@ -112,3 +96,4 @@ const MercadoPagoWidget = () => {
 };
 
 export default MercadoPagoWidget;
+
