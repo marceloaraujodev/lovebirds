@@ -7,8 +7,7 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
 
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
-// import MercadoPagoWidget from '@/app/Checkout/MercadoPagoWidget';
+import { initMercadoPago, Payment } from '@mercadopago/sdk-react'
 
 initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
 
@@ -18,7 +17,6 @@ function sanitizeName(name) {
   return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
 
 export default function Form() {
   const [couplesName, setName] = useState('') // "e test"
@@ -35,60 +33,28 @@ export default function Form() {
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
   // const [qrcode, setQrcode] = useState('');
-  const [isMercadoPagoOpen, setIsMercadoPagoOpen] = useState(false);
+ 
   const [preferenceId, setPreferenceId] = useState(null);
-  const isWidgetInitialized = useRef(false);
+  const [isBrickReady, setBrickReady] = useState(false);
+
+  // Mercado Pago
 
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
   }, []);
 
   // mercadoPago
+  
+
   useEffect(() => {
-    const fetchPreferenceId = async () => {
-      try {
-        // Call backend API to create preference - when loads button needs to be ready
-        const response = await fetch('/api/mercadopago/createbtn', { method: 'POST' });
-
-        if (!response.ok) {
-          throw new Error('Failed to create preference');
-        }
-
-        const data = await response.json();
-        setPreferenceId(data.preferenceId); // Set the preferenceId
-      } catch (error) {
-        console.error('Error fetching preference ID:', error);
-      }
-    };
-
-    fetchPreferenceId();
-   
-  }, []);
-
-
-  // useEffect(() => {
-  //   if (preferenceId && !isWidgetInitialized.current) {
-  //     // Ensure the widget is only initialized once
-  //     const mp = new window.MercadoPago(
-  //       process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY,
-  //       {
-  //         locale: 'pt-BR',
-  //       }
-  //     );
-
-  //     mp.bricks()
-  //       .create('wallet', 'wallet_container', {
-  //         initialization: {
-  //           preferenceId: preferenceId, // Set preferenceId
-  //         },
-  //       })
-  //       .catch((err) =>
-  //         console.error('Error initializing MercadoPago widget:', err)
-  //       );
-  //       console.log('preferenceId from mercadopago widget', preferenceId);
-  //     isWidgetInitialized.current = true; // Mark the widget as initialized
-  //   }
-  // }, [preferenceId]);
+    if(preferenceId){
+      // initialization.preferenceId = preferenceId;
+      setBrickReady(true);
+      const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+      window.open(paymentUrl, '_blank'); 
+    }
+    // window.paymentBrickController.unmount() need to use this if user leaves page
+  }, [preferenceId]);
 
 
   // starts counting Timer
@@ -238,31 +204,24 @@ export default function Form() {
           //   'currency': 'BRL',
           //   'transaction_id': '' // Optionally set a transaction ID if available
           // });
+
+          if (res.status === 200){
+            console.log('response from mercadopago: ', res)
+            setPreferenceId(res.data.preferenceId)
+          }
        
       } catch (error) {
         console.log(error)
       }
       setIsLoading(false);
       setIsPreviewing(false);
-      setIsMercadoPagoOpen(false); // just for safety
   }
 
   function createPageSubmit(e){
-    setIsMercadoPagoOpen(true);
     setIsLoading(true);
     handleSubmit(e);
   }
 
-  const handleCustomButtonClick = (e) => {
-    // Trigger MercadoPago's button click functionality
-    const mpButton = document.querySelector(
-      '.svelte-h6o0kp.mercadopago-color-2OUiJu'
-    );
-    if (mpButton) {
-      mpButton.click(); // Simulate click on the hidden MercadoPago button
-      createPageSubmit(e);
-    }
-  };
 
   return (
     <div className={c.cont}>
@@ -326,35 +285,20 @@ export default function Form() {
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
 
-        {/* <MercadoPagoWidget createPageSubmit={createPageSubmit}/> */}
-        {/* <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button> */}
+
+        <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
         
-        <div style={{ position: 'relative', height: '70px',  }}>
-          <button
-            onClick={(e) => handleCustomButtonClick(e)}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              zIndex: 10, // Ensure this is above the MercadoPago button
-              backgroundColor: 'rgb(44, 44, 44)', // Custom color
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '2rem',
-              padding: '5px 20px',
-              border: '2px solid rgb(255, 0, 255)',
-              cursor: 'pointer',
-              height: '70px',
-              fontWeight: '600'
-            }}>
-            Criar Página
-          </button>
-          <div style={{ position: "absolute", visibility: 'hidden', height: '0px' }} id="wallet_container">
-          <Wallet initialization={{ preferenceId }} customization={{ texts:{ valueProp: 'smart_option'}}} />
-          </div>
-      </div>
-      
+        {isBrickReady && <div id="paymentBrick_container">
+          {/* <Payment
+            initialization={initialization}
+            customization={customization}
+            preferenceId={preferenceId} // The preferenceId from the backend
+            onSubmit={onSubmit}
+            onReady={onReady}
+            onError={onError}
+          /> */}
+          </div>}
+
       </form>
       <div>
 

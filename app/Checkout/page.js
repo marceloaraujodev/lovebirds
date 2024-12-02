@@ -1,11 +1,8 @@
-import MercadoPagoWidget from "./MercadoPagoWidget";
-
-export default function CheckoutPage () {
+import c from './checkout.module.css'
+export default function CheckoutPage() {
   return (
-    <div>
-      <MercadoPagoWidget />
+    <div className={c.body}>
+x
     </div>
-  );
-};
-
-
+  )
+}

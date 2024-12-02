@@ -42,7 +42,7 @@ export async function POST(req) {
             success: `${siteUrl}/success`, // Adjust URLs as needed
             failure: `${siteUrl}/failure`,
           },
-          notification_url: `https://db2f-2804-1b2-6042-c3ea-3c90-efd4-974b-b863.ngrok-free.app/api/mercadopago/webhook`, 
+          notification_url: `https://0722-2804-1b2-6043-6d70-3db9-284d-f200-6896.ngrok-free.app/api/mercadopago/webhook`, 
         },
     });
 

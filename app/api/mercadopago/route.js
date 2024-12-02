@@ -5,19 +5,28 @@ import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import Click from "@/app/model/click";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import { siteUrl } from "@/config";
+import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
+
+
+
 import dotenv from 'dotenv';
 
 dotenv.config();
-// console.log(process.env.siteUrl);
 
+const client = new MercadoPagoConfig({
+  accessToken: process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN,
+});
+console.log(client);
 
 export async function POST(req){
   await mongooseConnect();
 
   try {
+
+
     const formData = await req.formData();
 
-    console.log(formData);
+    // console.log(formData);
     
     const name = formData.get("name");
     const date = formData.get("date");
@@ -28,7 +37,39 @@ export async function POST(req){
     const message = formData.get("message");
     const preferenceId = formData.get("preferenceId");
 
-    console.log(preferenceId);
+    const preference = new Preference(client);
+
+    console.log('this is hash', hash);
+
+
+    const res = await preference.create({
+      body: {
+        payment_methods: {
+          excluded_payment_methods: [{ id: "pec" }],
+          excluded_payment_types: [],
+          installments: 1,
+        },
+        items: [
+          {
+            title: "QR Code Love",
+            quantity: 1,
+            unit_price: 19.99,
+          },
+        ],
+        external_reference: {hash: hash, name: name}, // Include the user's _id here
+        back_urls: {
+          success: `${siteUrl}/success`,
+          failure: `${siteUrl}/failure`,
+        },
+        notification_url: `https://0722-2804-1b2-6043-6d70-3db9-284d-f200-6896.ngrok-free.app/api/mercadopago/webhook`,
+      },
+    });
+
+    // console.log(res);
+
+    // console.log(res.id);
+
+
   
     // const photos = [];
     // const photoFiles = formData.getAll("photos");
@@ -64,7 +105,7 @@ export async function POST(req){
     //   { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
     // );
   
-    return NextResponse.json({message: 'success'}, {status: 200})
+    return NextResponse.json({message: 'success', preferenceId: res.id}, {status: 200})
     
   } catch (error) {
     console.log(error);
