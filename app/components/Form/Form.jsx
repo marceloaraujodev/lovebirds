@@ -26,7 +26,7 @@ export default function Form() {
   const [musicLink, setMusicLink] = useState(''); // youtube url
   const [photoPreviews, setPhotoPreviews] = useState([]) // ["blob:http://localhost:3000/f...
   const [startCounting, setStartCounting] = useState(false);
-  const [url, setUrl] = useState('') // "e-test" how part of the url will be. url/hash 
+  const [path, setPath] = useState('') // "e-test" how part of the url will be. url/hash 
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
@@ -44,12 +44,11 @@ export default function Form() {
   }, []);
 
   // mercadoPago
-  
-
   useEffect(() => {
     if(preferenceId){
       // initialization.preferenceId = preferenceId;
       setBrickReady(true);
+      // redirect user to mercado pago page
       const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
       window.open(paymentUrl, '_blank'); 
     }
@@ -119,7 +118,7 @@ export default function Form() {
   function formatUrl(nameInput){
     const nameArr = nameInput.split(' ');
     const formattedName = nameArr.map(word => word.split(',')).join('-');
-    setUrl(sanitizeName(formattedName))
+    setPath(sanitizeName(formattedName))
   }
 
   // need to change to send the submittion to stripe api then use webhook
@@ -163,10 +162,10 @@ export default function Form() {
     formData.append('musicLink', musicLink);
     formData.append('message', message);
     formData.append('hash', hash);
-    formData.append('url', `${url}/${hash}`);
+    formData.append('url', `${path}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
 
-    const couplesNameEnconded = encodeURIComponent(couplesName)
+    const couplesNameEnconded = encodeURIComponent(couplesName).replace(/%20/g, '-')
 
     console.log('Couples encoded url:', couplesNameEnconded)
     console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
@@ -191,7 +190,7 @@ export default function Form() {
 
       
       // // Mercado pago
-      const res = await axios.post('/api/mercadopago', formData, {
+      const res = await axios.post('/api/process_payment', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', // If you're sending files
         },
@@ -206,7 +205,7 @@ export default function Form() {
           // });
 
           if (res.status === 200){
-            console.log('response from mercadopago: ', res)
+            console.log('response from process_payment: ', res)
             setPreferenceId(res.data.preferenceId)
           }
        
@@ -306,7 +305,7 @@ export default function Form() {
         date={date} 
         time={time} 
         startCounting={startCounting} 
-        url={url} 
+        url={path} 
         photos={photoPreviews} 
         musicLink={musicLink}
         isPreviewing={isPreviewing}
