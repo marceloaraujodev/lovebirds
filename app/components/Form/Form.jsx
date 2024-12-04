@@ -39,6 +39,7 @@ export default function Form() {
   const fileRef = useRef(null);
   // const [qrcode, setQrcode] = useState('');
  
+  // Mercado Pago
   const [preferenceId, setPreferenceId] = useState(null);
   const [isBrickReady, setBrickReady] = useState(false);
 
@@ -48,18 +49,18 @@ export default function Form() {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
   }, []);
 
-  // mercadoPago
-  useEffect(() => {
-    if(preferenceId){
-      // initialization.preferenceId = preferenceId;
-      setBrickReady(true);
-      // redirect user to mercado pago page
-      const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
-      // window.open(paymentUrl, '_blank'); 
-      window.location.href = paymentUrl;
-    }
-    // window.paymentBrickController.unmount() need to use this if user leaves page
-  }, [preferenceId]);
+  // // mercadoPago
+  // useEffect(() => {
+  //   if(preferenceId){
+  //     // initialization.preferenceId = preferenceId;
+  //     setBrickReady(true);
+  //     // redirect user to mercado pago page
+  //     const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+  //     // window.open(paymentUrl, '_blank'); 
+  //     window.location.href = paymentUrl;
+  //   }
+  //   // window.paymentBrickController.unmount() need to use this if user leaves page
+  // }, [preferenceId]);
 
 
   // starts counting Timer
@@ -197,40 +198,42 @@ export default function Form() {
 
 
     try {
-      // // comment out since is for stripe 
-      // const res = await axios.post('/api/create-checkout-session', formData,
-      //   {
-      //         headers: {
-      //       'Content-Type': 'multipart/form-data', // Important for file uploads
-      //     }
-      //   });
+      // comment out since is for stripe 
+      const res = await axios.post('/api/create-checkout-session', formData,
+        {
+              headers: {
+            'Content-Type': 'multipart/form-data', // Important for file uploads
+          }
+        });
         
-      //     if (res.status === 200) {
-      //       // Redirect to Stripe Checkout
-      //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-      // }
+          if (res.status === 200) {
+            // Redirect to Stripe Checkout
+            window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+      }
 
       
-      // // // Mercado pago
-      const res = await axios.post('/api/process_payment', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // If you're sending files
-        },
-      });
+      // // // // Mercado pago
+      // const res = await axios.post('/api/process_payment', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
 
-          // // Call gtag to report conversion turn back on when done!!!!!!
-          // window.gtag('event', 'conversion', {
-          //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-          //   'value': 1.0,
-          //   'currency': 'BRL',
-          //   'transaction_id': '' // Optionally set a transaction ID if available
-          // });
+      
+      // if (res.status === 200){
+      //   console.log('response from process_payment: ', res)
+      //   setPreferenceId(res.data.preferenceId)
+      // }
 
-          if (res.status === 200){
-            console.log('response from process_payment: ', res)
-            setPreferenceId(res.data.preferenceId)
-          }
-       
+      // // End Mercado pago
+      
+      // // Call gtag to report conversion turn back on when done!!!!!!
+      // window.gtag('event', 'conversion', {
+      //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+      //   'value': 1.0,
+      //   'currency': 'BRL',
+      //   'transaction_id': '' // Optionally set a transaction ID if available
+      // });
       } catch (error) {
         console.log(error)
       }
