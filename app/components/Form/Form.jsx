@@ -63,21 +63,29 @@ export default function Form() {
     }
   },[date, time]);
 
+  function clearPhotos(){
+    setPhotos([]);
+    setPhotoPreviews([]);
+    setIsPreviewing(false);
+  }
+
   async function handleFileChange(e){
     setIsLoadingPhotos(true);
     const files = Array.from(e.target.files); // Convert FileList to array
+    const maxPhotos = 3;
     const previews = [];
     const validPhotos = [];
-
     const maxSize = 900 * 1024  
     
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
-    if(files.length > 3){
+    // checks the amount of photos allowed
+    if(photos.length + files.length > maxPhotos){
       alert('Maximum 3 photos allowed!');
       setIsLoadingPhotos(false);
       return;
     }
+
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for(let file of files){
       if(file.size > maxSize){
@@ -101,8 +109,16 @@ export default function Form() {
       }
     }
 
-    setPhotoPreviews(previews);
-    setPhotos(validPhotos); 
+    // setPhotoPreviews(previews);
+    // setPhotos(validPhotos); 
+    setPhotoPreviews((prevPreviews) => {
+      const updatedPreviews = [...prevPreviews, ...previews].slice(0, maxPhotos);
+      return updatedPreviews;
+    });
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos, ...validPhotos].slice(0, maxPhotos);
+      return updatedPhotos;
+    }); 
     setIsPreviewing(true);
     setIsLoadingPhotos(false);
   }
@@ -189,12 +205,12 @@ export default function Form() {
       // }
 
       
-      // // Mercado pago
-      const res = await axios.post('/api/process_payment', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // If you're sending files
-        },
-      });
+      // // // Mercado pago
+      // const res = await axios.post('/api/process_payment', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
 
           // // Call gtag to report conversion turn back on when done!!!!!!
           // window.gtag('event', 'conversion', {
@@ -220,6 +236,7 @@ export default function Form() {
     setIsLoading(true);
     handleSubmit(e);
   }
+
 
 
   return (
@@ -288,14 +305,6 @@ export default function Form() {
         <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
         
         {isBrickReady && <div id="paymentBrick_container">
-          {/* <Payment
-            initialization={initialization}
-            customization={customization}
-            preferenceId={preferenceId} // The preferenceId from the backend
-            onSubmit={onSubmit}
-            onReady={onReady}
-            onError={onError}
-          /> */}
           </div>}
 
       </form>
@@ -309,6 +318,7 @@ export default function Form() {
         photos={photoPreviews} 
         musicLink={musicLink}
         isPreviewing={isPreviewing}
+        clearPhotos={clearPhotos}
       />
       </div>
       
