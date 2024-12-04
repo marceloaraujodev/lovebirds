@@ -6,6 +6,7 @@ import Click from "@/app/model/click";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import { siteUrl } from "@/config";
 import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
+import { MODE } from "@/config";
 
 
 
@@ -14,19 +15,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN,
+  accessToken: MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN,
 });
-console.log(client);
+// console.log(client);
+// console.log('test mode', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN)
 
 export async function POST(req){
   await mongooseConnect();
 
   try {
-
-
     const formData = await req.formData();
-
-    // console.log(formData);
     
     const name = formData.get("name");
     const date = formData.get("date");
@@ -38,8 +36,8 @@ export async function POST(req){
 
     const preference = new Preference(client);
 
-    console.log('this is hash', hash);
-    console.log('this is url', path);
+    // console.log('this is hash', hash);
+    // console.log('this is url', path);
 
 
     const res = await preference.create({
@@ -63,7 +61,7 @@ export async function POST(req){
         },
          auto_return: 'approved',
         // webhook route url
-        notification_url: process.env.MERCADO_PAPGO_NOTIFICATION_URL,
+        notification_url:process.env.MERCADO_PAPGO_TEST_NOTIFICATION_URL,
         // const { name, date, time, url, hash } = data.metadata;
         metadata: {
           name: name,
@@ -78,41 +76,41 @@ export async function POST(req){
 
     // console.log(res);
 
-    // console.log(res.id);
+    console.log(res.id);
 
-    const photos = [];
-    const photoFiles = formData.getAll("photos");
+    // const photos = [];
+    // const photoFiles = formData.getAll("photos");
   
-    // // Upload the photos to Firebase and get the URLs
-    const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
+    // // // Upload the photos to Firebase and get the URLs
+    // const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
   
-    console.log('url , now on paymentUtils.js', `${siteUrl}/${path}`)
-    console.log({name, hash, path})
+    // console.log('url , now on paymentUtils.js', `${siteUrl}/${path}`)
+    // console.log({name, hash, path})
   
-    // Create a new user in the database UNCOMMENT
-    const newUser = new User({
-      name,
-      date,
-      time,
-      url: path,
-      hash,
-      photos: uploadedPhotoURLs, // Store array of URLs for the photos
-      musicLink,
-      paid: false,
-      message,
-    });
+    // // Create a new user in the database UNCOMMENT
+    // const newUser = new User({
+    //   name,
+    //   date,
+    //   time,
+    //   url: path,
+    //   hash,
+    //   photos: uploadedPhotoURLs, // Store array of URLs for the photos
+    //   musicLink,
+    //   paid: false,
+    //   message,
+    // });
   
-    await newUser.save();
+    // await newUser.save();
 
-    console.log(name, date, time, path, hash, message);
+    // console.log(name, date, time, path, hash, message);
 
 
-    // // Find the Click document and increment clicks by 1 or create it if not exists
-    await Click.findOneAndUpdate(
-      {},  // Your criteria; leave empty if there's only one click counter document
-      { $inc: { clicks: 1 } },
-      { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
-    );
+    // // // Find the Click document and increment clicks by 1 or create it if not exists
+    // await Click.findOneAndUpdate(
+    //   {},  // Your criteria; leave empty if there's only one click counter document
+    //   { $inc: { clicks: 1 } },
+    //   { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
+    // );
   
     return NextResponse.json({message: 'success', preferenceId: res.id}, {status: 200})
     

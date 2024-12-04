@@ -6,10 +6,15 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
+import { MODE } from '@/config';
 
-import { initMercadoPago, Payment } from '@mercadopago/sdk-react'
+import { initMercadoPago } from '@mercadopago/sdk-react'
 
-initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY);
+
+
+initMercadoPago(MODE === 'dev' ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY : 
+  process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY
+);
 
 // sanitize name
 function sanitizeName(name) {
@@ -50,7 +55,8 @@ export default function Form() {
       setBrickReady(true);
       // redirect user to mercado pago page
       const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
-      window.open(paymentUrl, '_blank'); 
+      // window.open(paymentUrl, '_blank'); 
+      window.location.href = paymentUrl;
     }
     // window.paymentBrickController.unmount() need to use this if user leaves page
   }, [preferenceId]);
@@ -206,11 +212,11 @@ export default function Form() {
 
       
       // // // Mercado pago
-      // const res = await axios.post('/api/process_payment', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data', // If you're sending files
-      //   },
-      // });
+      const res = await axios.post('/api/process_payment', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // If you're sending files
+        },
+      });
 
           // // Call gtag to report conversion turn back on when done!!!!!!
           // window.gtag('event', 'conversion', {

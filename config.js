@@ -9,6 +9,7 @@ const MODE = process.env.NODE_ENV === 'development' ? 'dev' : 'production';
 // Define reusable variables based on MODE
 const siteUrl = MODE === 'dev' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
+
 // Stripe configuration based on environment
 const stripeSecretKey = MODE === 'dev' 
   ? process.env.STRIPE_SECRET_KEY

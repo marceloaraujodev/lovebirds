@@ -8,12 +8,15 @@ import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
 import sendMail from '@/app/utils/sendEmail';
 import axios from 'axios';
 import { siteUrl } from '@/config';
+import { MODE } from '@/config';
 dotenv.config();
 
 // use ngrok to test it ngrok http 3000 (runs on powershell)
 
+console.log('test mode', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN)
+
 const client = new MercadoPagoConfig({
-  accessToken: process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN,
+  accessToken: MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN,
 });
 
 export async function POST(req) {
@@ -22,6 +25,8 @@ export async function POST(req) {
   try {
     console.log('enter webhook ----->>>>>>>>');
     const data = await req.json();
+
+    console.log(data);
 
     const { action, data: webhookData, type: typeInData } = data;
     // console.log('this is data:', data);
