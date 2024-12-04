@@ -49,19 +49,17 @@ export default function Faq() {
         {faqItems.map((item, index) => {
           return (
             <>
-              <details 
-                  key={index}
-                  className={c.faqCard}
-                  onToggle={(e) => handleToggle(index, e.target.open)}>
+              <details
+                key={index}
+                className={c.faqCard}
+                onToggle={(e) => handleToggle(index, e.target.open)}>
                 <summary>
                   {item.question}
                   <span className={c.icon}>
-                    {activeIndex === index ? <SlArrowUp/> : <SlArrowDown />}
+                    {activeIndex === index ? <SlArrowUp /> : <SlArrowDown />}
                   </span>
                 </summary>
-                <p>
-                  {item.answer}
-                </p>
+                <p>{item.answer}</p>
               </details>
             </>
           );
