@@ -6,12 +6,22 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
+import { MODE } from '@/config';
+
+import { initMercadoPago } from '@mercadopago/sdk-react'
+
+
+
+initMercadoPago(MODE === 'dev' ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY : 
+  process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY
+);
 
 // sanitize name
 function sanitizeName(name) {
   // Normalize the string and remove accents/diacritics (e.g., 'é' becomes 'e')
   return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
+
 
 export default function Form() {
   const [couplesName, setName] = useState('') // "e test"
@@ -21,17 +31,37 @@ export default function Form() {
   const [musicLink, setMusicLink] = useState(''); // youtube url
   const [photoPreviews, setPhotoPreviews] = useState([]) // ["blob:http://localhost:3000/f...
   const [startCounting, setStartCounting] = useState(false);
-  const [url, setUrl] = useState('') // "e-test" how part of the url will be. url/hash 
+  const [path, setPath] = useState('') // "e-test" how part of the url will be. url/hash 
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
   // const [qrcode, setQrcode] = useState('');
+ 
+  // Mercado Pago
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [isBrickReady, setBrickReady] = useState(false);
+
+  // Mercado Pago
 
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
   }, []);
+
+  // // mercadoPago
+  // useEffect(() => {
+  //   if(preferenceId){
+  //     // initialization.preferenceId = preferenceId;
+  //     setBrickReady(true);
+  //     // redirect user to mercado pago page
+  //     const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+  //     // window.open(paymentUrl, '_blank'); 
+  //     window.location.href = paymentUrl;
+  //   }
+  //   // window.paymentBrickController.unmount() need to use this if user leaves page
+  // }, [preferenceId]);
+
 
   // starts counting Timer
   useEffect(() => {
@@ -40,22 +70,29 @@ export default function Form() {
     }
   },[date, time]);
 
+  function clearPhotos(){
+    setPhotos([]);
+    setPhotoPreviews([]);
+    setIsPreviewing(false);
+  }
 
   async function handleFileChange(e){
     setIsLoadingPhotos(true);
     const files = Array.from(e.target.files); // Convert FileList to array
+    const maxPhotos = 3;
     const previews = [];
     const validPhotos = [];
-
     const maxSize = 900 * 1024  
     
     // const previews = files.map((file) => URL.createObjectURL(file)); // Create Blob URLs for each file
 
-    if(files.length > 3){
+    // checks the amount of photos allowed
+    if(photos.length + files.length > maxPhotos){
       alert('Maximum 3 photos allowed!');
       setIsLoadingPhotos(false);
       return;
     }
+
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for(let file of files){
       if(file.size > maxSize){
@@ -79,8 +116,16 @@ export default function Form() {
       }
     }
 
-    setPhotoPreviews(previews);
-    setPhotos(validPhotos); 
+    // setPhotoPreviews(previews);
+    // setPhotos(validPhotos); 
+    setPhotoPreviews((prevPreviews) => {
+      const updatedPreviews = [...prevPreviews, ...previews].slice(0, maxPhotos);
+      return updatedPreviews;
+    });
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos, ...validPhotos].slice(0, maxPhotos);
+      return updatedPhotos;
+    }); 
     setIsPreviewing(true);
     setIsLoadingPhotos(false);
   }
@@ -96,7 +141,7 @@ export default function Form() {
   function formatUrl(nameInput){
     const nameArr = nameInput.split(' ');
     const formattedName = nameArr.map(word => word.split(',')).join('-');
-    setUrl(sanitizeName(formattedName))
+    setPath(sanitizeName(formattedName))
   }
 
   // need to change to send the submittion to stripe api then use webhook
@@ -140,18 +185,20 @@ export default function Form() {
     formData.append('musicLink', musicLink);
     formData.append('message', message);
     formData.append('hash', hash);
-    formData.append('url', `${url}/${hash}`);
+    formData.append('url', `${path}/${hash}`);
     photos.forEach((file) => formData.append('photos', file));
 
-    const couplesNameEnconded = encodeURIComponent(couplesName)
+    const couplesNameEnconded = encodeURIComponent(couplesName).replace(/%20/g, '-')
 
     console.log('Couples encoded url:', couplesNameEnconded)
     console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
-    formData.append('url', `${couplesNameEnconded}/${hash}`);
+    formData.set('url', `${couplesNameEnconded}/${hash}`);
+    formData.set('preferenceId', preferenceId);
 
 
     try {
+      // comment out since is for stripe 
       const res = await axios.post('/api/create-checkout-session', formData,
         {
               headers: {
@@ -159,26 +206,38 @@ export default function Form() {
           }
         });
         
-          // Call gtag to report conversion
-          window.gtag('event', 'conversion', {
-            'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-            'value': 1.0,
-            'currency': 'BRL',
-            'transaction_id': '' // Optionally set a transaction ID if available
-          });
-
-          // if(res.status === 200) {
-          //   setQrcode(res.data.qrcode) // might not need this
-          // }
           if (res.status === 200) {
             // Redirect to Stripe Checkout
             window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-          }
-       
+      }
+
+      
+      // // // // Mercado pago
+      // const res = await axios.post('/api/process_payment', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
+
+      
+      // if (res.status === 200){
+      //   console.log('response from process_payment: ', res)
+      //   setPreferenceId(res.data.preferenceId)
+      // }
+
+      // // End Mercado pago
+      
+      // // Call gtag to report conversion turn back on when done!!!!!!
+      // window.gtag('event', 'conversion', {
+      //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+      //   'value': 1.0,
+      //   'currency': 'BRL',
+      //   'transaction_id': '' // Optionally set a transaction ID if available
+      // });
       } catch (error) {
         console.log(error)
       }
-      setIsLoading(false)
+      setIsLoading(false);
       setIsPreviewing(false);
   }
 
@@ -186,6 +245,8 @@ export default function Form() {
     setIsLoading(true);
     handleSubmit(e);
   }
+
+
 
   return (
     <div className={c.cont}>
@@ -248,7 +309,13 @@ export default function Form() {
         </button>
 
         <input className={c.filePicker} type="file" name="photos" multiple ref={fileRef} onChange={handleFileChange} />
+
+
         <button onClick={createPageSubmit} className={`${c.btn} ${c.create}`} type="submit" disabled={isLoading}>{isLoading ? <BeatLoader color="#ffffff"/> : 'Criar Página'}</button>
+        
+        {isBrickReady && <div id="paymentBrick_container">
+          </div>}
+
       </form>
       <div>
 
@@ -256,10 +323,11 @@ export default function Form() {
         date={date} 
         time={time} 
         startCounting={startCounting} 
-        url={url} 
+        url={path} 
         photos={photoPreviews} 
         musicLink={musicLink}
         isPreviewing={isPreviewing}
+        clearPhotos={clearPhotos}
       />
       </div>
       

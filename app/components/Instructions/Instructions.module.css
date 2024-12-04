@@ -35,6 +35,9 @@
 .cardIcon{
   width: 200px;
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .formIcon{
   top: 10px;
@@ -43,4 +46,32 @@
   box-shadow: 0 0 20px rgba(255, 0, 255, 1);
   margin-top: -20px;
   margin-bottom: 20px;
+}
+
+
+.qrLogoCont{
+  border-radius: 10px; /* Rounded corners for the image */
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  /* padding: 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.qrLogo{
+  width: 150px;
+  height: 150px;
+  padding: 2px;
+}
+.qrLogoCont::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(45deg, rgb(242, 0, 255), blue);
+  border-radius: 5px;
+  z-index: -1;
 }

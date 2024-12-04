@@ -12,12 +12,14 @@
     "test:safari": "npx playwright test --headed --browser=webkit"
   },
   "dependencies": {
+    "@mercadopago/sdk-react": "^0.0.19",
     "axios": "^1.7.7",
     "browser-image-compression": "^2.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
+    "mercadopago": "^2.0.15",
     "micro": "^10.0.1",
     "mongoose": "^8.7.0",
     "multer": "^1.4.5-lts.1",
