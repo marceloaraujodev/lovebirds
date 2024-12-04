@@ -45,9 +45,9 @@ export default function Form() {
 
   // Mercado Pago
 
-  useEffect(() => {
-    console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
-  }, []);
+  // useEffect(() => {
+  //   console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
+  // }, []);
 
   // // mercadoPago
   // useEffect(() => {
@@ -103,8 +103,8 @@ export default function Form() {
         });
 
       // Check the size of the compressed image
-      const compressedSizeMB = compressedFile.size / (1024 * 1024);
-      console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
+      // const compressedSizeMB = compressedFile.size / (1024 * 1024);
+      // console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
 
         const objectUrl = URL.createObjectURL(compressedFile);
         validPhotos.push(compressedFile);
@@ -116,8 +116,6 @@ export default function Form() {
       }
     }
 
-    // setPhotoPreviews(previews);
-    // setPhotos(validPhotos); 
     setPhotoPreviews((prevPreviews) => {
       const updatedPreviews = [...prevPreviews, ...previews].slice(0, maxPhotos);
       return updatedPreviews;
@@ -190,8 +188,8 @@ export default function Form() {
 
     const couplesNameEnconded = encodeURIComponent(couplesName).replace(/%20/g, '-')
 
-    console.log('Couples encoded url:', couplesNameEnconded)
-    console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
+    // console.log('Couples encoded url:', couplesNameEnconded)
+    // console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
     formData.set('url', `${couplesNameEnconded}/${hash}`);
     formData.set('preferenceId', preferenceId);
