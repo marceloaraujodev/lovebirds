@@ -93,14 +93,14 @@ export async function POST(req) {
         const config = {
           to: customerEmail,
           subject: `Seu Qr Code e detalhes de sua compra.`,
-          text: `Thank you for your purchase! Here is your QR code. If image is not available copy and paste this link: ${url}`,
+          text: `Obrigado pela sua compra! Aqui está o seu QR Code. Se a imagem não estiver disponível, copie e cole este link: ${url}`,
           html: `
             <h1>Detalhes da sua Compra</h1>
             <p>Obrigado, ${name}, por usar nossos serviços!</p>
-            <p>Here are your details:</p>
+            <p>Detalhes de sua compra:</p>
             <ul>
-              <li><strong>Date:</strong> ${date}</li>
-              <li><strong>Time:</strong> ${time}</li>
+              <li><strong>Data:</strong> ${date}</li>
+              <li><strong>Hora:</strong> ${time}</li>
             </ul>
             <p>Segue o seu QR code:</p>
             <img src="${qrCodeUrl}" alt="QR Code" />
@@ -157,16 +157,16 @@ export async function POST(req) {
       const config = {
         to: customerEmail,
         subject: `Seu Qr Code e detalhes de sua compra.`,
-        text: `Thank you for your purchase! Here is your QR code. If image is not available copy and paste this link: ${url}`,
+        text: `Obrigado pela sua compra! Aqui está o seu QR Code. Se a imagem não estiver disponível, copie e cole este link: ${url}`,
         html: `
             <h1>Detalhes da sua Compra</h1>
             <p>Obrigado, ${name}, por usar nossos serviços!</p>
-            <p>Here are your details:</p>
+            <p>Detalhes de sua compra:</p>
             <ul>
-              <li><strong>Date:</strong> ${date}</li>
-              <li><strong>Time:</strong> ${time}</li>
+              <li><strong>Data:</strong> ${date}</li>
+              <li><strong>Hora:</strong> ${time}</li>
             </ul>
-            <p>Here is your QR code:</p>
+            <p>Segue o seu QR code:</p>
             <img src="${qrCodeUrl}" alt="QR Code" />
             <p>Caso a image do QrCode não esteja aparecendo, você pode accessar a página com o link abaixo.</p>
             <p>${siteUrl}/${url}</p>
