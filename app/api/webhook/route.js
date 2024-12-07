@@ -92,7 +92,7 @@ export async function POST(req) {
         // Email Message configuration
         const config = {
           to: customerEmail,
-          subject: `Your QR Code and Details`,
+          subject: `Seu Qr Code e detalhes de sua compra.`,
           text: `Thank you for your purchase! Here is your QR code. If image is not available copy and paste this link: ${url}`,
           html: `
             <h1>Detalhes da sua Compra</h1>
@@ -102,7 +102,7 @@ export async function POST(req) {
               <li><strong>Date:</strong> ${date}</li>
               <li><strong>Time:</strong> ${time}</li>
             </ul>
-            <p>Here is your QR code:</p>
+            <p>Segue o seu QR code:</p>
             <img src="${qrCodeUrl}" alt="QR Code" />
             <p>Caso a image do QrCode não esteja aparecendo, você pode accessar a página com o link abaixo.</p>
             <p>${siteUrl}/${url}</p>
@@ -156,7 +156,7 @@ export async function POST(req) {
       // Send email with QR code and details
       const config = {
         to: customerEmail,
-        subject: `Your QR Code and Details`,
+        subject: `Seu Qr Code e detalhes de sua compra.`,
         text: `Thank you for your purchase! Here is your QR code. If image is not available copy and paste this link: ${url}`,
         html: `
             <h1>Detalhes da sua Compra</h1>
