@@ -225,13 +225,7 @@ export default function Form() {
 
       // // End Mercado pago
       
-      // // Call gtag to report conversion turn back on when done!!!!!!
-      // window.gtag('event', 'conversion', {
-      //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-      //   'value': 1.0,
-      //   'currency': 'BRL',
-      //   'transaction_id': '' // Optionally set a transaction ID if available
-      // });
+      // Call gtag to report conversion - moved to couples page
       } catch (error) {
         console.log(error)
       }

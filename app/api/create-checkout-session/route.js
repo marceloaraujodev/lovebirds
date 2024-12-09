@@ -28,7 +28,7 @@ export async function POST(req, res){
      const photos = [];
      const photoFiles = formData.getAll('photos');
 
-     console.log('this is name create chekcout route', name)
+    //  console.log('this is name create chekout route:', name)
 
 
 
@@ -37,7 +37,7 @@ export async function POST(req, res){
     // console.log('Uploaded photo URLs:', uploadedPhotoURLs);
 
 
-    console.log('url entering stripe', `${siteUrl}/${url}`)
+    // console.log('url entering stripe', `${siteUrl}/${url}`)
     console.log({name, hash, url})
     
     const stripe = new Stripe(stripeSecretKey)

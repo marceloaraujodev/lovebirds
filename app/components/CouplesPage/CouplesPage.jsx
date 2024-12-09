@@ -26,50 +26,81 @@ export default function CouplesPage({ couplesName, id }) {
   const playerRef = useRef(null);
   const btnRef = useRef(null);
 
+  // post use effect to change the firstAccss to true for gtag 
   // fetch couples data
   useEffect(() => {
+    // call the api and change the firstAccss to false
+    const updateFirstAccess = async () => {
+      try {
+        const res = await axios.post('/api/first_access', {
+          hash: id,
+          firstAccess: false
+        });
+        if(res.data.status === 200){
+          console.log('first access updated')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    // fetch data for couples page
     const fetchData = async () => {
       try {
         const res = await axios.get(
           `${siteUrl}/api/${couplesName}/${id}`
         );
         setData(res.data.user);
+        if(res.data.user.firstAccess === true) {
+          console.log('Gtag should only run on first access')
+            // run gtag 
+            window.gtag('event', 'conversion', {
+              'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+              'value': 1.0,
+              'currency': 'BRL',
+              'transaction_id': '' // Optionally set a transaction ID if available
+            });
+        }
+
+        await updateFirstAccess();
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
     };
+
+    // calls it first
     fetchData();
   }, [couplesName, id]);
 
-// Load YouTube API and initialize player
-useEffect(() => {
-  if (!videoId) return;
+  // Load YouTube API and initialize player
+  useEffect(() => {
+    if (!videoId) return;
 
-  loadYouTubeAPI()
-    .then(YT => {
-      playerRef.current = new YT.Player('youtube-player', {
-        height: '200',
-        width: '400',
-        videoId: videoId,
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          mute: 1,
-          loop: 1,
-          playlist: videoId,
-          host: 'https://www.youtube.com',
-          origin: 'https://www.qrcodelove.com'
-        },
-        events: {
-          // onReady: (event) => event.target.playVideo(),
-          onError: (event) => console.error("Error with YouTube player:", event),
-        },
-      });
-    })
-    .catch(error => console.error("Error loading YouTube API:", error));
-}, [videoId]);
+    loadYouTubeAPI()
+      .then(YT => {
+        playerRef.current = new YT.Player('youtube-player', {
+          height: '200',
+          width: '400',
+          videoId: videoId,
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            mute: 1,
+            loop: 1,
+            playlist: videoId,
+            host: 'https://www.youtube.com',
+            origin: 'https://www.qrcodelove.com'
+          },
+          events: {
+            // onReady: (event) => event.target.playVideo(),
+            onError: (event) => console.error("Error with YouTube player:", event),
+          },
+        });
+      })
+      .catch(error => console.error("Error loading YouTube API:", error));
+  }, [videoId]);
 
   // Extract videoId from the URL and set it
   useEffect(() => {
@@ -78,6 +109,8 @@ useEffect(() => {
       setVideoId(videoId);
     }
   }, [data]);
+
+ 
 
   // extract videoId function from the URL if is normal video or youtube shorts
   const extractVideoId = (url) => {
