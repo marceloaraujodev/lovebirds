@@ -209,8 +209,10 @@ export default function Form() {
             window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
       }
 
+      // // End of Stripe Checkout
+
       
-      // // // // Mercado pago
+      // // // Mercado pago
       // const res = await axios.post('/api/process_payment', formData, {
       //   headers: {
       //     'Content-Type': 'multipart/form-data', // If you're sending files
@@ -218,10 +220,10 @@ export default function Form() {
       // });
 
       
-      // if (res.status === 200){
-      //   console.log('response from process_payment: ', res)
-      //   setPreferenceId(res.data.preferenceId)
-      // }
+      //   if (res.status === 200){
+      //     console.log('response from process_payment: ', res)
+      //     setPreferenceId(res.data.preferenceId)
+      //   }
 
       // // End Mercado pago
       

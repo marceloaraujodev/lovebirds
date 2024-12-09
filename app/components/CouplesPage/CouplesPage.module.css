@@ -82,6 +82,7 @@
 }
 .btnText{
   padding-right: 10px;
+  cursor: pointer;
 }
 .print{
   display: flex;

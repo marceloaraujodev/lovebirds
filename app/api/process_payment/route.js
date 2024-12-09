@@ -78,39 +78,39 @@ export async function POST(req){
 
     console.log(res.id);
 
-    // const photos = [];
-    // const photoFiles = formData.getAll("photos");
+    const photos = [];
+    const photoFiles = formData.getAll("photos");
   
-    // // // Upload the photos to Firebase and get the URLs
-    // const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
+    // // Upload the photos to Firebase and get the URLs
+    const uploadedPhotoURLs = await uploadPhotosToFirebase(photoFiles, hash, name); // Returns array of URLs
   
-    // console.log('url , now on paymentUtils.js', `${siteUrl}/${path}`)
-    // console.log({name, hash, path})
+    console.log('url , now on paymentUtils.js', `${siteUrl}/${path}`)
+    console.log({name, hash, path})
   
-    // // Create a new user in the database UNCOMMENT
-    // const newUser = new User({
-    //   name,
-    //   date,
-    //   time,
-    //   url: path,
-    //   hash,
-    //   photos: uploadedPhotoURLs, // Store array of URLs for the photos
-    //   musicLink,
-    //   paid: false,
-    //   message,
-    // });
+    // Create a new user in the database UNCOMMENT
+    const newUser = new User({
+      name,
+      date,
+      time,
+      url: path,
+      hash,
+      photos: uploadedPhotoURLs, // Store array of URLs for the photos
+      musicLink,
+      paid: false,
+      message,
+    });
   
-    // await newUser.save();
+    await newUser.save();
 
-    // console.log(name, date, time, path, hash, message);
+    console.log(name, date, time, path, hash, message);
 
 
-    // // // Find the Click document and increment clicks by 1 or create it if not exists
-    // await Click.findOneAndUpdate(
-    //   {},  // Your criteria; leave empty if there's only one click counter document
-    //   { $inc: { clicks: 1 } },
-    //   { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
-    // );
+    // // Find the Click document and increment clicks by 1 or create it if not exists
+    await Click.findOneAndUpdate(
+      {},  // Your criteria; leave empty if there's only one click counter document
+      { $inc: { clicks: 1 } },
+      { new: true, upsert: true } // `upsert` option will create the document if it doesn't exist
+    );
   
     return NextResponse.json({message: 'success', preferenceId: res.id}, {status: 200})
     

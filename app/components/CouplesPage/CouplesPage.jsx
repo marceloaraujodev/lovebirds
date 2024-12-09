@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Preview from '../Preview/Preview';
 import Audio from '../Audio/Audio';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import { FaPause } from "react-icons/fa6";
 import { siteUrl } from '@/config'; 
 import Modal from './Modal/Modal';
 import formatText from '@/app/utils/formatText';
+
 
 // // const MODE = 'dev'  // if comment out url is production 
 // const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
@@ -26,24 +28,25 @@ export default function CouplesPage({ couplesName, id }) {
   const playerRef = useRef(null);
   const btnRef = useRef(null);
 
+  const router = useRouter();
+
+
   // post use effect to change the firstAccss to true for gtag 
   // fetch couples data
-  useEffect(() => {
-    // call the api and change the firstAccss to false
-    const updateFirstAccess = async () => {
-      try {
-        const res = await axios.post('/api/first_access', {
-          hash: id,
-          firstAccess: false
-        });
-        if(res.data.status === 200){
-          console.log('first access updated')
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
 
+  const [queryCleared, setQueryCleared] = useState(false); // Avoid infinite loop
+
+  useEffect(() => {
+    // Ensure the query object is defined and not already cleared
+    if (!queryCleared && router.query && Object.keys(router.query).length > 0) {
+      const { pathname } = window.location; // Get the clean URL path
+      router.replace(pathname, undefined, { shallow: true });
+      setQueryCleared(true); // Mark as cleared
+    }
+  }, [router, queryCleared]);
+
+
+  useEffect(() => {
     // fetch data for couples page
     const fetchData = async () => {
       try {
@@ -51,15 +54,16 @@ export default function CouplesPage({ couplesName, id }) {
           `${siteUrl}/api/${couplesName}/${id}`
         );
         setData(res.data.user);
+        // google
         if(res.data.user.firstAccess === true) {
           console.log('Gtag should only run on first access')
-            // run gtag 
-            window.gtag('event', 'conversion', {
-              'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-              'value': 1.0,
-              'currency': 'BRL',
-              'transaction_id': '' // Optionally set a transaction ID if available
-            });
+            // // run gtag 
+            // window.gtag('event', 'conversion', {
+            //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+            //   'value': 1.0,
+            //   'currency': 'BRL',
+            //   'transaction_id': '' // Optionally set a transaction ID if available
+            // });
         }
 
         await updateFirstAccess();
@@ -102,10 +106,11 @@ export default function CouplesPage({ couplesName, id }) {
       .catch(error => console.error("Error loading YouTube API:", error));
   }, [videoId]);
 
-  // Extract videoId from the URL and set it
+  // videoId comes from database
   useEffect(() => {
     if (data.musicLink) {
       const videoId = extractVideoId(data.musicLink);
+      console.log(videoId)
       setVideoId(videoId);
     }
   }, [data]);
@@ -177,6 +182,12 @@ export default function CouplesPage({ couplesName, id }) {
 
    // Function to toggle mute
    const togglePlay = () => {
+    
+    if (!playerRef.current || typeof playerRef.current.playVideo !== 'function') {
+      console.error('YouTube player is not ready yet.');
+      return;
+    }
+    
     if (playerRef.current) {
       if (isPlaying) {
         playerRef.current.pauseVideo(); 

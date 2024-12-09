@@ -7,17 +7,19 @@ export async function POST(req){
   try {
     const {firstAccess, hash} = await req.json();
   
-    // console.log(firstAccess, hash);
+    console.log(firstAccess, hash);
   
     const user = await User.findOne({hash: hash});
 
-    if (user) {
+    if(!user) return NextResponse.json({message: 'User not found'}, {status: 404})
+
+    if (user.firstAccess !== firstAccess) {
       user.firstAccess = firstAccess;
       await user.save();      
       return NextResponse.json({message: 'first access updated'}, {status: 200})
-    }else{
-      return NextResponse.json({message: 'User not found'}, {status: 404})
     }
+     // Explicit response for no update needed
+     return NextResponse.json({ message: 'No update needed' }, { status: 200 });
   } catch (error) {
     return NextResponse.json({message:'Server Error', error: error}, {status: 500})
   }
