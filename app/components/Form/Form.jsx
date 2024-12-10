@@ -43,13 +43,12 @@ export default function Form() {
   const [preferenceId, setPreferenceId] = useState(null);
   const [isBrickReady, setBrickReady] = useState(false);
 
-  // Mercado Pago
-
+  
   // useEffect(() => {
-  //   console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
-  // }, []);
-
-  // // mercadoPago
+    //   console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
+    // }, []);
+    
+  // // Mercado Pago
   // useEffect(() => {
   //   if(preferenceId){
   //     // initialization.preferenceId = preferenceId;
@@ -196,7 +195,7 @@ export default function Form() {
 
 
     try {
-      // comment out since is for stripe 
+      // // comment out since is for stripe 
       const res = await axios.post('/api/create-checkout-session', formData,
         {
               headers: {
@@ -212,7 +211,7 @@ export default function Form() {
       // // End of Stripe Checkout
 
       
-      // // // Mercado pago
+      // // Mercado pago
       // const res = await axios.post('/api/process_payment', formData, {
       //   headers: {
       //     'Content-Type': 'multipart/form-data', // If you're sending files

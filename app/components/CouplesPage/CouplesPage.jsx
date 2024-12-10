@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Preview from '../Preview/Preview';
 import Audio from '../Audio/Audio';
 import axios from 'axios';
@@ -28,26 +27,11 @@ export default function CouplesPage({ couplesName, id }) {
   const playerRef = useRef(null);
   const btnRef = useRef(null);
 
-  const router = useRouter();
-
-
   // post use effect to change the firstAccss to true for gtag 
   // fetch couples data
 
-  const [queryCleared, setQueryCleared] = useState(false); // Avoid infinite loop
-
+  // fetch data for couples page - also sets the firstAccess flag so gtag does not run unnecessaraly 
   useEffect(() => {
-    // Ensure the query object is defined and not already cleared
-    if (!queryCleared && router.query && Object.keys(router.query).length > 0) {
-      const { pathname } = window.location; // Get the clean URL path
-      router.replace(pathname, undefined, { shallow: true });
-      setQueryCleared(true); // Mark as cleared
-    }
-  }, [router, queryCleared]);
-
-
-  useEffect(() => {
-    // fetch data for couples page
     const fetchData = async () => {
       try {
         const res = await axios.get(
@@ -57,16 +41,29 @@ export default function CouplesPage({ couplesName, id }) {
         // google
         if(res.data.user.firstAccess === true) {
           console.log('Gtag should only run on first access')
-            // // run gtag 
-            // window.gtag('event', 'conversion', {
-            //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-            //   'value': 1.0,
-            //   'currency': 'BRL',
-            //   'transaction_id': '' // Optionally set a transaction ID if available
-            // });
+            // run gtag 
+            window.gtag('event', 'conversion', {
+              'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+              'value': 1.0,
+              'currency': 'BRL',
+              'transaction_id': '' // Optionally set a transaction ID if available
+            });
+            
+            // do a post request to first_access endpoint to change the firstAccess flag
+            axios.post("/api/first_access", {
+              hash: id,
+              firstAccess: false,
+            })
+            .then(() => {
+              console.log("First access updated successfully.");
+            })
+            .catch((error) => {
+              console.error("Error updating first access:", error);
+            });
+        }else{
+          console.log('Gtag should not run on subsequent access')
         }
 
-        await updateFirstAccess();
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -110,7 +107,6 @@ export default function CouplesPage({ couplesName, id }) {
   useEffect(() => {
     if (data.musicLink) {
       const videoId = extractVideoId(data.musicLink);
-      console.log(videoId)
       setVideoId(videoId);
     }
   }, [data]);
