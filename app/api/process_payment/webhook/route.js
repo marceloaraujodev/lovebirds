@@ -34,6 +34,7 @@ export async function POST(req) {
     if (typeInData === 'payment' && (action === 'payment.created' || action === 'payment.updated')){
     // if (typeInData === 'payment' && action === 'payment.created'){
       const paymentId = webhookData.id; // Get the payment ID from webhookData
+      console.log('this is paymentId:------------', paymentId);
 
       // Get payment details using Mercado Pago API
       try {
@@ -41,7 +42,7 @@ export async function POST(req) {
           `https://api.mercadopago.com/v1/payments/${paymentId}`,
           {
             headers: {
-              Authorization: `Bearer ${process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN}`,
+              Authorization: `Bearer ${MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN : process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
             },
           }
         );
@@ -114,11 +115,15 @@ export async function POST(req) {
           }
         
           return NextResponse.redirect(intendedUrl)
+        }else{
+          console.warn(`Payment not found: Payment ID ${paymentId}`);
+          return NextResponse.json({message: 'Payment not found'}, {status: 404})
         }
       } catch (error) {
-        console.error(
-          'Error fetching payment details:',
-          error.response?.data || error.message
+        console.error('Error fetching payment details:', error.message);
+        return NextResponse.json(
+          { message: 'An error occurred while processing the payment.' },
+          { status: 500 }
         );
       }
     }
