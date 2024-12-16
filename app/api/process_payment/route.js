@@ -5,7 +5,7 @@ import uploadPhotosToFirebase from "@/app/utils/uploadToBucket";
 import Click from "@/app/model/click";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import { siteUrl } from "@/config";
-import { MercadoPagoConfig, Payment, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { MODE } from "@/config";
 
 
@@ -43,7 +43,7 @@ export async function POST(req){
     const res = await preference.create({
       body: {
         payment_methods: {
-          excluded_payment_methods: [{ id: "pec" }],
+          excluded_payment_methods: [],
           excluded_payment_types: [],
           installments: 1,
         },
@@ -74,7 +74,8 @@ export async function POST(req){
       },
     });
 
-    // console.log(res);
+    
+      // console.log(res);
 
     console.log(res.id);
 

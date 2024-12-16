@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import dotenv from 'dotenv';
 import { mongooseConnect } from '@/app/lib/mongooseConnect';
-import { MercadoPagoConfig, Payment } from 'mercadopago';
+import { MercadoPagoConfig } from 'mercadopago';
 import User from '@/app/model/user';
 import generateQRCode from '@/app/utils/generateQRCode';
 import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
@@ -26,12 +26,13 @@ export async function POST(req) {
     console.log('enter webhook ----->>>>>>>>');
     const data = await req.json();
 
-    console.log(data);
+    console.log('this is data from webhook: ', data);
 
     const { action, data: webhookData, type: typeInData } = data;
     // console.log('this is data:', data);
 
-    if (typeInData === 'payment' && action === 'payment.created') {
+    // if (typeInData === 'payment' && (action === 'payment.created' || action === 'payment.updated'))
+    if (typeInData === 'payment' && action === 'payment.created'){
       const paymentId = webhookData.id; // Get the payment ID from webhookData
 
       // Get payment details using Mercado Pago API
@@ -50,11 +51,19 @@ export async function POST(req) {
           console.log('res from axios get webhook data:', res.data);
           // payment status
           const paymentStatus = res.data.status;
-          // console.log('payment status: ⚠️---------', paymentStatus);
+          console.log('payment status: ⚠️---------', paymentStatus);
           const customerEmail = res.data.payer.email;
           const { user_hash, name, date, time, path: path, intended_url: intendedUrl} = res.data.metadata;
 
           console.log({ user_hash, customerEmail, name, date, time, path, intendedUrl });
+
+          // check db if userhash has already been paid, skip sending email again.
+          const hasUser = await User.findOne({ hash: user_hash });
+
+          if(hasUser.paid){
+            console.log('User has already paid, skipping email sending')
+            return NextResponse.json({ status: 200, message: 'User has already paid.' });
+          }
 
           if (paymentStatus === 'approved') {
             console.log('set paid to true in user')
@@ -103,6 +112,7 @@ export async function POST(req) {
             const email = await sendMail(config);
             console.log('Email sent successfully:', email);
           }
+        
           return NextResponse.redirect(intendedUrl)
         }
       } catch (error) {

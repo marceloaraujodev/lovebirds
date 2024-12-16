@@ -30,6 +30,13 @@ export default function CouplesPage({ couplesName, id }) {
   // post use effect to change the firstAccss to true for gtag 
   // fetch couples data
 
+  useEffect(() => {
+    // Remove query parameters from mercado pago
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState(null, '', cleanUrl);
+  }, []);
+
+
   // fetch data for couples page - also sets the firstAccess flag so gtag does not run unnecessaraly 
   useEffect(() => {
     const fetchData = async () => {

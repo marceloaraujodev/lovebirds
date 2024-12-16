@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import User from "@/app/model/user";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 
+// Checks if its users first access so it can run gtag or not.
 export async function POST(req){
   await mongooseConnect();
   try {

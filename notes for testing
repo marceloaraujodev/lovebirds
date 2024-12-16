@@ -1,8 +1,12 @@
 testing mercado pago localally
 
+Checkout bricks
+  for testing you use production credentials and 2 separate test accounts one for buyer and one for seller. You dont have to use the test credentials in the checkout bricks
+
 ngrok if not installed installed installed
   ngrok http 3000 -> run this command
   copy the forwarding https address
   paste the address on the mercado pago webhook test mode address
   paste the address on the notification url in the .env file
   login to purchase account and do a test purchase
+
