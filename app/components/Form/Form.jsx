@@ -8,7 +8,7 @@ import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
 import { MODE } from '@/config';
 
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
 
 // sanitize name
@@ -195,7 +195,7 @@ export default function Form() {
     // console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
     formData.set('url', `${couplesNameEnconded}/${hash}`);
-    formData.set('preferenceId', preferenceId);
+    // formData.set('preferenceId', preferenceId);
 
     try {
       // // comment out since is for stripe
