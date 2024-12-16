@@ -31,8 +31,8 @@ export async function POST(req) {
     const { action, data: webhookData, type: typeInData } = data;
     // console.log('this is data:', data);
 
-    // if (typeInData === 'payment' && (action === 'payment.created' || action === 'payment.updated'))
-    if (typeInData === 'payment' && action === 'payment.created'){
+    if (typeInData === 'payment' && (action === 'payment.created' || action === 'payment.updated')){
+    // if (typeInData === 'payment' && action === 'payment.created'){
       const paymentId = webhookData.id; // Get the payment ID from webhookData
 
       // Get payment details using Mercado Pago API
@@ -55,7 +55,7 @@ export async function POST(req) {
           const customerEmail = res.data.payer.email;
           const { user_hash, name, date, time, path: path, intended_url: intendedUrl} = res.data.metadata;
 
-          console.log({ user_hash, customerEmail, name, date, time, path, intendedUrl });
+          // console.log({ user_hash, customerEmail, name, date, time, path, intendedUrl });
 
           // check db if userhash has already been paid, skip sending email again.
           const hasUser = await User.findOne({ hash: user_hash });
@@ -129,44 +129,3 @@ export async function POST(req) {
     return NextResponse.json({ status: 500 });
   }
 }
-
-
-// res.data from https://api.mercadopago.com/v1/payments/{id}
-
-// {
-//   "id": 1,
-//   "date_created": "2017-08-31T11:26:38.000Z",
-//   "date_approved": "2017-08-31T11:26:38.000Z",
-//   "date_last_updated": "2017-08-31T11:26:38.000Z",
-//   "money_release_date": "2017-09-14T11:26:38.000Z",
-//   "payment_method_id": "Pix",
-//   "payment_type_id": "credit_card",
-//   "status": "approved",
-//   "status_detail": "accredited",
-//   "currency_id": "BRL",
-//   "description": "Pago Pizza",
-//   "collector_id": 2,
-//   "payer": {
-//     "id": 123,
-//     "email": "test_user_80507629@testuser.com",
-//     "identification": {
-//       "type": "CPF",
-//       "number": 19119119100
-//     },
-//     "type": "customer"
-//   },
-//   "metadata": {},
-//   "additional_info": {},
-//   "external_reference": "MP0001",
-//   "transaction_amount": 250,
-//   "transaction_amount_refunded": 0,
-//   "coupon_amount": 0,
-//   "transaction_details": {
-//     "net_received_amount": 250,
-//     "total_paid_amount": 250,
-//     "overpaid_amount": 0,
-//     "installment_amount": 250
-//   },
-//   "installments": 1,
-//   "card": {}
-// }

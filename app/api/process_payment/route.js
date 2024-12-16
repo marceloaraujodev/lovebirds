@@ -52,9 +52,16 @@ export async function POST(req){
             title: "QR Code Love",
             quantity: 1,
             unit_price: 19.99,
+            category_id: "presente com qrcodelove",
+            description: "QR Code Love a melhor surpresa pro seu amor",
+            id: hash
           },
         ],
-        // external_reference: {hash: hash, name: name}, // Include the user's _id here
+        payer: {
+          first_name: "",
+          last_name: "",
+        },
+        external_reference: {hash: hash, name: name}, // Include the user's _id here
         back_urls: {
           success: `${siteUrl}/${path}`,
           failure: `${siteUrl}/failure`,
