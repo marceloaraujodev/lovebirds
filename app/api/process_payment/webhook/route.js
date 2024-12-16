@@ -28,7 +28,8 @@ export async function POST(req) {
 
     console.log('this is data from webhook: ', data);
 
-    const { action, data: webhookData, type: typeInData } = data;
+    const { action, data: webhookData, type: typeInData, id } = data;
+    console.log(id);
     // console.log('this is data:', data);
 
     if (typeInData === 'payment' && (action === 'payment.created' || action === 'payment.updated')){
@@ -53,10 +54,9 @@ export async function POST(req) {
           // payment status
           const paymentStatus = res.data.status;
           console.log('payment status: ⚠️---------', paymentStatus);
-          const customerEmail = res.data.payer.email;
+
           const { user_hash, name, date, time, path: path, intended_url: intendedUrl} = res.data.metadata;
 
-          // console.log({ user_hash, customerEmail, name, date, time, path, intendedUrl });
 
           // check db if userhash has already been paid, skip sending email again.
           const hasUser = await User.findOne({ hash: user_hash });
@@ -68,6 +68,7 @@ export async function POST(req) {
 
           if (paymentStatus === 'approved') {
             console.log('set paid to true in user')
+
             // Generate QR code
             const qrcode = await generateQRCode(`${siteUrl}/${path}`);
 
@@ -88,30 +89,40 @@ export async function POST(req) {
               { new: true } // Return the updated document
             );
 
-            // Email Message configuration
-            const config = {
-              to: customerEmail,
-              subject: `Seu Qr Code e detalhes de sua compra.`,
-              text: `Obrigado pela sua compra! Aqui está o seu QR Code. Se a imagem não estiver disponível, copie e cole este link: ${siteUrl}/${path}`,
-              html: `
-              <h1>Detalhes da sua Compra</h1>
-              <p>Obrigado, ${name}, por usar nossos serviços!</p>
-              <p>Detalhes da compra:</p>
-              <ul>
-                <li><strong>Date:</strong> ${date}</li>
-                <li><strong>Time:</strong> ${time}</li>
-              </ul>
-              <p>Segue o seu QR Code:</p>
-              <img src="${qrCodeUrl}" alt="QR Code" />
-              <p>Caso a image do QrCode não esteja aparecendo, você pode accessar a página com o link abaixo.</p>
-              <p>${siteUrl}/${path}</p>
-              <p>Caso deseje imprimir a imagem acesse a página e click sobre a imagem do qrcode.</p>
-             `,
-            };
+            // payment_method_id: 'pix' from their object response
+            // call their api again to get users email
+            try {
+              const res = await axios.get(`https://api.mercadopago.com/v1/customers/${id}`)
+              const customerEmail = res.data.email;
+              console.log('this should be the email from the api call-----------:', customerEmail)
+              // Email Message configuration
+              const config = {
+                to: customerEmail,
+                subject: `Seu Qr Code e detalhes de sua compra.`,
+                text: `Obrigado pela sua compra! Aqui está o seu QR Code. Se a imagem não estiver disponível, copie e cole este link: ${siteUrl}/${path}`,
+                html: `
+                <h1>Detalhes da sua Compra</h1>
+                <p>Obrigado, ${name}, por usar nossos serviços!</p>
+                <p>Detalhes da compra:</p>
+                <ul>
+                  <li><strong>Date:</strong> ${date}</li>
+                  <li><strong>Time:</strong> ${time}</li>
+                </ul>
+                <p>Segue o seu QR Code:</p>
+                <img src="${qrCodeUrl}" alt="QR Code" />
+                <p>Caso a image do QrCode não esteja aparecendo, você pode accessar a página com o link abaixo.</p>
+                <p>${siteUrl}/${path}</p>
+                <p>Caso deseje imprimir a imagem acesse a página e click sobre a imagem do qrcode.</p>
+               `,
+              };
+  
+              // Send email with QR code and details
+              const email = await sendMail(config);
+              console.log('Email sent successfully:', email);
+            } catch (error) {
+              console.log(error, error.message, 'could not get users email')
+            }
 
-            // Send email with QR code and details
-            const email = await sendMail(config);
-            console.log('Email sent successfully:', email);
           }
         
           return NextResponse.redirect(intendedUrl)

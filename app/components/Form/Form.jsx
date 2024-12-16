@@ -10,9 +10,6 @@ import { MODE } from '@/config';
 
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
-// initMercadoPago(MODE === 'dev' ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY :
-//   process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY
-// );
 
 // sanitize name
 function sanitizeName(name) {
@@ -37,32 +34,31 @@ export default function Form() {
   // const [qrcode, setQrcode] = useState('');
 
   // Mercado Pago
-  const [preferenceId, setPreferenceId] = useState(null);
-  // const [isBrickReady, setBrickReady] = useState(false);
-
-  useEffect(() => {
-    initMercadoPago(
-      MODE === 'dev'
-        ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY
-        : process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY,
-      { locale: 'pt-BR' }
-    );
-  }, []);
-
+  // const [preferenceId, setPreferenceId] = useState(null);
+  
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
   }, []);
 
-  // Mercado Pago
-  useEffect(() => {
-    if (preferenceId) { 
-      // redirect user to mercado pago page
-      const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
-      // window.open(paymentUrl, '_blank');
-      window.location.href = paymentUrl;
-    }
-    // window.paymentBrickController.unmount() need to use this if user leaves page
-  }, [preferenceId]);
+  // // Mercado Pago
+  // useEffect(() => {
+  //   initMercadoPago(
+  //     MODE === 'dev'
+  //       ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY
+  //       : process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY,
+  //     { locale: 'pt-BR' }
+  //   );
+  // }, []);
+
+  // useEffect(() => {
+  //   if (preferenceId) { 
+  //     // redirect user to mercado pago page
+  //     const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+  //     // window.open(paymentUrl, '_blank');
+  //     window.location.href = paymentUrl;
+  //   }
+  //   // window.paymentBrickController.unmount() need to use this if user leaves page
+  // }, [preferenceId]);
 
   // starts counting Timer
   useEffect(() => {
@@ -203,31 +199,31 @@ export default function Form() {
 
     try {
       // // comment out since is for stripe
-      // const res = await axios.post('/api/create-checkout-session', formData,
-      //   {
-      //         headers: {
-      //       'Content-Type': 'multipart/form-data', // Important for file uploads
-      //     }
-      //   });
+      const res = await axios.post('/api/create-checkout-session', formData,
+        {
+              headers: {
+            'Content-Type': 'multipart/form-data', // Important for file uploads
+          }
+        });
 
-      //     if (res.status === 200) {
-      //       // Redirect to Stripe Checkout
-      //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-      // }
+          if (res.status === 200) {
+            // Redirect to Stripe Checkout
+            window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+      }
 
       // // End of Stripe Checkout
 
       // Mercado pago
-      const res = await axios.post('/api/process_payment', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // If you're sending files
-        },
-      });
+      // const res = await axios.post('/api/process_payment', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
 
-      if (res.status === 200) {
-        console.log('response from process_payment: ', res);
-        setPreferenceId(res.data.preferenceId);
-      }
+      // if (res.status === 200) {
+      //   console.log('response from process_payment: ', res);
+      //   setPreferenceId(res.data.preferenceId);
+      // }
 
       // // End Mercado pago
 
