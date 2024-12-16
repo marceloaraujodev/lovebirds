@@ -1,15 +1,11 @@
 import { NextResponse } from "next/server";
 import User from "@/app/model/user"; 
-import processFormDataAndCreateUser from "@/app/utils/paymentUtils";
 import uploadPhotosToFirebase from "@/app/utils/uploadToBucket"; 
 import Click from "@/app/model/click";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import { siteUrl } from "@/config";
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { MODE } from "@/config";
-
-
-
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -18,7 +14,7 @@ const client = new MercadoPagoConfig({
   accessToken: MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN,
 });
 // console.log(client);
-// console.log('test mode', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN)
+console.log('test mode or live mode and should display accesstoken', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN : process.env.MERCADO_PAGO_ACCESS_TOKEN)
 
 export async function POST(req){
   await mongooseConnect();
@@ -58,13 +54,13 @@ export async function POST(req){
           },
         ],
         payer: {
-          first_name: "",
+          first_name: name,
           last_name: "",
         },
         external_reference: {hash: hash, name: name}, // Include the user's _id here
         back_urls: {
           success: `${siteUrl}/${path}`,
-          failure: `${siteUrl}/failure`,
+          failure: `${siteUrl}`,
         },
          auto_return: 'approved',
         // webhook route url

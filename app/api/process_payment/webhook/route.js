@@ -13,7 +13,7 @@ dotenv.config();
 
 // use ngrok to test it ngrok http 3000 (runs on powershell)
 
-console.log('test mode', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN)
+console.log('test mode or live mode and should display accesstoken', MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN : process.env.MERCADO_PAGO_ACCESS_TOKEN)
 
 const client = new MercadoPagoConfig({
   accessToken: MODE === 'dev' ? process.env.MERCADO_PAGO_TEST_ACCESS_TOKEN :process.env.MERCADO_PAGO_ACCESS_TOKEN,
