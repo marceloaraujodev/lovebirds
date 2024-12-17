@@ -262,14 +262,11 @@ export default function Form() {
       <form className={c.form} onSubmit={(e) => handleSubmit(e)} id="form">
         <div className={c.textTitle}>
           <p className={c.title}>
-            O presente perfeito <br /> para uma pessoa especial!
+          Surpreenda com Amor: <br />Crie uma Homenagem Inesquecível
           </p>
         </div>
         <p>
-          Crie uma linda animação com suas melhores memórias. Selecione suas
-          fotos e receba seu site personalizado, um contador de quanto tempo
-          vocês se conhecem + QR Code para compartilhar com aquela pessoa
-          especial ❤️!
+        Reviva momentos especiais e emocione quem você ama com uma linda homenagem personalizada ❤️!
         </p>
 
         <div className={c.prices}>

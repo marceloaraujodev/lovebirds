@@ -2,17 +2,14 @@ import localFont from 'next/font/local';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Script from 'next/script';
+import { Poppins } from 'next/font/google';
+
 import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const poppins = Poppins({
+  subsets: ['latin'], // Subsets for language support
+  weight: ['400', '600', '700'], // Add desired weights (e.g., regular, semi-bold, bold)
+  variable: '--font-poppins', // Define a CSS variable for the font
 });
 
 export const metadata = {
@@ -55,7 +52,7 @@ export default function RootLayout({ children }) {
         {/* Mercado pago Script */}
           <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive"></Script>
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${poppins.variable} ${poppins.variable}`}>
         <Header />
         {children}
         <Footer />

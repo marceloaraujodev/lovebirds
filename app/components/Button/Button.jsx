@@ -9,7 +9,7 @@ export default function Button() {
   };
   return (
     <div className={c.btnCont}>
-    <button className={c.btn} onClick={scrollToForm}>Eu quero!</button>
+    <button className={c.btn} onClick={scrollToForm}>Crie Sua Surpresa Agora!</button>
     </div>
   )
 }
