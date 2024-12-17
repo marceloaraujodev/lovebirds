@@ -6,6 +6,7 @@ import { mongooseConnect } from "@/app/lib/mongooseConnect";
 import { siteUrl } from "@/config";
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { MODE } from "@/config";
+import isEmail from "is-email";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -23,6 +24,7 @@ export async function POST(req){
     const formData = await req.formData();
     
     const name = formData.get("name");
+    const email = formData.get("email");
     const date = formData.get("date");
     const time = formData.get("time");
     const musicLink = formData.get("musicLink");
@@ -33,7 +35,11 @@ export async function POST(req){
     const preference = new Preference(client);
 
     // console.log('this is hash', hash);
-    // console.log('this is url', path);
+    console.log('this is email', email);
+
+    if (!isEmail(email)) {
+      throw new Error("Invalid email");
+    }
 
 
     const res = await preference.create({
@@ -72,6 +78,7 @@ export async function POST(req){
           time: time,
           path: path,
           userHash: hash,
+          email: email,
           intended_url: `${siteUrl}/${path}` // successful url redirect
         },
       },
@@ -94,6 +101,7 @@ export async function POST(req){
     // Create a new user in the database UNCOMMENT
     const newUser = new User({
       name,
+      email,
       date,
       time,
       url: path,
@@ -106,7 +114,7 @@ export async function POST(req){
   
     await newUser.save();
 
-    console.log(name, date, time, path, hash, message);
+    console.log(newUser);
 
 
     // // Find the Click document and increment clicks by 1 or create it if not exists

@@ -7,8 +7,9 @@ import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
 import { MODE } from '@/config';
-
-// import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import isEmail from 'is-email';
+// Mercado Pago
+import { initMercadoPago } from '@mercadopago/sdk-react';
 
 
 // sanitize name
@@ -19,6 +20,7 @@ function sanitizeName(name) {
 
 export default function Form() {
   const [couplesName, setName] = useState(''); // "e test"
+  const [email, setEmail] = useState(''); 
   const [date, setDate] = useState(''); // "2024-10-17"
   const [time, setTime] = useState(''); // "10:41"
   const [photos, setPhotos] = useState([]); // [File, File]
@@ -33,32 +35,38 @@ export default function Form() {
   const fileRef = useRef(null);
   // const [qrcode, setQrcode] = useState('');
 
-  // Mercado Pago
-  // const [preferenceId, setPreferenceId] = useState(null);
-  
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
   }, []);
 
   // // Mercado Pago
-  // useEffect(() => {
-  //   initMercadoPago(
-  //     MODE === 'dev'
-  //       ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY
-  //       : process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY,
-  //     { locale: 'pt-BR' }
-  //   );
-  // }, []);
+  const [preferenceId, setPreferenceId] = useState(null);
 
-  // useEffect(() => {
-  //   if (preferenceId) { 
-  //     // redirect user to mercado pago page
-  //     const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
-  //     // window.open(paymentUrl, '_blank');
-  //     window.location.href = paymentUrl;
-  //   }
-  //   // window.paymentBrickController.unmount() need to use this if user leaves page
-  // }, [preferenceId]);
+  // Remove query parameters from mercado pago
+  useEffect(() => {
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState(null, '', cleanUrl);
+  }, []);
+  
+  useEffect(() => {
+    initMercadoPago(
+      MODE === 'dev'
+        ? process.env.NEXT_PUBLIC_MERCADO_PAGO_TEST_PUBLIC_KEY
+        : process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY,
+      { locale: 'pt-BR' }
+    );
+  }, []);
+
+  useEffect(() => {
+    if (preferenceId) { 
+      // redirect user to mercado pago page
+      const paymentUrl = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+      // window.open(paymentUrl, '_blank');
+      window.location.href = paymentUrl;
+    }
+    // window.paymentBrickController.unmount() need to use this if user leaves page
+  }, [preferenceId]);
+  // ends mercado pago
 
   // starts counting Timer
   useEffect(() => {
@@ -142,7 +150,7 @@ export default function Form() {
     setPath(sanitizeName(formattedName));
   }
 
-  // need to change to send the submittion to stripe api then use webhook
+ 
   async function handleSubmit(e) {
     e.preventDefault();
     // Validate the name field
@@ -171,6 +179,12 @@ export default function Form() {
       return;
     }
 
+    // validates email
+    if (!isEmail(email)) {
+      alert("Email is not valid!");
+      return;
+    } 
+
     const hash = uuidv4();
     e.preventDefault();
     setIsLoading(true);
@@ -178,6 +192,7 @@ export default function Form() {
 
     //Append fields do formData
     formData.append('name', couplesName);
+    formData.append('email', email);
     formData.append('date', date);
     formData.append('time', time);
     formData.append('musicLink', musicLink);
@@ -195,35 +210,37 @@ export default function Form() {
     // console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
     formData.set('url', `${couplesNameEnconded}/${hash}`);
+
+    // // Mercado Pago
     // formData.set('preferenceId', preferenceId);
 
     try {
       // // comment out since is for stripe
-      const res = await axios.post('/api/create-checkout-session', formData,
-        {
-              headers: {
-            'Content-Type': 'multipart/form-data', // Important for file uploads
-          }
-        });
+      // const res = await axios.post('/api/create-checkout-session', formData,
+      //   {
+      //         headers: {
+      //       'Content-Type': 'multipart/form-data', // Important for file uploads
+      //     }
+      //   });
 
-          if (res.status === 200) {
-            // Redirect to Stripe Checkout
-            window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-      }
+      //     if (res.status === 200) {
+      //       // Redirect to Stripe Checkout
+      //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+      // }
 
       // // End of Stripe Checkout
 
       // Mercado pago
-      // const res = await axios.post('/api/process_payment', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data', // If you're sending files
-      //   },
-      // });
+      const res = await axios.post('/api/process_payment', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // If you're sending files
+        },
+      });
 
-      // if (res.status === 200) {
-      //   console.log('response from process_payment: ', res);
-      //   setPreferenceId(res.data.preferenceId);
-      // }
+      if (res.status === 200) {
+        console.log('response from process_payment: ', res);
+        setPreferenceId(res.data.preferenceId);
+      }
 
       // // End Mercado pago
 
@@ -288,6 +305,19 @@ export default function Form() {
               required
               name="name"
               placeholder="Name"
+            />
+          </label>
+          <label className={c.couplesName}>
+            Email:
+            <input
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
+              type="text"
+              required
+              name="email"
+              placeholder="Email"
             />
           </label>
 
