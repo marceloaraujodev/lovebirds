@@ -47,7 +47,7 @@ export default function CouplesPage({ couplesName, id }) {
         setData(res.data.user);
         // google
         if(res.data.user.firstAccess === true) {
-          console.log('Gtag should only run on first access')
+          // console.log('Gtag should only run on first access')
             // run gtag 
             window.gtag('event', 'conversion', {
               'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
@@ -67,8 +67,6 @@ export default function CouplesPage({ couplesName, id }) {
             .catch((error) => {
               console.error("Error updating first access:", error);
             });
-        }else{
-          console.log('Gtag should not run on subsequent access')
         }
 
       } catch (error) {
