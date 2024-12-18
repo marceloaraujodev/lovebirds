@@ -18,6 +18,7 @@ export async function POST(req, res){
 
      // Extract data from formData
      const name = formData.get('name');
+     const email = formData.get("email");
      const date = formData.get('date');
      const time = formData.get('time');
      const musicLink = formData.get('musicLink');
@@ -48,7 +49,7 @@ export async function POST(req, res){
           // price: 'price_1Q4lIzBfcEidHzvrx2TlCEUc', // test product
           // price: price_1Q7lUkBfcEidHzvr414JsEG4', // new price 19.99
           // price: 'price_1Q6fytBfcEidHzvrGWA63Iux', // live
-          price: MODE === 'dev' ? 'price_1Q4lIzBfcEidHzvrx2TlCEUc' : 'price_1Q7lUkBfcEidHzvr414JsEG4',
+          price: MODE === 'dev' ? 'price_1Q4lIzBfcEidHzvrx2TlCEUc' : 'price_1QXQfWBfcEidHzvrONXLcsK0',
           quantity: 1,
         },
       ],
@@ -70,6 +71,7 @@ export async function POST(req, res){
     // Create a new user in the database
     const newUser = new User({
       name,
+      email,
       date,
       time,
       url,

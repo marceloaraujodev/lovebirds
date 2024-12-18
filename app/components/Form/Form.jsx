@@ -33,7 +33,7 @@ export default function Form() {
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
-  // const [qrcode, setQrcode] = useState('');
+
 
   useEffect(() => {
     console.log('Current NODE_ENV:', process.env.NODE_ENV); // Logs NODE_ENV in the browser console
@@ -210,9 +210,6 @@ export default function Form() {
     // console.log('url being submitted:', `${couplesNameEnconded}/${hash}`)
 
     formData.set('url', `${couplesNameEnconded}/${hash}`);
-
-    // // Mercado Pago
-    // formData.set('preferenceId', preferenceId);
 
     try {
       // // comment out since is for stripe
