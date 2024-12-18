@@ -167,4 +167,12 @@
     padding: 16px 28px;
     font-size: 1rem;
   }
+  .title{
+    font-size: 3rem;
+    line-height: 60px
+  }
+  .subtitle{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
 }
