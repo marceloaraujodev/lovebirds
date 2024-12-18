@@ -265,8 +265,8 @@ export default function Form() {
           Surpreenda com Amor: <br />Crie uma Homenagem Inesquecível
           </p>
         </div>
-        <p>
-        Reviva momentos especiais e emocione quem você ama com uma linda homenagem personalizada ❤️!
+        <p className={c.subtitle}>
+        Crie uma linda animação com suas melhores memórias. Reviva momentos especiais e emocione quem você ama com uma linda homenagem personalizada ❤️!
         </p>
 
         <div className={c.prices}>

@@ -2,6 +2,7 @@
 .title{
   text-align: center;
   margin-bottom: 30px;
+  margin-top: 150px;
 }
 .faqCardCont{
   display: flex;
@@ -36,7 +37,7 @@
 }
 
 @media screen and (max-width: 768px){
-  /* .faqCard h2{
-   
-  } */
+  .faqCard summary {
+    font-size: 1.3rem;
+  }
 }

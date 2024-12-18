@@ -1,6 +1,6 @@
 .cont{
   /* border: var(--border-style); */
-  margin: 100px 0;
+  margin: 190px 0;
 }
 .cont h2{
   text-align: center;
@@ -74,4 +74,10 @@
   background: linear-gradient(45deg, rgb(242, 0, 255), blue);
   border-radius: 5px;
   z-index: -1;
+}
+
+@media screen and (max-width: 768px){
+  .cont{
+    margin: 150px 0;
+  }
 }

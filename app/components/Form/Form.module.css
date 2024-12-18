@@ -14,9 +14,12 @@
   margin: 15px 0;
 }
 .prices button{
-  padding: 15px 15px;
+  padding: 16px 32px;
   border-radius: 5px;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  height: 64px;
   background-color: rgb(255, 0, 255);
   /* border: 1px solid rgb(255, 186, 255); */
   box-shadow: 0 0 8px 5px rgb(152, 0, 152);
@@ -35,6 +38,10 @@
   font-size: 3.5rem;
   font-weight: 700;
   line-height: 60px;
+}
+.subtitle{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .detailsCont{
   display: flex;
@@ -149,12 +156,15 @@
   width: 100%;
 }
 
-
 @media (max-width: 1000px){
   .cont{
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 20px;
+  }
+  .prices button{
+    padding: 16px 28px;
+    font-size: 1rem;
   }
 }
