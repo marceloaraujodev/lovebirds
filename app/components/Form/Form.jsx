@@ -271,7 +271,7 @@ export default function Form() {
 
         <div className={c.prices}>
           <button className={c.priceBtn}>
-            1 ano, 3 fotos com música - R$19,98
+            1 ano, 3 fotos com música - R$29,99
           </button>
         </div>
         <label className={c.musicLink}>

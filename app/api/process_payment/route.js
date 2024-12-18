@@ -53,7 +53,7 @@ export async function POST(req){
           {
             title: "QR Code Love",
             quantity: 1,
-            unit_price: 19.99,
+            unit_price: 29.99,
             category_id: "presente com qrcodelove",
             description: "QR Code Love a melhor surpresa pro seu amor",
             id: hash
