@@ -3,6 +3,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Script from 'next/script';
 import { Poppins } from 'next/font/google';
+import { Inter } from "next/font/google";
 
 import './globals.css';
 
@@ -11,6 +12,11 @@ const poppins = Poppins({
   weight: ['400', '600', '700'], // Add desired weights (e.g., regular, semi-bold, bold)
   variable: '--font-poppins', // Define a CSS variable for the font
 });
+
+const inter = Inter({ subsets: ["latin"],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+ });
 
 export const metadata = {
   title: 'QRCode Love',
@@ -52,7 +58,7 @@ export default function RootLayout({ children }) {
         {/* Mercado pago Script */}
           <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive"></Script>
       </head>
-      <body className={`${poppins.variable} ${poppins.variable}`}>
+      <body className={`${inter.variable} ${inter.variable}`}>
         <Header />
         {children}
         <Footer />

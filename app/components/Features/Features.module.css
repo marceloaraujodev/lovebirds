@@ -1,0 +1,25 @@
+.cont{
+  /* border: 1px solid blue; */
+  margin-top: 200px;
+  margin-bottom: 200px;
+}
+.sectionTitle{
+  margin-bottom: 48px;
+  text-align: center;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+.gridCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px){
+  .cont{
+    margin: 150px 0;
+  }
+}

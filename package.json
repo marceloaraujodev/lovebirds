@@ -20,6 +20,7 @@
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
     "is-email": "^1.0.2",
+    "lucide-react": "^0.468.0",
     "mercadopago": "^2.0.15",
     "micro": "^10.0.1",
     "mongoose": "^8.7.0",
