@@ -12,6 +12,7 @@ import { FaPause } from "react-icons/fa6";
 import { siteUrl } from '@/config'; 
 import Modal from './Modal/Modal';
 import formatText from '@/app/utils/formatText';
+import { v4 as uuidv4 } from 'uuid';
 
 
 // // const MODE = 'dev'  // if comment out url is production 
@@ -40,20 +41,22 @@ export default function CouplesPage({ couplesName, id }) {
   // fetch data for couples page - also sets the firstAccess flag so gtag does not run unnecessaraly 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('compares with gtag running')
       try {
         const res = await axios.get(
           `${siteUrl}/api/${couplesName}/${id}`
         );
         setData(res.data.user);
         // google
-        if(res.data.user.firstAccess === true) {
-          // console.log('Gtag should only run on first access')
+        if(res.data.user.firstAccess === true && typeof window.gtag === 'function') {
+          const transactionId = uuidv4();
+          console.log('Gtag should only run on first access')
             // run gtag 
             window.gtag('event', 'conversion', {
               'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
               'value': 1.0,
               'currency': 'BRL',
-              'transaction_id': '' // Optionally set a transaction ID if available
+              'transaction_id': transactionId // track a individual transaction
             });
             
             // do a post request to first_access endpoint to change the firstAccess flag
