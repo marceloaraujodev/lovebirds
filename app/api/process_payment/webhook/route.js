@@ -110,7 +110,11 @@ export async function POST(req) {
               minute: '2-digit',
             }).format(new Date());
 
-            const formattedDate = new Intl.DateTimeFormat('pt-BR').format(new Date());
+            const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            }).format(new Date()); 
 
             // Email Message configuration
             const config = {
