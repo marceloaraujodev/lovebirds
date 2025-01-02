@@ -105,6 +105,13 @@ export async function POST(req) {
               { new: true } // Return the updated document
             );
 
+            const formattedTime = new Intl.DateTimeFormat('pt-BR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            }).format(new Date());
+
+            const formattedDate = new Intl.DateTimeFormat('pt-BR').format(new Date());
+
             // Email Message configuration
             const config = {
               to: customerEmail,
@@ -115,8 +122,8 @@ export async function POST(req) {
               <p>Obrigado, ${name}, por usar nossos serviços!</p>
               <p>Detalhes da compra:</p>
               <ul>
-                <li><strong>Date:</strong> ${date}</li>
-                <li><strong>Time:</strong> ${time}</li>
+                <li><strong>Date:</strong> ${formattedDate}</li>
+                <li><strong>Time:</strong> ${formattedTime}</li>
               </ul>
               <p>Segue o seu QR Code:</p>
               <img src="${qrCodeUrl}" alt="QR Code" />
