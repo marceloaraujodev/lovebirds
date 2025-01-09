@@ -166,6 +166,12 @@ export default function Form() {
       return;
     }
 
+    if(!message){
+      alert('Por favor, insira uma mensagem!');
+      setIsLoading(false);
+      return;
+    }
+
     // validates time
     if (!time.trim()) {
       alert('Por favor, insira um horário válido!');
@@ -178,12 +184,12 @@ export default function Form() {
       alert('Maximum 3 photos allowed!');
       return;
     }
-
     // validates email
     if (!isEmail(email)) {
       alert("Email is not valid!");
       return;
     } 
+
 
     const hash = uuidv4();
     e.preventDefault();
@@ -213,17 +219,17 @@ export default function Form() {
 
     try {
       // // comment out since is for stripe
-      // const res = await axios.post('/api/create-checkout-session', formData,
-      //   {
-      //         headers: {
-      //       'Content-Type': 'multipart/form-data', // Important for file uploads
-      //     }
-      //   });
+        // const res = await axios.post('/api/create-checkout-session', formData,
+        //   {
+        //         headers: {
+        //       'Content-Type': 'multipart/form-data', // Important for file uploads
+        //     }
+        //   });
 
-      //     if (res.status === 200) {
-      //       // Redirect to Stripe Checkout
-      //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-      // }
+        //     if (res.status === 200) {
+        //       // Redirect to Stripe Checkout
+        //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+        // }
 
       // // End of Stripe Checkout
 
