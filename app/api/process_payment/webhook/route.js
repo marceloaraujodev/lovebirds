@@ -9,7 +9,17 @@ import sendMail from '@/app/utils/sendEmail';
 import axios from 'axios';
 import { siteUrl } from '@/config';
 import { MODE } from '@/config';
+import bcrypt from 'bcrypt';
 dotenv.config();
+import { randomBytes } from 'crypto';
+
+export const generatePassword = () => {
+  return randomBytes(12).toString('hex'); // Generates a 24-character password
+};
+
+const generateHashedPassword = async (password) => {
+  return await bcrypt.hash(password, 10);
+};
 
 // use ngrok to test it ngrok http 3000 (runs on powershell)
 
@@ -95,12 +105,16 @@ export async function POST(req) {
               name
             );
 
+            const generatedPassword = generatePassword();
+            const hashedPassword = await generateHashedPassword(generatedPassword);
+
             // looks for user and updates paid to true
             const user = await User.findOneAndUpdate(
               { hash: user_hash }, // Query to find the user
               {
                 paid: true, // Update the paid field
                 qrCode: qrcode, // Update the qrCode field
+                // password: hashedPassword // add it later
               },
               { new: true } // Return the updated document
             );
@@ -117,6 +131,7 @@ export async function POST(req) {
             }).format(new Date()); 
 
             // Email Message configuration
+            // <li><strong>Password:</strong> ${generatedPassword}</li>
             const config = {
               to: customerEmail,
               subject: `Seu Qr Code e detalhes de sua compra.`,
@@ -128,6 +143,7 @@ export async function POST(req) {
               <ul>
                 <li><strong>Date:</strong> ${formattedDate}</li>
                 <li><strong>Time:</strong> ${formattedTime}</li>
+                
               </ul>
               <p>Segue o seu QR Code:</p>
               <img src="${qrCodeUrl}" alt="QR Code" />

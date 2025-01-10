@@ -1,0 +1,178 @@
+.cont{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.prices{
+  border-radius: 5px;
+  width: fit-content;
+  margin: 15px 0;
+}
+.prices button{
+  padding: 16px 32px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  height: 64px;
+  background-color: rgb(255, 0, 255);
+  /* border: 1px solid rgb(255, 186, 255); */
+  box-shadow: 0 0 8px 5px rgb(152, 0, 152);
+  border: none;
+  outline: none;
+}
+.textTitle{
+  margin-bottom: 15px;
+}
+.title{
+  background: linear-gradient(to bottom, rgb(255, 0, 255), white);
+  /* -webkit-background-clip: text; */
+  /* -webkit-text-fill-color: transparent; */
+  background-clip: text;
+  color: transparent;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 60px;
+}
+.subtitle{
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+.detailsCont{
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.couplesName,
+.startDate,
+.musicLink,
+.timer{
+  display: flex;
+  flex-direction: column;
+  font-size: .9rem;
+
+}
+.couplesName input,
+.startDate input,
+.musicLink input,
+.timer input{
+  border: var(--border-style);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 10px;
+  outline: none;
+  max-height: 40px;
+  color: white;
+}
+/* .musicLinkInput {
+  background: transparent !important; 
+  color: white; 
+}
+.musicLink input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important; 
+  -webkit-text-fill-color: transparent; 
+
+} */
+.emojiItem{
+  border: var(--border-style);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 10px;
+  outline: none;
+  max-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.couplesName input{
+  margin-right: 10px;
+}
+.startDate input{
+  /* margin-right: 5px; */
+  min-width: 175px;
+}
+.timer input{
+  justify-content: end;
+  align-items: end;
+}
+.startDate input::-webkit-calendar-picker-indicator {
+  filter: invert(1); 
+}
+/* For time input clock icon */
+.timer input::-webkit-calendar-picker-indicator {
+  filter: invert(1); 
+}
+
+.message{
+  display: flex;
+  flex-direction: column;
+}
+.message textarea{
+  border: var(--border-style);
+  background-color: transparent;
+  border-radius: 5px;
+  height: 13rem;
+  outline: none;
+  padding: 10px;
+  color: white;
+}
+.cameraCont{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.btn{
+  padding: 15px 30px;
+  /* background-color: transparent; */
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: rgb(44, 44, 44);
+  border: var(--border-style);
+}
+.create{
+  height: 70px;
+  font-weight: 600;
+  font-size: 2rem;
+}
+.filePicker{
+  display: none;
+}
+.qrcode{
+  width: 100%;
+  height: auto;
+  border: var(--border-style);
+}
+.qrcodePicture{
+  width: 100%;
+}
+
+@media (max-width: 1000px){
+  .cont{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .prices button{
+    padding: 16px 28px;
+    font-size: 1rem;
+  }
+  .title{
+    font-size: 3rem;
+    line-height: 60px
+  }
+  .subtitle{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
+}
