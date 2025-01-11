@@ -7,6 +7,8 @@ import imageCompression from 'browser-image-compression';
 import { BeatLoader } from 'react-spinners';
 import { MODE } from '@/config';
 import isEmail from 'is-email';
+import {addPhotoToBucket, listFilesInBucket} from '../../utils/uploadSingleImageToBucket';
+import firebaseInit from '@/app/utils/firebaseInit';
 
 
 
@@ -22,6 +24,11 @@ function sanitizeName(name) {
 // will click on the button in the couples page redirect to login 
 // after login the user will be redirected to this page
 
+
+// Todo first from list above and more
+// 1. pull info from db and loaded on the form fields
+// 2. create a image display square icons
+// 3. when deleting image also delete from database urls and firebase folderpath
 
 export default function EditPage() {
   const [couplesName, setName] = useState(''); // "e test"
@@ -120,42 +127,42 @@ export default function EditPage() {
  
   async function handleSubmit(e) {
     e.preventDefault();
-    // Validate the name field
-    if (!couplesName.trim()) {
-      alert('Por favor, insira um nome válido!');
-      setIsLoading(false);
-      return;
-    }
-    // validates date
-    if (!date.trim()) {
-      alert('Por favor, insira uma data válida!');
-      setIsLoading(false);
-      return;
-    }
+    // // Validate the name field
+    // if (!couplesName.trim()) {
+    //   alert('Por favor, insira um nome válido!');
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // // validates date
+    // if (!date.trim()) {
+    //   alert('Por favor, insira uma data válida!');
+    //   setIsLoading(false);
+    //   return;
+    // }
 
-    if(!message){
-      alert('Por favor, insira uma mensagem!');
-      setIsLoading(false);
-      return;
-    }
+    // if(!message){
+    //   alert('Por favor, insira uma mensagem!');
+    //   setIsLoading(false);
+    //   return;
+    // }
 
-    // validates time
-    if (!time.trim()) {
-      alert('Por favor, insira um horário válido!');
-      setIsLoading(false);
-      return;
-    }
+    // // validates time
+    // if (!time.trim()) {
+    //   alert('Por favor, insira um horário válido!');
+    //   setIsLoading(false);
+    //   return;
+    // }
 
     setIsLoading(true);
     if (photos.length > 3) {
       alert('Maximum 3 photos allowed!');
       return;
     }
-    // validates email
-    if (!isEmail(email)) {
-      alert("Email is not valid!");
-      return;
-    } 
+    // // validates email
+    // if (!isEmail(email)) {
+    //   alert("Email is not valid!");
+    //   return;
+    // } 
 
 
     // const hash = uuidv4();
@@ -175,14 +182,39 @@ export default function EditPage() {
 
     // submit edited data  instead of post use use patch
     try {
-      const res = await axios.post(`/api/userProfile/${userId}/update`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // If you're sending files
-        },
-      });
+      // // call the api 
+      // const res = await axios.post(`/api/userProfile/${userId}/update`, formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
+
+
+
+    // // // Example usage - using only this for testing now need to see if image goes to this bucket
+    // // const files = photos // Array of file objects
+    // // remove the hardcoded path and comment out the addPhotoToBucket function for now
+    // const folderPath = "purchases/Fernanda Patricia da Silva-04d946a5-df1c-47cb-8505-5804f231670d";
+    // const name = "additional-photo";
+
+    // // adds one or more photos to the bucket - folder path iss the firebase folder structure like above
+    // addPhotoToBucket(photos, folderPath, name)
+    //  .then((url) => {
+    //   console.log("Photo URL -> this is the one that I want:", url);
+    // })
+    // .catch((error) => {
+    //   console.error("Failed to upload photo:", error);
+    //   console.log("Error details:", error.response ? error.response.data : error.message);
+    // });
+
+    // listFilesInBucket()
+
+
     } catch (error) {
       console.log(error);
     }
+
+
     setIsLoading(false);
     setIsPreviewing(false);
   }
@@ -235,7 +267,7 @@ export default function EditPage() {
               }}
               value={email}
               type="text"
-              required
+              // required
               name="email"
               placeholder="Email"
             />
@@ -246,7 +278,7 @@ export default function EditPage() {
             <input
               type="date"
               name="date"
-              required
+              // required
               onChange={(e) => setDate(e.target.value)}
               value={date}
             />
@@ -257,7 +289,7 @@ export default function EditPage() {
             <input
               type="time"
               name="timer"
-              required
+              // required
               onChange={(e) => setTime(e.target.value)}
               value={time}
             />
@@ -276,7 +308,7 @@ export default function EditPage() {
           </label>
         </div>
 
-        {/* <button
+        <button
           type="button"
           onClick={handlePhotosPick}
           className={`${c.btn} ${c.cameraCont}`}>
@@ -299,7 +331,7 @@ export default function EditPage() {
           multiple
           ref={fileRef}
           onChange={handleFileChange}
-        /> */}
+        />
 
           <button
             onClick={createPageSubmit}

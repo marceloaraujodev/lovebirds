@@ -16,7 +16,7 @@
     "axios": "^1.7.7",
     "browser-image-compression": "^2.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
     "is-email": "^1.0.2",
