@@ -12,6 +12,7 @@ import firebaseInit from '@/app/utils/firebaseInit';
 
 
 
+
 // sanitize name
 function sanitizeName(name) {
   // Normalize the string and remove accents/diacritics (e.g., 'é' becomes 'e')
@@ -39,14 +40,37 @@ export default function EditPage() {
   const [musicLink, setMusicLink] = useState(''); // youtube url
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isPreviewing, setIsPreviewing] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
   const [photoPreviews, setPhotoPreviews] = useState([]); // ["blob:http://localhost:3000/f...
   const [startCounting, setStartCounting] = useState(false);
 
   const fileRef = useRef(null);
 
+  const hash = '900e1c14-88d9-46a6-afbd-7152b3b64006'; // hash and or email - 900e1c14-88d9-46a6-afbd-7152b3b64006 hash
 
+  // gets user information to populate fields
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/userprofile/getuser/${hash}`);
+
+      console.log(res.data.user)
+      if(res.status === 200 && res.data.user){
+        setName(res.data.user.name);
+        setDate(res.data.user.date);
+        setTime(res.data.user.time);
+        setMusicLink(res.data.user.musicLink);
+        setMessage(res.data.user.message);
+        console.log(res.data.user.name)
+
+        // not all users have email this feature was added later on
+        if(res.data.user.email){
+          setEmail(res.data.user.email);
+        }
+      }
+    };
+    fetchData()
+  }, [])
 
   // starts counting Timer
   useEffect(() => {
@@ -304,6 +328,7 @@ export default function EditPage() {
               onChange={(e) => setMessage(e.target.value)}
               name="message"
               placeholder="Demostre seu amor!"
+              value={message}
             />
           </label>
         </div>
