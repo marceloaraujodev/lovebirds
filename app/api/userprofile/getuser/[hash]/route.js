@@ -6,12 +6,10 @@ export async function GET(req, { params }){
   mongooseConnect();
 
   const { hash } = params;
-  console.log(hash)
+  // console.log(hash)
 
   const user = await User.findOne({hash: hash})
-
-  // console.log(user)
-
+  // console.log(user);
 
   return NextResponse.json({
     message: 'success',

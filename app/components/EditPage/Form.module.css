@@ -2,6 +2,12 @@
   display: flex;
   justify-content: center;
   gap: 20px;
+  position: relative;
+}
+.grow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .form{
   display: flex;
