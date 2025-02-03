@@ -1,12 +1,10 @@
-
-
 {
   "crons": [
     {
       "path": "/api/cron",
       "schedule": "*/2 * * * *", 
       "headers": {
-        "Authorization": "Bearer ${process.env.CRON_SECRET}"
+        "Authorization": "Bearer :CRON_SECRET"
       }
     }
   ]
