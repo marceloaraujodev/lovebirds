@@ -41,16 +41,13 @@ export default function RootLayout({ children }) {
                     `}
         </Script>
 
-        {/* <!-- Event snippet for Purchase conversion page --> */}
-        <Script id="google-conversion-tracking" strategy="afterInteractive">
+        {/* Conversion Linker Tag (Crucial for accurate tracking) */}
+        <Script strategy="afterInteractive">
           {`
-                    gtag('event', 'conversion', {
-                        'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-',
-                        'value': 1.0,
-                        'currency': 'BRL',
-                        'transaction_id': ''
-                    });
-                    `}
+            gtag('event', 'conversion', {
+              'send_to': 'AW-16751184617/j3IrCMfO_IAaEOmVy7M-', 
+            });
+          `}
         </Script>
 
         {/* end google add sense */}
@@ -66,3 +63,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
