@@ -1,12 +1,16 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-  // // to secure cron job
-  // if (req.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
-  //   return res.status(401).end('Unauthorized');
-  // }
+export async function GET(request) {
+  // Verify cron secret
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new NextResponse('Unauthorized', { status: 401 });
+  }
 
-  console.log('this is the cron job')
-
-  return NextResponse.json({ ok: true });
+  console.log('Cron job executed successfully');
+  
+  // Add your cron logic here
+  // Example: database cleanup, data sync, etc.
+  
+  return NextResponse.json({ success: true });
 }
