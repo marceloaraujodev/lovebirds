@@ -5,10 +5,9 @@ dotenv.config();
 
 export async function GET(request) {
   const authHeader = request.headers.get('Authorization')?.trim();
-  const cronSecret = process.env.CRON_SECRET?.trim();
   console.log(`Auth Header: "${authHeader}"`);
-  console.log(`Env Secret: "Bearer ${process.env.CRON_SECRET}"`);
-  console.log('cronSecret: ', cronSecret);
+  console.log(`Env Secret: "${process.env.CRON_SECRET}"`);
+
   // Verify cron secret
   // const authHeader = request.headers.get('Authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
