@@ -54,7 +54,7 @@ export default function CouplesPage({ couplesName, id }) {
             // run gtag 
             window.gtag('event', 'conversion', {
               'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-              'value': 29.99,
+              'value': 1.0,
               'currency': 'BRL',
               'transaction_id': transactionId // track a individual transaction
             });
