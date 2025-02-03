@@ -8,7 +8,7 @@
 // const storage = getStorage(app);
 
 
-// // this route is not being used, so far is jus for testing purposes
+// // this route is not being used, so far is jus for testing purposes 
 // export async function GET() {
 
 //   await mongooseConnect();

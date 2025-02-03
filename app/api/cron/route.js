@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
+  console.log(process.env.CRON_SECRET);
   // Verify cron secret
   const authHeader = request.headers.get('Authorization');
+  console.log(authHeader);
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
