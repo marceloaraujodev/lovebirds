@@ -13,8 +13,12 @@ export default async function uploadImages(filesArray, hash, name) {
     // For each file, create a storage reference
 
     const uniqueFileName = `${index}-${Date.now()}-${name}`;
-    const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
-
+    // enconded the path name for easier future references in the future in the firebase storage
+    const encodedFolderPath = encodeURIComponent(`purchases/${name}-${hash}/${uniqueFileName}`);
+    
+    const storageRef = ref(storage, encodedFolderPath);
+    // const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
+    
     return new Promise((resolve, reject) => {
       const uploadTask = uploadBytesResumable(storageRef, file);
 
