@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// to activate turn the job on cron-job.org account
 export async function GET(request) {
   const authHeader = request.headers.get('Authorization')?.trim();
   console.log(`Auth Header: "${authHeader}"`);
