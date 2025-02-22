@@ -153,9 +153,21 @@ export async function POST(req) {
              `,
             };
 
+            const messageForMyself = {
+              to: 'marcelosurfer@gmail.com',
+              subject: `Tirar dinheiro do mercado pago urgente`,
+              text: `Nova compra no qrcodelove, tirar dinheiro do mercado pago urgente`,
+              html: `
+              <h1>Sacar grana do mercado pago</h1>
+             `,
+            }
+
+
             // Send email with QR code and details
             const email = await sendMail(config);
             console.log('Email sent successfully:', email);
+
+            await sendMail(messageForMyself);
 
 
             return NextResponse.json({message: 'success'}, {status: 200});
