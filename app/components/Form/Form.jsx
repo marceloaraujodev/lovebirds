@@ -218,32 +218,32 @@ export default function Form() {
     formData.set('url', `${couplesNameEnconded}/${hash}`);
 
     try {
-      // // comment out since is for stripe
-        // const res = await axios.post('/api/create-checkout-session', formData,
-        //   {
-        //         headers: {
-        //       'Content-Type': 'multipart/form-data', // Important for file uploads
-        //     }
-        //   });
+      // comment out since is for stripe
+        const res = await axios.post('/api/create-checkout-session', formData,
+          {
+                headers: {
+              'Content-Type': 'multipart/form-data', // Important for file uploads
+            }
+          });
 
-        //     if (res.status === 200) {
-        //       // Redirect to Stripe Checkout
-        //       window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
-        // }
+            if (res.status === 200) {
+              // Redirect to Stripe Checkout
+              window.location.href = res.data.url; // Redirect the user to the Stripe checkout URL
+        }
 
       // // End of Stripe Checkout
 
       // Mercado pago
-      const res = await axios.post('/api/process_payment', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // If you're sending files
-        },
-      });
+      // const res = await axios.post('/api/process_payment', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data', // If you're sending files
+      //   },
+      // });
 
-      if (res.status === 200) {
-        console.log('response from process_payment: ', res);
-        setPreferenceId(res.data.preferenceId);
-      }
+      // if (res.status === 200) {
+      //   console.log('response from process_payment: ', res);
+      //   setPreferenceId(res.data.preferenceId);
+      // }
 
       // // End Mercado pago
 
