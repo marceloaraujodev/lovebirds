@@ -5,7 +5,7 @@
 } */
 
 .container {
-  height: 100vh;
+  /* height: 100vh; */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -39,7 +39,7 @@
 
 /* Lid when closed */
 .lid.one {
-  border-top: 100px solid #ed65cd;
+  border-top: 100px solid #f280d7;
   transform: rotateX(0deg);
   z-index: 3;
   transition-delay: 0.75s;
@@ -75,7 +75,8 @@
   border-radius: 15px;
   z-index: 2;
   transition: 0.5s;
-  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-y: auto; 
+  opacity: 0;
 }
 
 .letter p {
@@ -88,7 +89,30 @@
   padding-right: 10px;
 }
 
-.wrapper:hover .lid.one {
+/* OPENING  */
+.wrapper.open .lid.one {
+  transform: rotateX(90deg);
+  transition-delay: 0s;
+}
+
+.wrapper.open .lid.two {
+  transform: rotateX(180deg);
+  transition-delay: 0.25s;
+}
+
+.wrapper.open .letter {
+  transform: translateY(-180px);
+  transition-delay: 0.5s;
+  height: 300px;
+  opacity: 1;
+}
+
+
+/* CLOSING STATE (animation for closing in reverse order) */
+
+/* ----------- */
+
+/* .wrapper:hover .lid.one {
     transform: rotateX(90deg);
     transition-delay: 0s;
 }
@@ -102,9 +126,10 @@
   transform: translateY(-180px);
   transition-delay: 0.5s;
   height: 300px;
-}
+} */
 
-.wrapper.open .lid.one {
+/* ------- */
+/* .wrapper.open .lid.one {
   transform: rotateX(90deg);
   transition-delay: 0s;
-}
+} */

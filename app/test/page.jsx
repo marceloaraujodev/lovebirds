@@ -6,7 +6,6 @@ export default function Test() {
   return (
     <div>
       <LetterAnimation />
-      
     </div>
   )
 }

@@ -13,6 +13,7 @@ import { siteUrl } from '@/config';
 import Modal from './Modal/Modal';
 import formatText from '@/app/utils/formatText';
 import { v4 as uuidv4 } from 'uuid';
+import LetterAnimation from '../LetterAnimation/LetterAnimation';
 
 
 // // const MODE = 'dev'  // if comment out url is production 
@@ -24,7 +25,8 @@ export default function CouplesPage({ couplesName, id }) {
   const [videoId, setVideoId] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  // moves the message container down when open
+  const [shifted, setShifted] = useState(false)
   const playerRef = useRef(null);
   const btnRef = useRef(null);
 
@@ -119,7 +121,9 @@ export default function CouplesPage({ couplesName, id }) {
     }
   }, [data]);
 
- 
+  const handleClick = () => {
+    setShifted(!shifted)
+  }
 
   // extract videoId function from the URL if is normal video or youtube shorts
   const extractVideoId = (url) => {
@@ -130,6 +134,8 @@ export default function CouplesPage({ couplesName, id }) {
     const isShorts = url.includes('youtube.com/shorts/');
     const matchShorts = isShorts ? url.split('/').pop() : null; // Extract video id from shorts URL
     const videoId = matchStandard ? matchStandard[1] : matchShorts;
+
+
 
     return videoId;
   };
@@ -259,8 +265,10 @@ export default function CouplesPage({ couplesName, id }) {
           
           <div className={c.messageCont}>
             <h2>Mensagem</h2>
-            <div className={c.message}>
-              <p>{formatText(data.message)}</p>
+            <div className={`${c.message} ${shifted ? c.shiftDown : c.shiftOriginal}`}
+              onClick={handleClick}>
+              <LetterAnimation message={formatText(data.message)} />
+              {/* <p>{formatText(data.message)}</p> */}
             </div>
           </div>
           <div onClick={() => setIsModalOpen(true)} className={c.qrCode}>

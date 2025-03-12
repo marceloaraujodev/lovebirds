@@ -18,10 +18,28 @@
   border: var(--border-style);
   margin-top: 20px;
   border-radius: 5px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+
+}
+.shiftDown {
+  transform: translateY(100px);
+  transition: transform 0.3s ease;
+}
+.shiftOriginal{
+  transform: translateY(0px);
+  transition: transform 4.2s ease;
 }
 .messageCont h2{
-  text-align: center;
-  padding: 10px 0;
+  text-align: center; 
+  /* margin-bottom: 10px; */
+}
+.message{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .message p{
   padding: 0 8px;
