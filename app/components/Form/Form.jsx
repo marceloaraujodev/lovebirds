@@ -12,7 +12,7 @@ import isEmail from 'is-email';
 import { initMercadoPago } from '@mercadopago/sdk-react';
 import { useTranslations } from "next-intl";
 
-
+// test
 // sanitize name
 function sanitizeName(name) {
   // Normalize the string and remove accents/diacritics (e.g., 'é' becomes 'e')
