@@ -10,6 +10,7 @@ import { MODE } from '@/config';
 import isEmail from 'is-email';
 // Mercado Pago
 import { initMercadoPago } from '@mercadopago/sdk-react';
+import { useTranslations } from "next-intl";
 
 
 // sanitize name
@@ -33,6 +34,8 @@ export default function Form() {
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
   const fileRef = useRef(null);
+
+  const t = useTranslations("hometest");
 
 
   useEffect(() => {
