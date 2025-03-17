@@ -28,7 +28,7 @@ export default function Faq() {
     },
     {
       question: 'Quanto custa para criar uma página?',
-      answer: 'O valor é de R$15,99.',
+      answer: 'O valor é de R$29,99.',
     },
     {
       question: 'Quanto tempo demora para receber o QR Code no e-mail?',

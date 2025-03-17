@@ -358,7 +358,7 @@ export default function Form() {
             <textarea
               onChange={(e) => setMessage(e.target.value)}
               name="message"
-              placeholder="Demostre seu amor!"
+              placeholder="Demonstre seu amor!"
             />
           </label>
         </div>
