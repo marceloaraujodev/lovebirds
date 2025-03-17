@@ -8,7 +8,6 @@ export default function Faq() {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleToggle = (index, isOpen) => {
-    console.log('is open', isOpen, 'active index', activeIndex);
     setActiveIndex(isOpen ? index : null); // Set index if open, otherwise reset to null
   };
 
@@ -52,9 +51,7 @@ export default function Faq() {
               <details
                 key={index}
                 className={c.faqCard}
-                onToggle={(e) => handleToggle(index, e.target.open)}
-               
-                >
+                onToggle={(e) => handleToggle(index, e.target.open)}>
                 <summary>
                   {item.question}
                   <span className={c.icon}>
