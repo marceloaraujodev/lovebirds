@@ -1,5 +1,89 @@
 {
-  "hometest": {
-    "test": "testing"
+  "home": {
+    "title": "Surprise with Love: Create an Unforgettable Tribute",
+    "subtitle": "Create a beautiful animation with your best memories. Relive special moments and touch the hearts of your loved ones with a heartfelt personalized tribute ❤️!",
+    "priceButton": "$5.99",
+    "youtubeMusic": "Youtube Music Link",
+    "formFields": {
+      "youtubeMusicPlaceHolder": "Youtube link",
+      "name": "Name:",
+      "email": "Email:",
+      "date": "Date",
+      "time": "Time",
+      "message": "Message:",
+      "messagePlaceHolder": "Show your love"
+    },
+    "formButtons": {
+      "photos": "Choose your photos",
+      "create": "Create Page"
+    },
+    "instructions": {
+      "title": "Instructions",
+      "formImg": "Field the form",
+      "payment": "Make the payment",
+      "delivery": "Qr code is sent to your email",
+      "surprise": "Suprise your loved one"
+    },
+    "details": {
+      "title": "Everything you need to create the perfect gift!",
+      "card1": {
+        "title": "Background Music",
+        "description": "Create the perfect atmosphere with the music that marked your journey together."
+      },
+      "card2": {
+        "title": "Photo Album",
+        "description": "Share your precious memories for a truly unique surprise!"
+      },
+      "card3": {
+        "title": "Personal Message",
+        "description": "Express all your love with heartfelt words."
+      }
+
+    },
+    "1": "Scan the qrcode",
+    "2": "Suprise",
+    "ctaButton1": "Create Your Surprise Now!",
+    "testimonial": {
+      "title": "Approved by Gift Lovers. Loved by Those Who Receive!",
+      "card1": {
+        "name": "Ana S. - Balneário Camboriú",
+        "content": "I wanted a unique birthday gift, and QR Code Love was perfect! The personalized page with our photos and music was so touching. The QR code made sharing easy, and my boyfriend loved the surprise! Highly recommended!"
+      },
+      "card2": {
+        "name": "Eduardo L. - Porto Alegre",
+        "content": "This is the most creative gift I’ve ever given! The personalized page with our favorite music and photos was absolutely perfect. Sharing it with a QR code made it even more special. I will definitely use QR Code Love again! Highly recommend!"
+      },
+      "card3": {
+        "name": "Daniela P. - Salvador",
+        "content": "I'm not very tech-savvy, but creating the page was surprisingly simple. The QR code worked perfectly, and my husband was very emotional with the personalized message and photos. It's truly a unique and affordable gift."
+      }
+    },
+    "faq": {
+      "question1": {
+        "question": "What is QR Code Love?",
+        "answer": "QR Code Love allows you to create a personalized page with a slideshow, music, and a message for someone you love! Perfect for gifts and special messages."
+      },
+      "question2": {
+        "question":"How do I receive my page?",
+        "answer": "After filling out the form and making the payment, you will receive an email with a QR code. If you can’t see the QR code in your email, a link to your page will also be sent. You can print the QR code if you wish."
+      },
+      "question3": {
+        "question":"Does the personalized page have an expiration date?",
+        "answer": "Yes, it is valid for one year."
+      },
+      "question4": {
+        "question":"How much does it cost to create a page?",
+        "answer": "The price is $5.99."
+      },
+      "question5": {
+        "question":"How long does it take to receive the QR code via email?",
+        "answer": "Payments made with a credit card are processed instantly, while payments via bank slip may take 1 to 3 business days to be confirmed."
+      },
+      "question6": {
+        "question":"How can I contact customer support?",
+        "answer": "You can reach our customer support team at qrcodelovebr@gmail.com."
+      }
+    },
+    "catButton2": "Create Your Surprise Now!"
   }
 }

@@ -1,5 +1,90 @@
 {
-  "hometest": {
-    "test": "testando"
+  "home": {
+    "title": "Surpreenda com Amor: Crie uma Homenagem Inesquecível",
+    "subtitle": "Crie uma linda animação com suas melhores memórias. Reviva momentos especiais e emocione quem você ama com uma linda homenagem personalizada ❤️!",
+    "priceButton": "R$29.99",
+    "youtubeMusic": "Música do youtube",
+    "formFields": {
+      "youtubeMusicPlaceHolder": "Youtube link",
+      "name": "Nome:",
+      "email": "Email:",
+      "date": "Data",
+      "time": "Insira um horário",
+      "message": "Mensagem:",
+      "messagePlaceHolder": "Demosntre seu amor"
+    },
+    "formButtons": {
+      "photos": "Escolha as fotos (Max 3)",
+      "create": "Criar Página"
+    },
+    "instructions": {
+      "title": "Instruções",
+      "formImg": "Preencha os campos",
+      "payment": "Faça o pagamento",
+      "delivery": "Qr code é enviado para o seu email",
+      "surprise": "Faça a surpresa para quem você ama!"
+    },
+    "details": {
+      "title": "Tudo que você precisa para criar o presente perfeito!",
+      "card1": {
+        "title": "Música de Fundo",
+        "description": "Crie a atmosfera perfeita com a música que marcou a história de vocês"
+      },
+      "card2": {
+        "title": "Álbum de Fotos",
+        "description": "Compartilhe suas memórias preciosas para uma surpresa única!"
+      },
+      "card3": {
+        "title": "Mensagem Pessoal",
+        "description": "Expresse todo o seu amor com palavras que tocam o coração"
+      }
+
+    },
+    "1": "Leia o qrcode",
+    "2": "Sua Surpresa!",
+    "ctaButton1": "Crie Sua Surpresa Agora!",
+    "testimonial": {
+      "title": "Aprovado por quem Ama Presentear Amado por quem recebe!",
+      "card1": {
+        "name": "Ana S. - Balneário Camboriú",
+        "content": "Eu queria um presente de aniversário único, e o QR Code Love foi perfeito! A página personalizada com nossas fotos e música foi tão emocionante. O código QR facilitou o compartilhamento, e meu namorado adorou a surpresa! Super recomendo!"
+      },
+      "card2": {
+        "name": "Eduardo L. - Porto Alegre",
+        "content": "Este é o presente mais criativo que eu já dei! A página personalizada com nossa música e fotos favoritas ficou absolutamente perfeita. O compartilhamento com código QR tornou tudo ainda mais especial. Com certeza usarei o QR Code Love novamente! Recomendo!"
+      },
+      "card3": {
+        "name": "Daniela P. - Salvador",
+        "content": "Eu não sou muito ligado em tecnologia, mas criar a página foi surpreendentemente simples. O código QR funcionou perfeitamente, e meu marido ficou muito emocionado com a mensagem e as fotos personalizadas. É um presente verdadeiramente único e acessível."
+      }
+    },
+    "faq": {
+      "question1": {
+        "question": "O que é a Qrcodelove?",
+        "answer": "Qrcodelove permite que você crie uma página personalizada com um slide, música e uma mensagem para alguém que você ama! Perfeito para presentes e mensagens especiais."
+      },
+      "question2": {
+        "question":"Como recebo a minha página?",
+        "answer": "Depois de preencher o formulário e fazer o pagamento você receberá um email com um QR code. Caso não consiga ver o QR code no seu email um link também será enviado para a sua página. Lá você pode imprimir o QR code caso deseje."
+      },
+      "question3": {
+        "question":"A página personalizada tem validade?",
+        "answer": "Sim, a validade é de 1 ano."
+      },
+      "question4": {
+        "question":"Quanto custa para criar uma página?",
+        "answer": "O valor é de R$29,99."
+      },
+      "question5": {
+        "question":"Quanto tempo demora para receber o QR Code no e-mail?",
+        "answer": "Pagamentos com cartão de crédito são processados instantaneamente, enquanto pagamentos por boleto podem levar de 1 a 3 dias úteis para serem compensados."
+      },
+      "question6": {
+        "question":"Como posso entrar em contato com o suporte ao cliente?",
+        "answer": "Você pode entrar em contato com nosso suporte ao cliente através do e-mail qrcodelovebr@gmail.com."
+      }
+    },
+    "catButton2": "Crie Sua Surpresa Agora!"
+   
   }
 }
