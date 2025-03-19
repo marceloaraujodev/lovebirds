@@ -10,8 +10,7 @@ import { MODE } from '@/config';
 import isEmail from 'is-email';
 import {addPhotoToBucket, listFilesInBucket} from '../../utils/uploadSingleImageToBucket';
 import firebaseInit from '@/app/utils/firebaseInit';
-
-
+import uploadImages from '@/app/utils/uploadToBucket';
 
 
 // sanitize name
@@ -41,15 +40,16 @@ export default function EditPage({ data }) {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingPhotos, setIsLoadingPhotos] = useState(false);
-  // const [isPageLoading, setIsPageLoading] = useState(true);
-  // const [photos, setPhotos] = useState([]); // [File, File]
-  // const [isPreviewing, setIsPreviewing] = useState(false);
-  // const [photoPreviews, setPhotoPreviews] = useState([]); // ["blob:http://localhost:3000/f...
-  // const [startCounting, setStartCounting] = useState(false);
+  const [path, setPath] = useState('');
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [photos, setPhotos] = useState([]); // [File, File]
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const [photoPreviews, setPhotoPreviews] = useState([]); // ["blob:http://localhost:3000/f...
+  const [startCounting, setStartCounting] = useState(false);
 
   const fileRef = useRef(null);
 
-  const hash = '900e1c14-88d9-46a6-afbd-7152b3b64006'; // hash and or email - 900e1c14-88d9-46a6-afbd-7152b3b64006 hash
+  const hash = '2a183a4d-0f72-48e6-8801-a351f913240d'; // hash and or email - 900e1c14-88d9-46a6-afbd-7152b3b64006 hash
 
 
   // gets user information to populate fields
@@ -57,86 +57,93 @@ export default function EditPage({ data }) {
     // setIsPageLoading(true)
 
     if(data){
+      console.log(data)
       // setIsPageLoading(false);
       setName(data.user.name);
       setDate(data.user.date);
       setTime(data.user.time);
       setMusicLink(data.user.musicLink);
       setMessage(data.user.message);
-  
+      setPhotos(data.user.photos)
       // not all users have email this feature was added later on
       if(data?.user?.email){
-        setEmail(res.data.user.email);
+        
+        setEmail(data.user.email);
       }
     }
   }, [data])
 
-  // // starts counting Timer
-  // useEffect(() => {
-    //   if (date && time) {
-    //     setStartCounting(true); // Start counting when the user submits date and time
-    //   }
-  // }, [date, time]);
+  // starts counting Timer
+  useEffect(() => {
+      if (date && time) {
+        setStartCounting(true); // Start counting when the user submits date and time
+      }
+  }, [date, time]);
 
-  // function clearPhotos() {
-  //   setPhotos([]);
-  //   // setPhotoPreviews([]);
-  //   // setIsPreviewing(false);
-  // }
+  function clearPhotos() {
+    setPhotos([]);
+    setPhotoPreviews([]);
+    setIsPreviewing(false);
+  }
 
-  // async function handleFileChange(e) {
-  //   setIsLoadingPhotos(true);
-  //   const files = Array.from(e.target.files); // Convert FileList to array
-  //   const maxPhotos = 3;
-  //   const previews = [];
-  //   const validPhotos = [];
-  //   const maxSize = 900 * 1024;
+  async function handleFileChange(e) {
+    setIsLoadingPhotos(true);
+    const files = Array.from(e.target.files); // Convert FileList to array
+    const maxPhotos = 3;
+    const previews = [];
+    const validPhotos = [];
+    const maxSize = 900 * 1024;
 
-  //   // checks the amount of photos allowed
-  //   if (photos.length + files.length > maxPhotos) {
-  //     alert('Maximum 3 photos allowed!');
-  //     setIsLoadingPhotos(false);
-  //     return;
-  //   }
+    // checks the amount of photos allowed
+    if (photos.length + files.length > maxPhotos) {
+      alert('Maximum 3 photos allowed!');
+      setIsLoadingPhotos(false);
+      return;
+    }
 
-  //   // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
-  //   for (let file of files) {
-  //     if (file.size > maxSize) {
-  //       const compressedFile = await imageCompression(file, {
-  //         maxSizeMB: 1, // Set the max size limit in MB
-  //         maxWidthOrHeight: 1920, // Optionally resize image
-  //         useWebWorker: true, // Enable multi-threading for faster compression
-  //       });
+    // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
+    for (let file of files) {
+      if (file.size > maxSize) {
+        const compressedFile = await imageCompression(file, {
+          maxSizeMB: 1, // Set the max size limit in MB
+          maxWidthOrHeight: 1920, // Optionally resize image
+          useWebWorker: true, // Enable multi-threading for faster compression
+        });
 
-  //       // Check the size of the compressed image
-  //       const compressedSizeMB = compressedFile.size / (1024 * 1024);
-  //       console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
+        // Check the size of the compressed image
+        const compressedSizeMB = compressedFile.size / (1024 * 1024);
+        console.log(`Compressed file size: ${compressedSizeMB.toFixed(2)} MB`);
 
-  //       const objectUrl = URL.createObjectURL(compressedFile);
-  //       validPhotos.push(compressedFile);
-  //       previews.push(objectUrl);
-  //     } else {
-  //       const objecUrl = URL.createObjectURL(file);
-  //       validPhotos.push(file);
-  //       previews.push(objecUrl);
-  //     }
-  //   }
+        const objectUrl = URL.createObjectURL(compressedFile);
+        validPhotos.push(compressedFile);
+        previews.push(objectUrl);
+      } else {
+        const objecUrl = URL.createObjectURL(file);
+        validPhotos.push(file);
+        previews.push(objecUrl);
+      }
+    }
+    
+    // // // to add photos without submitting the other data turn this code on, no need to hit editar pagina
 
-  //   // setPhotoPreviews((prevPreviews) => {
-  //   //   const updatedPreviews = [...prevPreviews, ...previews].slice(
-  //   //     0,
-  //   //     maxPhotos
-  //   //   );
-  //   //   return updatedPreviews;
-  //   // });
+    // // pass the files array and the users hash
+    // uploadImages(validPhotos, hash)
 
-  //   setPhotos((prevPhotos) => {
-  //     const updatedPhotos = [...prevPhotos, ...validPhotos].slice(0, maxPhotos);
-  //     return updatedPhotos;
-  //   });
-  //   // setIsPreviewing(true);
-  //   setIsLoadingPhotos(false);
-  // }
+    setPhotoPreviews((prevPreviews) => {
+      const updatedPreviews = [...prevPreviews, ...previews].slice(
+        0,
+        maxPhotos
+      );
+      return updatedPreviews;
+    });
+
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos, ...validPhotos].slice(0, maxPhotos);
+      return updatedPhotos;
+    });
+    // setIsPreviewing(true);
+    setIsLoadingPhotos(false);
+  }
 
   // click for the file picker
   function handlePhotosPick(e) {
@@ -145,6 +152,13 @@ export default function EditPage({ data }) {
       fileRef.current.click();
     }
   }
+
+  function formatUrl(nameInput) {
+    const nameArr = nameInput.split(' ');
+    const formattedName = nameArr.map((word) => word.split(',')).join('-');
+    setPath(sanitizeName(formattedName));
+  }
+
 
  
   async function handleSubmit(e) {
@@ -177,17 +191,17 @@ export default function EditPage({ data }) {
       return;
     }
 
-    // setIsLoading(true);
-    // if (photos.length > 3) {
-    //   alert('Maximum 3 photos allowed!');
-    //   return;
-    // }
+    setIsLoading(true);
+    if (photos.length > 3) {
+      alert('Maximum 3 photos allowed!');
+      return;
+    }
     
-    // // validates email
-    // if (!isEmail(email)) {
-    //   alert("Email is not valid!");
-    //   return;
-    // } 
+    // validates email
+    if (!isEmail(email)) {
+      alert("Email is not valid!");
+      return;
+    } 
 
     const formData = new FormData();
 
@@ -197,16 +211,16 @@ export default function EditPage({ data }) {
     formData.append('time', time);
     formData.append('musicLink', musicLink);
     formData.append('message', message);
-    // formData.append('url', `${path}/${hash}`);
-    // photos.forEach((file) => formData.append('photos', file));  
+    formData.append('url', `${path}/${hash}`);
+    photos.forEach((file) => formData.append('photos', file));  
 
     console.log(formData);
 
     // submit edited data  instead of post use use patch
     try {
-      const hash = '900e1c14-88d9-46a6-afbd-7152b3b64006';
+
       // call the api 
-      const res = await axios.patch(`http://localhost:3000/api/userprofile/${hash}/update`, 
+      const res = await axios.patch(`http://localhost:3000/api/userprofile/edit/${hash}`, 
       formData ,
         {
         headers: {
@@ -218,29 +232,29 @@ export default function EditPage({ data }) {
       // console.log('this is my res after trying to update:', res);
       if(res.status === 200) {
         alert('Conta atualizada com sucesso!');
-        // clearFields();
-        // clearPhotos();
-        // setIsPreviewing(false);
-        // setIsPageLoading(false);
-        // history.push('/');
+        clearFields();
+        clearPhotos();
+        setIsPreviewing(false);
+        setIsPageLoading(false);
+        history.push('/');
       }
 
 
     // // // Example usage - using only this for testing now need to see if image goes to this bucket
-    // // const files = photos // Array of file objects
-    // // remove the hardcoded path and comment out the addPhotoToBucket function for now
-    // const folderPath = "purchases/Fernanda Patricia da Silva-04d946a5-df1c-47cb-8505-5804f231670d";
-    // const name = "additional-photo";
+    // const files = photos // Array of file objects
+    // remove the hardcoded path and comment out the addPhotoToBucket function for now
+    const folderPath = "purchases/04d946a5-df1c-47cb-8505-5804f231670d";
+    const name = "additional-photo";
 
-    // // adds one or more photos to the bucket - folder path iss the firebase folder structure like above
-    // addPhotoToBucket(photos, folderPath, name)
-    //  .then((url) => {
-    //   console.log("Photo URL -> this is the one that I want:", url);
-    // })
-    // .catch((error) => {
-    //   console.error("Failed to upload photo:", error);
-    //   console.log("Error details:", error.response ? error.response.data : error.message);
-    // });
+    // adds one or more photos to the bucket - folder path iss the firebase folder structure like above
+    addPhotoToBucket(photos, folderPath, name)
+     .then((url) => {
+      console.log("Photo URL -> this is the one that I want:", url);
+    })
+    .catch((error) => {
+      console.error("Failed to upload photo:", error);
+      console.log("Error details:", error.response ? error.response.data : error.message);
+    });
 
 
 
@@ -346,7 +360,7 @@ export default function EditPage({ data }) {
         </div>
 
         {/* Photos button */}
-        {/* <button
+        <button
           type="button"
           onClick={handlePhotosPick}
           className={`${c.btn} ${c.cameraCont}`}>
@@ -360,17 +374,17 @@ export default function EditPage({ data }) {
           ) : (
             <span>Escolha as fotos (Max 3)</span>
           )}
-        </button> */}
+        </button>
 
         {/* file picker */}
-        {/* <input
+        <input
           className={c.filePicker}
           type="file"
           name="photos"
           multiple
           ref={fileRef}
           onChange={handleFileChange}
-        /> */}
+        />
 
           <button
             onClick={createPageSubmit}
@@ -380,18 +394,18 @@ export default function EditPage({ data }) {
             {isLoading ? <BeatLoader color="#ffffff" /> : 'Editar Página'}
           </button>
       </form>
-      {/* <div>
+      <div>
         <Preview
           date={date}
           time={time}
           startCounting={startCounting}
-          url={path}
+          url={path ? path : ''}
           photos={photoPreviews}
           musicLink={musicLink}
           isPreviewing={isPreviewing}
           clearPhotos={clearPhotos}
         />
-      </div> */}
+      </div>
     </div>
     </>
   );

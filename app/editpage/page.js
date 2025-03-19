@@ -2,9 +2,10 @@ import EditPage from '../components/EditPage/EditPage.jsx';
 
 export default async function EditCouplesDetails(){
 
-  const hash = '900e1c14-88d9-46a6-afbd-7152b3b64006';
+  // pass the hash for the user to be edited
+  const hash = '2a183a4d-0f72-48e6-8801-a351f913240d';
   // does not work with relative urls in the server components
-  const res = await fetch(`http://localhost:3000/api/userprofile/getuser/${hash}`, {
+  const res = await fetch(`http://localhost:3000/api/userprofile/user/${hash}`, {
     cache: 'no-store', // Prevent caching for dynamic data
   });
 
@@ -16,7 +17,8 @@ export default async function EditCouplesDetails(){
 
   return (
     <>
-    <EditPage data={data} />
+    {/* turn it on to edit users page */}
+    {/* <EditPage data={data} /> */}
     </>
   )
 }

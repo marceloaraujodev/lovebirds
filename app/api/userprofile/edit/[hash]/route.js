@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import User from "@/app/model/user";
 import { mongooseConnect } from "@/app/lib/mongooseConnect";
+import uploadImages from "@/app/utils/uploadToBucket";
 
 export async function PATCH(req, { params }){
   try {
     mongooseConnect();
     // using the hash as the userId
-    const { userId } = params
-    console.log(params);
+    const { hash } = params
+    console.log(hash);
     const formData = await req.formData();
   
     const name = formData.get("name");
@@ -16,7 +17,25 @@ export async function PATCH(req, { params }){
     const time = formData.get("time");
     const musicLink = formData.get("musicLink");
     const message = formData.get("message");
+    const photoFiles = formData.getAll('photos');
+
+    console.log('photoFiles test', photoFiles);
+    console.log(name, email)
+
+    const currentUser = await User.findOne({hash: hash});
+
+    if (!currentUser) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
   
+    
+    // this will return an array saved it in the db
+    // If new photos are uploaded, handle the photo update
+    let uploadedPhotoURLs = [];
+    if (photoFiles.length > 0) {
+      uploadedPhotoURLs = await uploadImages(photoFiles, hash, name);
+    }
+
     const updatedObj = {
       name: name,
       email: email,
@@ -25,17 +44,16 @@ export async function PATCH(req, { params }){
       musicLink: musicLink,
       message: message, 
       email: email ? email : null,
+      photos: uploadedPhotoURLs
     }
-    
+
     const updatedUser = await User.findOneAndUpdate(
-      {hash: userId}, 
-      updatedObj,
-      {new: true}
+      {hash: hash}, // Find user by hash
+      // {photos: uploadedPhotoURLs}, // will update only the photos
+      updatedObj, // updates entire object overwriting everything but for the hash
+      {new: true} // Return the updated user document
   )
-  
-    if (!updatedUser) {
-      return NextResponse.json({ message: 'User not found' }, { status: 404 });
-    }
+
   
     return NextResponse.json({
       message: 'success',
