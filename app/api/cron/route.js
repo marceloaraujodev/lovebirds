@@ -6,6 +6,7 @@ dotenv.config();
 // to activate turn the job on cron-job.org account
 export async function GET(request) {
   const authHeader = request.headers.get('Authorization')?.trim();
+  console.log('cron job running')
   console.log(`Auth Header: "${authHeader}"`);
   console.log(`Env Secret: "${process.env.CRON_SECRET}"`);
 

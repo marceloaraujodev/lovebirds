@@ -12,7 +12,7 @@ export default async function uploadImages(filesArray, hash, name) {
   const uploadPromises = filesArray.map((file, index) => {
     // For each file, create a storage reference
 
-    const uniqueFileName = `${Date.now()}-${file.name}`;
+    const uniqueFileName = `${Date.now()}`;
 
     // removed the encodding uri since the hash is unique
     const encodedFolderPath = `purchases/${hash}/${uniqueFileName}`;

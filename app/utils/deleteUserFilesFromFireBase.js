@@ -6,32 +6,32 @@ firebaseInit();
 
 const storage = getStorage();
 
-export async function deleteFolderContents(name, hash) {
-  if (!hash) {
-    console.log("Invalid input: missing name, hash");
-    return { message: "Invalid input" };
-  }
-  const folderPath = `purchases/${name}-${hash}`; // Path to the pseudo-folder
-  const folderRef = ref(storage, folderPath);
-
+export async function deleteFileByUrl(fileUrl) {
   try {
-    const listResult = await listAll(folderRef); // Get all items inside the folder
-    console.log(listResult)
+    if (!fileUrl) {
+      console.log("Invalid input: missing file URL.");
+      return { message: "Invalid input" };
+    }
 
-    // // Loop through all files and delete them
-    // const deletePromises = listResult.items.map((fileRef) => deleteObject(fileRef));
+    // Extract the file path from the Firebase URL
+    const decodedUrl = decodeURIComponent(fileUrl);
+    const match = decodedUrl.match(/o\/(.*?)\?alt=media/);
 
-    // // Wait for all deletions to complete
-    // await Promise.all(deletePromises);
+    if (!match || !match[1]) {
+      console.error("Invalid Firebase Storage URL format.");
+      return { message: "Invalid Firebase URL format" };
+    }
 
-    // console.log(`All files in ${folderPath} deleted successfully.`);
-    return {
-      message: "Folder contents deleted successfully",
-      listResult
-     };
+    const filePath = match[1]; // Extracted file path
+    console.log(`Extracted file path: ${filePath}`);
+
+    // // Delete the file from Firebase Storage
+    // await deleteObject(ref(storage, filePath));
+
+    console.log(`File deleted: ${filePath}`);
+    return { message: "File deleted successfully", filePath };
   } catch (error) {
-    console.error("Error deleting folder contents:", error);
+    console.error("Error deleting file:", error);
     return { error: error.message };
   }
 }
-
