@@ -7,11 +7,16 @@ firebaseInit();
 const storage = getStorage();
 
 export async function deleteFolderContents(name, hash) {
-  const folderPath = `purchases/${name}-${hash}/`; // Path to the pseudo-folder
+  if (!hash) {
+    console.log("Invalid input: missing name, hash");
+    return { message: "Invalid input" };
+  }
+  const folderPath = `purchases/${name}-${hash}`; // Path to the pseudo-folder
   const folderRef = ref(storage, folderPath);
 
   try {
     const listResult = await listAll(folderRef); // Get all items inside the folder
+    console.log(listResult)
 
     // // Loop through all files and delete them
     // const deletePromises = listResult.items.map((fileRef) => deleteObject(fileRef));
@@ -19,7 +24,7 @@ export async function deleteFolderContents(name, hash) {
     // // Wait for all deletions to complete
     // await Promise.all(deletePromises);
 
-    console.log(`All files in ${folderPath} deleted successfully.`);
+    // console.log(`All files in ${folderPath} deleted successfully.`);
     return {
       message: "Folder contents deleted successfully",
       listResult

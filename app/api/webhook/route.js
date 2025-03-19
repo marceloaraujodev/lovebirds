@@ -4,7 +4,6 @@ import Stripe from 'stripe';
 import User from '../../model/user';
 import dotenv from 'dotenv';
 import generateQRCode from '@/app/utils/generateQRCode';
-import uploadImages from '@/app/utils/uploadToBucket';
 import sendMail from '@/app/utils/sendEmail';
 import uploadQRCodeToFireBase from '@/app/utils/uploadQRCodeToFireBase';
 import { siteUrl, stripeSecretKey, stripeWebhookSecret } from '@/config';

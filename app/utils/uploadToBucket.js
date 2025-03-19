@@ -12,9 +12,10 @@ export default async function uploadImages(filesArray, hash, name) {
   const uploadPromises = filesArray.map((file, index) => {
     // For each file, create a storage reference
 
-    const uniqueFileName = `${index}-${Date.now()}-${name}`;
-    // enconded the path name for easier future references in the future in the firebase storage
-    const encodedFolderPath = encodeURIComponent(`purchases/${name}-${hash}/${uniqueFileName}`);
+    const uniqueFileName = `${Date.now()}-${file.name}`;
+
+    // removed the encodding uri since the hash is unique
+    const encodedFolderPath = `purchases/${hash}/${uniqueFileName}`;
     
     const storageRef = ref(storage, encodedFolderPath);
     // const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
