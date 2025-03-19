@@ -49,6 +49,8 @@ const UserSchema = new mongoose.Schema({
   firstAccess: { type: Boolean, default: true }
 
 }, { timestamps: true });
+// Add an index on the createdAt field
+UserSchema.index({ createdAt: 1 }); // 1 for ascending order
 
 const User = mongoose.models?.User || mongoose.model('User', UserSchema);
 

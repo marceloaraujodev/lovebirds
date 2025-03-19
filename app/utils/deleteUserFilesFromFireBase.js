@@ -25,8 +25,8 @@ export async function deleteFileByUrl(fileUrl) {
     const filePath = match[1]; // Extracted file path
     console.log(`Extracted file path: ${filePath}`);
 
-    // // Delete the file from Firebase Storage
-    // await deleteObject(ref(storage, filePath));
+    // Delete the file from Firebase Storage
+    await deleteObject(ref(storage, filePath));
 
     console.log(`File deleted: ${filePath}`);
     return { message: "File deleted successfully", filePath };
