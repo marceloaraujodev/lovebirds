@@ -36,6 +36,8 @@ export async function PATCH(req, { params }){
       uploadedPhotoURLs = await uploadImages(photoFiles, hash, name);
     }
 
+    console.log('uploaded photos', uploadedPhotoURLs)
+
     const updatedObj = {
       name: name,
       email: email,
@@ -49,8 +51,8 @@ export async function PATCH(req, { params }){
 
     const updatedUser = await User.findOneAndUpdate(
       {hash: hash}, // Find user by hash
-      // {photos: uploadedPhotoURLs}, // will update only the photos
-      updatedObj, // updates entire object overwriting everything but for the hash
+      {photos: uploadedPhotoURLs}, // will update only the photos
+      // updatedObj, // updates entire object overwriting everything but for the hash
       {new: true} // Return the updated user document
   )
 

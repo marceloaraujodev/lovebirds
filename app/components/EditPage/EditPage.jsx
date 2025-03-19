@@ -19,18 +19,6 @@ function sanitizeName(name) {
   return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-// will use hash for the test change it to email later to retrieve user information in the 
-// will have a button to edit that will retirect to this page
-// load the data from the database and populate in the fields and let user edit
-// will click on the button in the couples page redirect to login 
-// after login the user will be redirected to this page
-
-
-// Todo first from list above and more
-// create login flow for the editing page
-// 2. create a image display square icons
-// 3. when deleting image also delete from database urls and firebase folderpath
-
 export default function EditPage({ data }) {
   const [couplesName, setName] = useState(''); // "e test"
   const [email, setEmail] = useState(''); 
@@ -49,7 +37,8 @@ export default function EditPage({ data }) {
 
   const fileRef = useRef(null);
 
-  const hash = '2a183a4d-0f72-48e6-8801-a351f913240d'; // hash and or email - 900e1c14-88d9-46a6-afbd-7152b3b64006 hash
+  // // UNCOMMENT THE HASH! ⚠️⚠️
+  // const hash = '2a183a4d-0f72-48e6-8801-a351f913240d'; // hash and or email - 900e1c14-88d9-46a6-afbd-7152b3b64006 hash
 
 
   // gets user information to populate fields
@@ -89,10 +78,12 @@ export default function EditPage({ data }) {
   async function handleFileChange(e) {
     setIsLoadingPhotos(true);
     const files = Array.from(e.target.files); // Convert FileList to array
-    const maxPhotos = 3;
+    const maxPhotos = 4;
     const previews = [];
     const validPhotos = [];
     const maxSize = 900 * 1024;
+
+    console.log('files', files)
 
     // checks the amount of photos allowed
     if (photos.length + files.length > maxPhotos) {
@@ -104,6 +95,7 @@ export default function EditPage({ data }) {
     // checks size of files if biggern than 1.5mb alerts and clears previews else add to preview
     for (let file of files) {
       if (file.size > maxSize) {
+        console.log('file in loop', file)
         const compressedFile = await imageCompression(file, {
           maxSizeMB: 1, // Set the max size limit in MB
           maxWidthOrHeight: 1920, // Optionally resize image
@@ -116,6 +108,7 @@ export default function EditPage({ data }) {
 
         const objectUrl = URL.createObjectURL(compressedFile);
         validPhotos.push(compressedFile);
+        console.log('vaildphotos added, ', validPhotos)
         previews.push(objectUrl);
       } else {
         const objecUrl = URL.createObjectURL(file);
@@ -123,11 +116,6 @@ export default function EditPage({ data }) {
         previews.push(objecUrl);
       }
     }
-    
-    // // // to add photos without submitting the other data turn this code on, no need to hit editar pagina
-
-    // // pass the files array and the users hash
-    // uploadImages(validPhotos, hash)
 
     setPhotoPreviews((prevPreviews) => {
       const updatedPreviews = [...prevPreviews, ...previews].slice(
@@ -139,6 +127,7 @@ export default function EditPage({ data }) {
 
     setPhotos((prevPhotos) => {
       const updatedPhotos = [...prevPhotos, ...validPhotos].slice(0, maxPhotos);
+      console.log('updated photos', updatedPhotos);
       return updatedPhotos;
     });
     // setIsPreviewing(true);
@@ -159,8 +148,6 @@ export default function EditPage({ data }) {
     setPath(sanitizeName(formattedName));
   }
 
-
- 
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true); 
@@ -238,25 +225,6 @@ export default function EditPage({ data }) {
         setIsPageLoading(false);
         history.push('/');
       }
-
-
-    // // // Example usage - using only this for testing now need to see if image goes to this bucket
-    // const files = photos // Array of file objects
-    // remove the hardcoded path and comment out the addPhotoToBucket function for now
-    const folderPath = "purchases/04d946a5-df1c-47cb-8505-5804f231670d";
-    const name = "additional-photo";
-
-    // adds one or more photos to the bucket - folder path iss the firebase folder structure like above
-    addPhotoToBucket(photos, folderPath, name)
-     .then((url) => {
-      console.log("Photo URL -> this is the one that I want:", url);
-    })
-    .catch((error) => {
-      console.error("Failed to upload photo:", error);
-      console.log("Error details:", error.response ? error.response.data : error.message);
-    });
-
-
 
 
     } catch (error) {

@@ -15,18 +15,22 @@ export default async function uploadImages(filesArray, hash, name) {
     const uniqueFileName = `${Date.now()}`;
 
     // removed the encodding uri since the hash is unique
-    const encodedFolderPath = `purchases/${hash}/${uniqueFileName}`;
+    const encodedFolderPath = `purchases/${name}-${hash}/${uniqueFileName}`;
     
     const storageRef = ref(storage, encodedFolderPath);
     // const storageRef = ref(storage, `purchases/${name}-${hash}/${uniqueFileName}`);
     
+    console.log('file', file)
+    console.log('folder path', encodedFolderPath)
+
+
     return new Promise((resolve, reject) => {
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on('state_changed', 
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          // console.log(`Upload is ${progress}% done for file: ${file.name}`);
+          console.log(`Upload is ${progress}% done for file: ${file.name}`);
         }, 
         reject, 
         () => {
