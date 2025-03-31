@@ -1,79 +1,76 @@
-'use client';
-import { useState, useEffect, useRef } from 'react';
-import Preview from '../Preview/Preview';
-import Audio from '../Audio/Audio';
-import axios from 'axios';
-import c from './CouplesPage.module.css';
-import Error from '../../error/page';
-import { BeatLoader } from 'react-spinners';
-import { loadYouTubeAPI } from '@/app/utils/youtube';
+"use client";
+import { useState, useEffect, useRef } from "react";
+import Preview from "../Preview/Preview";
+import Audio from "../Audio/Audio";
+import axios from "axios";
+import c from "./CouplesPage.module.css";
+import Error from "../../error/page";
+import { BeatLoader } from "react-spinners";
+import { loadYouTubeAPI } from "@/app/utils/youtube";
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
-import { siteUrl } from '@/config'; 
-import Modal from './Modal/Modal';
-import formatText from '@/app/utils/formatText';
-import { v4 as uuidv4 } from 'uuid';
-import LetterAnimation from '../LetterAnimation/LetterAnimation';
+import { siteUrl } from "@/config";
+import Modal from "./Modal/Modal";
+import formatText from "@/app/utils/formatText";
+import { v4 as uuidv4 } from "uuid";
+import LetterAnimation from "../LetterAnimation/LetterAnimation";
 
-
-// // const MODE = 'dev'  // if comment out url is production 
+// // const MODE = 'dev'  // if comment out url is production
 // const siteUrl = typeof MODE !== 'undefined' ? 'http://localhost:3000' : 'https://www.qrcodelove.com';
 
 export default function CouplesPage({ couplesName, id }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [videoId, setVideoId] = useState('');
+  const [videoId, setVideoId] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // moves the message container down when open
-  const [shifted, setShifted] = useState(false)
+  const [shifted, setShifted] = useState(false);
   const playerRef = useRef(null);
   const btnRef = useRef(null);
 
-  // post use effect to change the firstAccss to true for gtag 
+  // gtag state
+  const gtagTriggeredRef = useRef(false); // Ref to track if gtag has been triggered
+
+  // post use effect to change the firstAccss to true for gtag
   // fetch couples data
 
   useEffect(() => {
     // Remove query parameters from mercado pago
     const cleanUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState(null, '', cleanUrl);
+    window.history.replaceState(null, "", cleanUrl);
   }, []);
 
-
-  // fetch data for couples page - also sets the firstAccess flag so gtag does not run unnecessaraly 
+  // fetch data for couples page
   useEffect(() => {
     const fetchData = async () => {
-      console.log('compares with gtag running')
       try {
-        const res = await axios.get(
-          `${siteUrl}/api/${couplesName}/${id}`
-        );
+        const res = await axios.get(`${siteUrl}/api/${couplesName}/${id}`);
         setData(res.data.user);
-        // google
-        if(res.data.user.firstAccess === true && typeof window.gtag === 'function') {
-          const transactionId = uuidv4();
-          console.log('Gtag should only run on first access')
-            // run gtag 
-            window.gtag('event', 'conversion', {
-              'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
-              'value': 1.0,
-              'currency': 'BRL',
-              'transaction_id': transactionId // track a individual transaction
-            });
-            
-            // do a post request to first_access endpoint to change the firstAccess flag
-            axios.post("/api/first_access", {
-              hash: id,
-              firstAccess: false,
-            })
-            .then(() => {
-              console.log("First access updated successfully.");
-            })
-            .catch((error) => {
-              console.error("Error updating first access:", error);
-            });
-        }
+        // // google
+        // if(res.data.user.firstAccess === true && typeof window.gtag === 'function') {
+        //   const transactionId = uuidv4();
+        //   console.log('Gtag should only run on first access')
+        //     // // // run gtag
+        //     // window.gtag('event', 'conversion', {
+        //     //   'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-', // Your conversion ID
+        //     //   'value': 1.0,
+        //     //   'currency': 'BRL',
+        //     //   'transaction_id': transactionId // track a individual transaction
+        //     // });
 
+        //     // do a post request to first_access endpoint to change the firstAccess flag
+        //     axios.post("/api/first_access", {
+        //       hash: id,
+        //       firstAccess: false,
+        //     })
+        //     .then(() => {
+        //       console.log("First access updated successfully.");
+        //     })
+        //     .catch((error) => {
+        //       console.error("Error updating first access:", error);
+        //     });
+        // }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -85,15 +82,55 @@ export default function CouplesPage({ couplesName, id }) {
     fetchData();
   }, [couplesName, id]);
 
+  // // useEffect for gtag only - should only run once after purchase
+  useEffect(() => {
+    console.log("useEffect run if first access enter the if");
+    console.log("data inside useEffect for firstAccess", data);
+
+    // Ensure the gtag logic only runs once
+    if (!gtagTriggeredRef.current && data.firstAccess === true) {
+      console.log("enter first access");
+      const transactionId = uuidv4();
+
+      // Update the firstAccess flag in the database
+      axios
+        .patch(`${siteUrl}/api/first_access`, {
+          hash: id,
+          firstAccess: false,
+        })
+        .then(() => {
+          console.log("First access updated successfully.");
+          setData((prevData) => ({
+            ...prevData,
+            firstAccess: false,
+          }));
+              // Trigger gtag event
+              console.log("Triggering gtag conversion event");
+              window.gtag("event", "conversion", {
+                send_to: "AW-16751184617/qI-0COTM4uAZEOmVy7M-", // Your conversion ID
+                value: 1.0,
+                currency: "BRL",
+                transaction_id: transactionId, // Track an individual transaction
+              });
+        })
+        .catch((error) => {
+          console.error("Error updating first access:", error);
+        });
+
+      // Set the ref to true to prevent re-triggering
+      gtagTriggeredRef.current = true;
+    }
+  }, [data.firstAccess, id]);
+
   // Load YouTube API and initialize player
   useEffect(() => {
     if (!videoId) return;
 
     loadYouTubeAPI()
-      .then(YT => {
-        playerRef.current = new YT.Player('youtube-player', {
-          height: '200',
-          width: '400',
+      .then((YT) => {
+        playerRef.current = new YT.Player("youtube-player", {
+          height: "200",
+          width: "400",
           videoId: videoId,
           playerVars: {
             autoplay: 0,
@@ -101,8 +138,8 @@ export default function CouplesPage({ couplesName, id }) {
             mute: 1,
             loop: 1,
             playlist: videoId,
-            host: 'https://www.youtube.com',
-            origin: 'https://www.qrcodelove.com'
+            host: "https://www.youtube.com",
+            origin: "https://www.qrcodelove.com",
           },
           events: {
             // onReady: (event) => event.target.playVideo(),
@@ -110,7 +147,7 @@ export default function CouplesPage({ couplesName, id }) {
           },
         });
       })
-      .catch(error => console.error("Error loading YouTube API:", error));
+      .catch((error) => console.error("Error loading YouTube API:", error));
   }, [videoId]);
 
   // videoId comes from database
@@ -122,27 +159,27 @@ export default function CouplesPage({ couplesName, id }) {
   }, [data]);
 
   const handleClick = () => {
-    setShifted(!shifted)
-  }
+    setShifted(!shifted);
+  };
 
   // extract videoId function from the URL if is normal video or youtube shorts
   const extractVideoId = (url) => {
-    const regExp = /(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/; // Standard YouTube
+    const regExp =
+      /(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/; // Standard YouTube
     const matchStandard = url.match(regExp);
 
     // Check for YouTube Shorts URL format
-    const isShorts = url.includes('youtube.com/shorts/');
-    const matchShorts = isShorts ? url.split('/').pop() : null; // Extract video id from shorts URL
+    const isShorts = url.includes("youtube.com/shorts/");
+    const matchShorts = isShorts ? url.split("/").pop() : null; // Extract video id from shorts URL
     const videoId = matchStandard ? matchStandard[1] : matchShorts;
-
-
 
     return videoId;
   };
 
-  function printQrCode(qrCodeUrl, size) { // size = 'Large' or 'Small'
+  function printQrCode(qrCodeUrl, size) {
+    // size = 'Large' or 'Small'
 
-    const qrWindow = window.open('', '_blank', 'width=600,height=600');
+    const qrWindow = window.open("", "_blank", "width=600,height=600");
     qrWindow.document.write(`
       <html>
         <head>
@@ -163,11 +200,11 @@ export default function CouplesPage({ couplesName, id }) {
           }
           .qr-text {
             font-weight: bold; 
-            font-size: ${size === 'Large' ? '35px' : '18px'}; 
+            font-size: ${size === "Large" ? "35px" : "18px"}; 
           }
           img {
-            width: ${size === 'Large' ? '600px' : '200px'};
-            height: ${size === 'Large' ? '600px' : '200px'};
+            width: ${size === "Large" ? "600px" : "200px"};
+            height: ${size === "Large" ? "600px" : "200px"};
           }
         </style>
         </head>
@@ -190,20 +227,19 @@ export default function CouplesPage({ couplesName, id }) {
     };
   }
 
-   // Function to toggle mute
-   const togglePlay = () => {
-    
-    if (!playerRef.current || typeof playerRef.current.playVideo !== 'function') {
-      console.error('YouTube player is not ready yet.');
+  // Function to toggle mute
+  const togglePlay = () => {
+    if (!playerRef.current || typeof playerRef.current.playVideo !== "function") {
+      console.error("YouTube player is not ready yet.");
       return;
     }
-    
+
     if (playerRef.current) {
       if (isPlaying) {
-        playerRef.current.pauseVideo(); 
+        playerRef.current.pauseVideo();
       } else {
-        playerRef.current.playVideo(); 
-        playerRef.current.unMute()
+        playerRef.current.playVideo();
+        playerRef.current.unMute();
 
         // trying to avois safari bug by delaying the play
         setTimeout(() => {
@@ -225,30 +261,23 @@ export default function CouplesPage({ couplesName, id }) {
     <div className={c.cont}>
       {data.musicLink ? (
         <button ref={btnRef} onClick={togglePlay} className={c.play}>
-        {isPlaying ?  (
-          <>
-          <span className={c.btnText}>Pausar música</span>
-          <FaPause /> 
-        </>)  : (
-          <>
-          <span className={c.btnText}> Play música</span>
-          <FaPlay />
-          </>
-        )
-        }
-      </button>
+          {isPlaying ? (
+            <>
+              <span className={c.btnText}>Pausar música</span>
+              <FaPause />
+            </>
+          ) : (
+            <>
+              <span className={c.btnText}> Play música</span>
+              <FaPlay />
+            </>
+          )}
+        </button>
       ) : null}
-      
 
       {isLoading ? (
         <div className={c.loader}>
-          <BeatLoader
-            color="#ffffff"
-            size={20}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-            speedMultiplier={1}
-          />
+          <BeatLoader color="#ffffff" size={20} aria-label="Loading Spinner" data-testid="loader" speedMultiplier={1} />
         </div>
       ) : (
         <>
@@ -262,11 +291,10 @@ export default function CouplesPage({ couplesName, id }) {
             musicLink={data.musicLink}
             playBtn={true}
           />
-          
+
           <div className={c.messageCont}>
             <h2>Mensagem</h2>
-            <div className={`${c.message} ${shifted ? c.shiftDown : c.shiftOriginal}`}
-              onClick={handleClick}>
+            <div className={`${c.message} ${shifted ? c.shiftDown : c.shiftOriginal}`} onClick={handleClick}>
               <LetterAnimation message={formatText(data.message)} />
               {/* <p>{formatText(data.message)}</p> */}
             </div>
@@ -274,15 +302,17 @@ export default function CouplesPage({ couplesName, id }) {
           <div onClick={() => setIsModalOpen(true)} className={c.qrCode}>
             <img className={c.img} src={data.qrCode} alt="qr code" />
           </div>
-          <div className={c.print}>Imprimir: <div>
-          <span onClick={() => printQrCode(data.qrCode, 'Large')}>Grande</span> | <span onClick={() => printQrCode(data.qrCode, 'Small')}>Pequeno</span></div>
+          <div className={c.print}>
+            Imprimir:{" "}
+            <div>
+              <span onClick={() => printQrCode(data.qrCode, "Large")}>Grande</span> |{" "}
+              <span onClick={() => printQrCode(data.qrCode, "Small")}>Pequeno</span>
             </div>
-
+          </div>
 
           {data.musicLink && (
             <>
               <div id="youtube-player" className={c.player}></div>
-
             </>
           )}
 
@@ -292,4 +322,3 @@ export default function CouplesPage({ couplesName, id }) {
     </div>
   );
 }
-

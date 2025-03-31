@@ -247,7 +247,6 @@ export default function Form() {
 
       // // End Mercado pago
 
-      // Call gtag to report conversion - moved to couples page
     } catch (error) {
       console.log(error);
     }

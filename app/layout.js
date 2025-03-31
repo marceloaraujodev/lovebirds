@@ -22,48 +22,45 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-1707785168539513" />
-        {/* ad sense displaying adds */}
+        {/* ad sense script - no ad sense added yet */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1707785168539513"
-          crossorigin="anonymous"></Script>
+          crossorigin="anonymous">
+        
+        </Script>
 
-        {/* google add sense */}
+        {/* Google Tag Manager Script */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16751184617"></Script>
         <Script id="google-adds" strategy="afterInteractive">
-          {`
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments)}
-                    gtag('js', new Date());
-                  
-                    gtag('config', 'AW-16751184617');
-                    `}
-        </Script>
-
-        {/* <!-- Event snippet for Purchase conversion page --> */}
-        <Script id="google-conversion-tracking" strategy="afterInteractive">
-          {`
-                    gtag('event', 'conversion', {
-                        'send_to': 'AW-16751184617/qI-0COTM4uAZEOmVy7M-',
-                        'value': 1.0,
-                        'currency': 'BRL',
-                        'transaction_id': ''
-                    });
-                    `}
-        </Script>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          if (!window.gtagInitialized) {
+            gtag('js', new Date());
+            gtag('config', 'AW-16751184617', { send_page_view: false }); // Disable automatic page view tracking
+            window.gtagInitialized = true; // Prevent re-initialization
+          }
+        `}
+      </Script>
 
         {/* end google add sense */}
 
         {/* Mercado pago Script */}
         <Script src="https://sdk.mercadopago.com/js/v2" strategy="beforeInteractive" id="mercadoPago"></Script>
       </head>
-      <body className={`${inter.variable} ${inter.variable}`}>
+      <body className={`${inter.variable}`} suppressHydrationWarning>
         <Header />
         {children}
         <Footer />
+        <noscript>
+          <div>
+            This site requires JavaScript to function properly. Please enable JavaScript in your browser settings.
+          </div>
+        </noscript>
       </body>
     </html>
   );
